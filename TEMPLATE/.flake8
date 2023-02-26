@@ -1,0 +1,5 @@
+[flake8]
+ignore = W503
+max-line-length = 100
+exclude = migrations,settings.py,__init__.py
+max-complexity = 10
