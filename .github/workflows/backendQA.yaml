@@ -1,0 +1,24 @@
+name: Backend QA
+
+on:
+  pull_request:
+    branches:
+      - main
+
+
+permissions: read-all
+
+jobs:
+  Tests:
+    defaults:
+      run:
+        working-directory: ./backend
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Docker
+        run: docker compose run web python manage.py test
