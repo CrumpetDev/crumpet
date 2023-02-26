@@ -1,4 +1,4 @@
-"""TEMPLATE URL Configuration
+"""backend URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -36,8 +36,8 @@ urlpatterns = [
     path(
         "openapi",
         get_schema_view(
-            title="TEMPLATE",
-            description="The rest api for TEMPLATE",
+            title="backend",
+            description="The rest api for backend",
             version="1.0.0",
         ),
         name="openapi-schema",
