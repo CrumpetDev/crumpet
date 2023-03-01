@@ -40,3 +40,15 @@ virtualenv
 xlrd
 xlutils
 xlwt
+pycache
+dbnavigator
+Intelli
+sdist
+htmlcov
+pytest
+nosetests
+ipynb
+pyenv
+celerybeat
+mkdocs
+mypy
