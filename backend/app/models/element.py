@@ -1,10 +1,9 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 
-
+from .validators import layout_element_validator, font_validator, text_validator
 from .event import Event
 from .proxy import ProxySuper, ProxyManager
-from .validators import layout_element_validator
+
 
 class Element(ProxySuper):
 
@@ -117,6 +116,8 @@ class TextElement(Element):
 
     objects = ProxyManager()
     
+    @text_validator
+    @font_validator
     def clean(self):
         pass
 
