@@ -10,4 +10,4 @@ class Event(models.Model):
 
     name = models.CharField(max_length=200, primary_key=True)
     description = models.CharField(max_length=400)
-    event_type = models.CharField(choices=EventType.choices)
+    event_type = models.CharField(max_length=50,choices=EventType.choices)

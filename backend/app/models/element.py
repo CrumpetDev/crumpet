@@ -1,8 +1,12 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
-from .event import Event
 
-class Element(models.Model):
+from .event import Event
+from .proxy import ProxySuper, ProxyManager
+from .validators import layout_element_validator
+
+class Element(ProxySuper):
 
     class LayoutAlignment(models.TextChoices):
         START = 'start', 'start'
@@ -23,7 +27,7 @@ class Element(models.Model):
     padding_left = models.IntegerField(default=0)
     flex = models.IntegerField(default=1)
 
-    parent = models.ForeignKey('self', on_delete=models.CASCADE , null=True, related_name='children')
+    parent = models.ForeignKey('self', on_delete=models.CASCADE , blank=True, null=True, related_name='children')
 
     #Layout Elements
     main_axis_alignment = models.CharField(max_length=50, choices=LayoutAlignment.choices, null=True, blank=True)
@@ -32,12 +36,12 @@ class Element(models.Model):
     spacing = models.CharField(max_length=50, choices=Spacing.choices, null=True, blank=True)
 
     #Misc
-    text = models.CharField(max_length=150, null=True, blank=True)
+    text = models.TextField(null=True, blank=True)
     font_size = models.IntegerField(null=True, blank=True)
     font_color = models.IntegerField(null=True, blank=True)
-    background_color = models.CharField(null=True, blank=True) #TODO: add hex validator
+    background_color = models.CharField(max_length=50,null=True, blank=True) #TODO: add hex validator
 
-    trigger_event = models.ForeignKey(Event, on_delete=models.SET_NULL, null=True, related_name='associated_elements')
+    trigger_event = models.ForeignKey(Event, on_delete=models.SET_NULL, blank=True, null=True, related_name='associated_elements')
 
     
     #Image
@@ -52,7 +56,7 @@ class Element(models.Model):
     #Button
     button_action = models.CharField(max_length=15, choices=ButtonAction.choices, null=True, blank=True)
     stroke = models.IntegerField(null=True, blank=True)
-    stroke_color = models.CharField(null=True, blank=True)
+    stroke_color = models.CharField(max_length=50,null=True, blank=True)
     border_radius = models.IntegerField(null=True, blank=True)
 
     #Multi Selection 
@@ -63,13 +67,61 @@ class Element(models.Model):
     min_value = models.IntegerField(null=True, blank=True)
     max_value = models.IntegerField(null=True, blank=True)
     increment = models.IntegerField(null=True, blank=True)
-    label_text = models.CharField(null=True, blank=True)
-    slider_color = models.CharField(null=True, blank=True)
+    label_text = models.TextField(null=True, blank=True)
+    slider_color = models.CharField(max_length=50,null=True, blank=True)
     
 
 class Selector(models.Model):
-    text = models.CharField()
-    value = models.CharField()
+    text = models.TextField()
+    value = models.TextField()
 
     element = models.ForeignKey(Element, on_delete=models.CASCADE, related_name='selectors')
+
+
+""" Proxies """
+
+class Row(Element):
+    class Meta:
+        proxy = True
+
+    objects = ProxyManager()
+    
+    @layout_element_validator
+    def clean(self):
+        pass
+    
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
+
+class Column(Element):
+    class Meta:
+        proxy = True
+    
+    objects = ProxyManager()
+
+    @layout_element_validator
+    def clean(self):
+        pass
+    
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
+    
+
+class TextElement(Element):
+    class Meta:
+        proxy = True
+
+    objects = ProxyManager()
+    
+    def clean(self):
+        pass
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
 
