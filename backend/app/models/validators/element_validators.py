@@ -28,8 +28,4 @@ def text_validator(fn):
         fn(self)
     return validator
 
-# text = models.TextField(null=True, blank=True)
-#     font_size = models.IntegerField(null=True, blank=True)
-#     font_color = models.IntegerField(null=True, blank=True)
-
 
