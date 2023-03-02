@@ -1,6 +1,6 @@
 from django.db import models
 
-from .validators import layout_element_validator, font_validator, text_validator
+
 from .event import Event
 from .proxy import ProxySuper, ProxyManager
 
@@ -68,16 +68,15 @@ class Element(ProxySuper):
     increment = models.IntegerField(null=True, blank=True)
     label_text = models.TextField(null=True, blank=True)
     slider_color = models.CharField(max_length=50,null=True, blank=True)
+
+
+    objects = ProxyManager()
     
-
-class Selector(models.Model):
-    text = models.TextField()
-    value = models.TextField()
-
-    element = models.ForeignKey(Element, on_delete=models.CASCADE, related_name='selectors')
 
 
 """ Proxies """
+
+from .validators import layout_element_validator, font_validator, text_validator
 
 class Row(Element):
     class Meta:
