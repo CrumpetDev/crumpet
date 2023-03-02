@@ -1,7 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-
 from .event import Event
 from .proxy import ProxySuper, ProxyManager
 
@@ -77,7 +76,7 @@ class Element(ProxySuper):
 
 """ Proxies """
 
-from .validators import layout_element_validator, font_validator, text_validator
+from .validators import layout_element_validator, font_validator, text_validator, image_validator
 
 class Row(Element):
     class Meta:
@@ -87,7 +86,7 @@ class Row(Element):
     
     @layout_element_validator
     def clean(self):
-        pass
+        return super().clean()
     
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -102,7 +101,7 @@ class Column(Element):
 
     @layout_element_validator
     def clean(self):
-        pass
+        return super().clean()
     
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -119,10 +118,22 @@ class TextElement(Element):
     @text_validator
     @font_validator
     def clean(self):
-        pass
+        return super().clean()
 
     def save(self, *args, **kwargs):
         self.full_clean()
         return super().save(*args, **kwargs)
 
+class ImageElement(Element):
+    class Meta: 
+        proxy = True
 
+    objects = ProxyManager()
+
+    @image_validator
+    def clean(self):
+        return super().clean()
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)

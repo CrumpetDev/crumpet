@@ -42,11 +42,11 @@ class ModelsTest(TestCase):
         Row = elements.Row
         Alignment = elements.Element.LayoutAlignment
 
-        properties = {'main_axis_alignment': Alignment.START, 'cross_axis_alignment': Alignment.END}
+        required_props = {'main_axis_alignment': Alignment.START, 'cross_axis_alignment': Alignment.END}
         
-        self.element_save_validation(is_valid=False, element=Row(properties['main_axis_alignment']))
-        self.element_save_validation(is_valid=False, element=Row(properties['cross_axis_alignment']))
-        self.element_save_validation(is_valid=True, element=Row(**properties))
+        self.element_save_validation(is_valid=False, element=Row(required_props['main_axis_alignment']))
+        self.element_save_validation(is_valid=False, element=Row(required_props['cross_axis_alignment']))
+        self.element_save_validation(is_valid=True, element=Row(**required_props))
 
         
     def test_column(self):
@@ -54,26 +54,36 @@ class ModelsTest(TestCase):
         Column = elements.Column
         Alignment = elements.Element.LayoutAlignment
 
-        properties = {'main_axis_alignment': Alignment.START, 'cross_axis_alignment': Alignment.END}
+        required_props = {'main_axis_alignment': Alignment.START, 'cross_axis_alignment': Alignment.END}
 
-        self.element_save_validation(is_valid=False, element=Column(properties['main_axis_alignment']))
-        self.element_save_validation(is_valid=False, element=Column(properties['cross_axis_alignment']))
-        self.element_save_validation(is_valid=True, element=Column(**properties))
+        self.element_save_validation(is_valid=False, element=Column(required_props['main_axis_alignment']))
+        self.element_save_validation(is_valid=False, element=Column(required_props['cross_axis_alignment']))
+        self.element_save_validation(is_valid=True, element=Column(**required_props))
 
     def test_text_element(self):
         TextElement = elements.TextElement
 
-        properties = {'text': 'Sample text.', 'font_size': 12, 'font_color': '#123456'}
+        required_props = {'text': 'Sample text.', 'font_size': 12, 'font_color': '#123456'}
 
-        for _, (_, value) in enumerate(properties.items()):
+        for _, (_, value) in enumerate(required_props.items()):
             self.element_save_validation(is_valid=False, element=TextElement(value))
 
-        self.element_save_validation(is_valid=True, element=TextElement(**properties))
+        self.element_save_validation(is_valid=True, element=TextElement(**required_props))
 
-        properties['font_size'] = 9 #less than minimum
-        self.element_save_validation(is_valid=False, element=TextElement(**properties))
-        properties['font_size'] = 129 #greater than maximum
-        self.element_save_validation(is_valid=False, element=TextElement(**properties))
+        required_props['font_size'] = 9 #less than minimum
+        self.element_save_validation(is_valid=False, element=TextElement(**required_props))
+        required_props['font_size'] = 129 #greater than maximum
+        self.element_save_validation(is_valid=False, element=TextElement(**required_props))
+
+    def test_image_element(self):
+        ImageElement = elements.ImageElement
+
+        required_props = {'image_url': 'https://someexampleimageurlhere.blob'}
+
+        self.element_save_validation(is_valid=False, element=ImageElement())
+        self.element_save_validation(is_valid=True, element=ImageElement(**required_props))
+
+        
 
 
 

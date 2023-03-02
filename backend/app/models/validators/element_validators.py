@@ -28,4 +28,11 @@ def text_validator(fn):
         fn(self)
     return validator
 
+def image_validator(fn):
+    def validator(self: Element) -> None:
+        if self.image_url is None:
+            raise ValidationError('Image url must not be null.')
+        fn(self)
+    return validator
+
 
