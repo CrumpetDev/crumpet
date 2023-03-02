@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 
@@ -36,8 +37,8 @@ class Element(ProxySuper):
 
     #Misc
     text = models.TextField(null=True, blank=True)
-    font_size = models.IntegerField(null=True, blank=True)
-    font_color = models.IntegerField(null=True, blank=True)
+    font_size = models.PositiveIntegerField(default=10, validators=[MinValueValidator(10), MaxValueValidator(128)] ,null=True, blank=True)
+    font_color = models.TextField(null=True, blank=True)
     background_color = models.CharField(max_length=50,null=True, blank=True) #TODO: add hex validator
 
     trigger_event = models.ForeignKey(Event, on_delete=models.SET_NULL, blank=True, null=True, related_name='associated_elements')
