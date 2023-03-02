@@ -37,7 +37,7 @@ class ModelsTest(TestCase):
             self.assertTrue(issubclass(obj, ProxySuper))
         
 
-    def test_row_model(self):
+    def test_row(self):
 
         Row = elements.Row
         Alignment = elements.Element.LayoutAlignment
@@ -61,4 +61,21 @@ class ModelsTest(TestCase):
         self.element_save_validation(is_valid=True, element=Column(**properties))
 
     def test_text_element(self):
-        pass
+        TextElement = elements.TextElement
+
+        properties = {'text': 'Sample text.', 'font_size': 12, 'font_color': '#123456'}
+
+        for _, (_, value) in enumerate(properties.items()):
+            self.element_save_validation(is_valid=False, element=TextElement(value))
+
+        self.element_save_validation(is_valid=True, element=TextElement(**properties))
+
+        properties['font_size'] = 9 #less than minimum
+        self.element_save_validation(is_valid=False, element=TextElement(**properties))
+        properties['font_size'] = 129 #greater than maximum
+        self.element_save_validation(is_valid=False, element=TextElement(**properties))
+
+
+
+        
+
