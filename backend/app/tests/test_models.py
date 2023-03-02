@@ -40,18 +40,25 @@ class ModelsTest(TestCase):
     def test_row_model(self):
 
         Row = elements.Row
+        Alignment = elements.Element.LayoutAlignment
 
-        properties = {'main_axis_alignment': elements.Element.LayoutAlignment.START, 'cross_axis_alignment': elements.Element.LayoutAlignment.END}
+        properties = {'main_axis_alignment': Alignment.START, 'cross_axis_alignment': Alignment.END}
         
         self.element_save_validation(is_valid=False, element=Row(properties['main_axis_alignment']))
-
         self.element_save_validation(is_valid=False, element=Row(properties['cross_axis_alignment']))
-
         self.element_save_validation(is_valid=True, element=Row(**properties))
 
         
     def test_column(self):
-        pass
+        
+        Column = elements.Column
+        Alignment = elements.Element.LayoutAlignment
+
+        properties = {'main_axis_alignment': Alignment.START, 'cross_axis_alignment': Alignment.END}
+
+        self.element_save_validation(is_valid=False, element=Column(properties['main_axis_alignment']))
+        self.element_save_validation(is_valid=False, element=Column(properties['cross_axis_alignment']))
+        self.element_save_validation(is_valid=True, element=Column(**properties))
 
     def test_text_element(self):
         pass
