@@ -55,3 +55,4 @@ mypy
 textelement
 buttonelement
 imageelement
+selectiongroup
