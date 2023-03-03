@@ -142,8 +142,14 @@ class ModelsTest(TestCase):
         event = Event(name='selection_confirmed', description='A sample description here.', event_type=Event.EventType.SELECTION_CONFIRMED)
         event.save()
 
-        required_props = {'min_value': 0, 'max_value': 10, 'increment': 2, 'event': event}
+        invalid_event = Event(name='selection_confirmed', description='A sample description here.', event_type=Event.EventType.GENERIC)
+        invalid_event.save()
 
+        required_props = {'min_value': 0, 'max_value': 10, 'increment': 2, 'event': invalid_event}
+
+        self.element_save_validation(is_valid=False, element=Slider(**required_props))
+        
+        required_props['event'] = event
         self.element_save_validation(is_valid=True, element=Slider(**required_props))
 
         for _, (_, value) in enumerate(required_props.items()):
@@ -156,7 +162,17 @@ class ModelsTest(TestCase):
         required_props['min_value'] = 8
         required_props['increment'] = -2
         self.element_save_validation(is_valid=False, element=Slider(**required_props))
+
         
+        
+
+    def test_text_field(self):
+        TextField = elements.TextField
+
+        event = Event(name='selection_confirmed', description='A sample description here.', event_type=Event.EventType.SELECTION_CONFIRMED)
+        event.save()
+
+
 
 
         
