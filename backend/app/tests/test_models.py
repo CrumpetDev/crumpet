@@ -1,9 +1,12 @@
 import inspect
 
 from django.core.exceptions import ValidationError
+from django.db.utils import IntegrityError
+from django.db import transaction
 from django.test.testcases import TestCase
 
 import app.models.element as elements
+from app.models.event import Event
 from app.models.proxy import ProxySuper, ProxyManager
 
 
@@ -19,7 +22,9 @@ class ModelsTest(TestCase):
             valid_instance = getattr(type(element), 'objects').get(pk=1)
             self.assertEquals(valid_instance.proxy_name, type(element).__name__)
         else:
-            with self.assertRaises(ValidationError):
+            # must use atomic transaction when purposely throwing exceptions
+            # https://stackoverflow.com/questions/21458387/transactionmanagementerror-you-cant-execute-queries-until-the-end-of-the-atom
+            with self.assertRaises((ValidationError, IntegrityError)), transaction.atomic():
                 element.save()
     
     def test_element_managers(self):
@@ -83,8 +88,31 @@ class ModelsTest(TestCase):
         self.element_save_validation(is_valid=False, element=ImageElement())
         self.element_save_validation(is_valid=True, element=ImageElement(**required_props))
 
-        
 
+    def test_button_element(self):
+        Button = elements.ButtonElement
+        action = elements.Element.ButtonAction.CLOSE
+
+        event = Event(name='test_button_pressed', description='A sample description here.', event_type=Event.EventType.BUTTON_PRESSED)
+        event.save()
+
+        required_props = {'background_color': '#123456', 'text': 'Sample text', 'button_action': action, 'event': event, 'stroke': 1, 'stroke_color': '#123456', 'border_radius': 2}
+
+        self.element_save_validation(is_valid=True, element=Button(**required_props))
+
+        for _, (_, value) in enumerate(required_props.items()):
+            self.element_save_validation(is_valid=False, element=Button(value))
+
+        required_props['stroke'] = -1
+        self.element_save_validation(is_valid=False, element=Button(**required_props))
+        required_props['border_radius'] = -1
+        self.element_save_validation(is_valid=False, element=Button(**required_props))
+        required_props['button_action'] = 'invalid_action'
+        self.element_save_validation(is_valid=False, element=Button(**required_props))
+
+
+
+    
 
 
         
