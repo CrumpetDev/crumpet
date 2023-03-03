@@ -53,3 +53,5 @@ celerybeat
 mkdocs
 mypy
 textelement
+buttonelement
+imageelement

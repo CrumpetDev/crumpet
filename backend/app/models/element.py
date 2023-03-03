@@ -40,7 +40,7 @@ class Element(ProxySuper):
     font_color = models.TextField(null=True, blank=True)
     background_color = models.CharField(max_length=50,null=True, blank=True) #TODO: add hex validator
 
-    trigger_event = models.ForeignKey(Event, on_delete=models.SET_NULL, blank=True, null=True, related_name='associated_elements')
+    event = models.ForeignKey(Event, on_delete=models.SET_NULL, blank=True, null=True, related_name='associated_elements')
 
     
     #Image
@@ -54,9 +54,9 @@ class Element(ProxySuper):
 
     #Button
     button_action = models.CharField(max_length=15, choices=ButtonAction.choices, null=True, blank=True)
-    stroke = models.IntegerField(null=True, blank=True)
+    stroke = models.PositiveSmallIntegerField(default=0,null=True, blank=True)
     stroke_color = models.CharField(max_length=50,null=True, blank=True)
-    border_radius = models.IntegerField(null=True, blank=True)
+    border_radius = models.PositiveSmallIntegerField(null=True, blank=True)
 
     #Multi Selection 
     allow_multi_selection = models.BooleanField(null=True, blank=True)
@@ -76,7 +76,7 @@ class Element(ProxySuper):
 
 """ Proxies """
 
-from .validators import layout_element_validator, font_validator, text_validator, image_validator
+from .validators import layout_element_validator, font_validator, text_validator, image_validator, background_color_validator, stroke_validator, border_radius_validator, button_action_validator, event_fk_validator
 
 class Row(Element):
     class Meta:
@@ -131,6 +131,25 @@ class ImageElement(Element):
     objects = ProxyManager()
 
     @image_validator
+    def clean(self):
+        return super().clean()
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
+class ButtonElement(Element):
+    class Meta:
+        proxy = True
+
+    objects = ProxyManager()
+    
+    @background_color_validator
+    @text_validator
+    @stroke_validator
+    @border_radius_validator
+    @button_action_validator
+    @event_fk_validator
     def clean(self):
         return super().clean()
 

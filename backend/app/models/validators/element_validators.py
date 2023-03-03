@@ -35,4 +35,40 @@ def image_validator(fn):
         fn(self)
     return validator
 
+def background_color_validator(fn):
+    def validator(self: Element) -> None:
+        if self.background_color is None:
+            raise ValidationError('Background color must not be null.')
+        fn(self)
+    return validator
+
+def stroke_validator(fn):
+    def validator(self: Element) -> None:
+        if self.stroke is None:
+            raise ValidationError('Stroke must not be null.')
+        if self.stroke_color is None:
+            raise ValidationError('Stroke color must not be null.')
+        fn(self)
+    return validator
+
+def border_radius_validator(fn):
+    def validator(self: Element) -> None:
+        if self.border_radius is None:
+            raise ValidationError('Border radius must not be null.')
+        fn(self)
+    return validator
+
+def button_action_validator(fn):
+    def validator(self: Element) -> None:
+        if self.button_action is None:
+            raise ValidationError('Button action must not be null.')
+        fn(self)
+    return validator
+
+def event_fk_validator(fn):
+    def validator(self: Element) -> None:
+        if self.event is None:
+            raise ValidationError('Event must not be null. This element must trigger an event.')
+        fn(self)
+    return validator
 
