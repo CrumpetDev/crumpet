@@ -1,4 +1,7 @@
+from functools import wraps
+
 from django.core.exceptions import ValidationError
+
 
 from ..element import Element
 
@@ -65,10 +68,23 @@ def button_action_validator(fn):
         fn(self)
     return validator
 
-def event_fk_validator(fn):
+def event_fk_validator(event_type):
+    def decorator(fn):
+        @wraps(fn)
+        def validator(self: Element) -> None:
+            #print(f'Element event type: {self.event.')
+            if self.event is None:
+                raise ValidationError('Event must not be null. This element must trigger an event.')   
+            if self.event.event_type  != event_type:
+                raise ValidationError(f'This element must fire events of type {event_type} only.')
+            fn(self)
+        return validator
+    return decorator
+
+def selection_validator(fn):
     def validator(self: Element) -> None:
-        if self.event is None:
-            raise ValidationError('Event must not be null. This element must trigger an event.')
+        if self.allow_multi_selection is None:
+            raise ValidationError('Multi selection must not be null.')
         fn(self)
     return validator
-
+    

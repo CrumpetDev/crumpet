@@ -8,6 +8,7 @@ from django.test.testcases import TestCase
 import app.models.element as elements
 from app.models.event import Event
 from app.models.proxy import ProxySuper, ProxyManager
+from app.models.selector import Selector
 
 
 class ModelsTest(TestCase):
@@ -111,7 +112,28 @@ class ModelsTest(TestCase):
         self.element_save_validation(is_valid=False, element=Button(**required_props))
 
 
+    def test_selection_group(self):
+        SelectionGroup = elements.SelectionGroup
+        selector = Selector(text='Text to display on selector.', value='The selector value.')
 
+        event = Event(name='selection_confirmed', description='A sample description here.', event_type=Event.EventType.SELECTION_CONFIRMED)
+        event.save()
+
+
+        required_props = {'allow_multi_selection': True, 'event': event}
+
+        self.element_save_validation(is_valid=False, element=SelectionGroup())
+        self.element_save_validation(is_valid=True, element=SelectionGroup(**required_props))
+
+        try:
+            group = SelectionGroup(**required_props)
+            group.save()
+            selector.element = group 
+            selector.save()
+            group.selectors.add(selector)
+        except:
+            self.fail('Failed to save a SelectionGroup.')
+                
     
 
 
