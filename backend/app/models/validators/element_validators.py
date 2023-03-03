@@ -98,3 +98,12 @@ def slider_validation(fn):
             raise ValidationError('Min value must be greater than max value.')
         fn(self)
     return validator
+
+
+def label_validator(fn):
+    def validator(self: Element) -> None:
+        if self.label_text is None:
+            raise ValidationError('Label text must not be null.')
+        fn(self)
+    return validator
+

@@ -75,7 +75,7 @@ class Element(ProxySuper):
 
 """ Proxies """
 
-from .validators import layout_element_validator, font_validator, text_validator, image_validator, background_color_validator, stroke_validator, border_radius_validator, button_action_validator, event_fk_validator, selection_validator, slider_validation
+from .validators import layout_element_validator, font_validator, text_validator, image_validator, background_color_validator, stroke_validator, border_radius_validator, button_action_validator, event_fk_validator, selection_validator, slider_validation, label_validator
 
 class Row(Element):
     class Meta:
@@ -182,6 +182,25 @@ class Slider(Element):
     def clean(self):
         return super().clean()
     
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
+
+class TextField(Element):
+    class Meta:
+        proxy = True
+
+    objects = ProxyManager()
+    
+    @label_validator
+    @stroke_validator
+    @border_radius_validator
+    @font_validator
+    @background_color_validator
+    @event_fk_validator(Event.EventType.TEXT_FIELD_VALUE)
+    def clean(self):
+        return super().clean()
+
     def save(self, *args, **kwargs):
         self.full_clean()
         return super().save(*args, **kwargs)

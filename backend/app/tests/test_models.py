@@ -169,8 +169,26 @@ class ModelsTest(TestCase):
     def test_text_field(self):
         TextField = elements.TextField
 
-        event = Event(name='selection_confirmed', description='A sample description here.', event_type=Event.EventType.SELECTION_CONFIRMED)
+        event = Event(name='selection_confirmed', description='A sample description here.', event_type=Event.EventType.TEXT_FIELD_VALUE)
         event.save()
+
+        invalid_event = Event(name='selection_confirmed', description='A sample description here.', event_type=Event.EventType.GENERIC)
+        invalid_event.save()
+
+        required_props = {'label_text': 'Sample label text', 'font_color': '#123456', 'font_size': 12, 'background_color': '#123456', 'border_radius': 2, 'stroke': 2, 'stroke_color': '#123456', 'event': invalid_event }
+
+        self.element_save_validation(is_valid=False, element=TextField(**required_props))
+
+        required_props['event'] = event
+        self.element_save_validation(is_valid=True, element=TextField(**required_props))
+
+        for _, (_, value) in enumerate(required_props.items()):
+            self.element_save_validation(is_valid=False, element=TextField(value))
+
+
+
+
+
 
 
 
