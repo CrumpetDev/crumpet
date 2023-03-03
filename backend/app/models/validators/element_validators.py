@@ -87,4 +87,14 @@ def selection_validator(fn):
             raise ValidationError('Multi selection must not be null.')
         fn(self)
     return validator
-    
+
+def slider_validation(fn):
+    def validator(self: Element) -> None:
+        if self.min_value is None:
+            raise ValidationError('Min value must not be null.')
+        if self.max_value is None:
+            raise ValidationError('Max value must not be null.')
+        if self.min_value >= self.max_value:
+            raise ValidationError('Min value must be greater than max value.')
+        fn(self)
+    return validator
