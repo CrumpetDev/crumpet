@@ -26,6 +26,8 @@ from rest_framework_simplejwt.views import (
 
 from rest_framework import routers
 
+from app.views.register_view import RegisterView
+
 router = routers.SimpleRouter()
 
 urlpatterns = [
@@ -42,6 +44,8 @@ urlpatterns = [
         ),
         name="openapi-schema",
     ),
+
+    path('api/register/', RegisterView.as_view(), name='register')
 ]
 
 urlpatterns += router.urls

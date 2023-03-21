@@ -56,3 +56,6 @@ textelement
 buttonelement
 imageelement
 selectiongroup
+Secur
+Epassw
+Titherington
