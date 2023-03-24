@@ -22,7 +22,7 @@ const Example = () => {
           </Typography>
         </CardContent>
         <CardActions>
-          <Button size="small">Find Out More</Button>
+          <Button size="small" href='https://mui.com/material-ui/getting-started/overview/'>Find Out More</Button>
         </CardActions>
       </Card>
     </Box>
