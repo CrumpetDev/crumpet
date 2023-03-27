@@ -42,6 +42,12 @@ urlpatterns = [
     # API Views
     path("api/register/", RegisterView.as_view(), name="register"),
     path("api/user/", UserDetailView.as_view(), name="user-detail"),
+    path("api/applications/", ApplicationList.as_view(), name="application-list"),
+    path(
+        "api/application/<int:pk>/",
+        ApplicationDetail.as_view(),
+        name="application-detail",
+    ),
     # Meta Views
     path(
         "openapi",
