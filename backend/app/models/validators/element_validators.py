@@ -72,7 +72,6 @@ def event_fk_validator(event_type):
     def decorator(fn):
         @wraps(fn)
         def validator(self: Element) -> None:
-            #print(f'Element event type: {self.event.')
             if self.event is None:
                 raise ValidationError('Event must not be null. This element must trigger an event.')   
             if self.event.event_type  != event_type:
