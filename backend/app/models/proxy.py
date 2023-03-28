@@ -8,7 +8,7 @@ class ProxySuper(models.Model):
 
     # is nullable to prevent validation error from sub classes
     # but the field will never actually be null
-    proxy_name = models.CharField(max_length=20, blank=True, null=True)
+    proxy_name = models.CharField(max_length=20)
 
     def save(self, *args, **kwargs):
         """Automatically store the proxy class name"""
