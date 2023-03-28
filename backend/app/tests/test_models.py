@@ -5,7 +5,7 @@ from django.db.utils import IntegrityError
 from django.db import transaction
 from django.test.testcases import TestCase
 
-import app.models.element as elements
+import app.models.proxy_elements as elements
 from app.models.event import Event
 from app.models.proxy import ProxySuper, ProxyManager
 from app.models.selector import Selector
