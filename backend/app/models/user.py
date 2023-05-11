@@ -15,11 +15,11 @@ class UserManager(BaseUserManager):
 
     def create_user(self, email, password, first_name, last_name, **extra_fields):
         if not email:
-            raise ValueError(_("Users must have an email address"))
+            raise ValueError("Users must have an email address")
         if not first_name:
-            raise ValueError(_("Users must have a first name"))
+            raise ValueError("Users must have a first name")
         if not last_name:
-            raise ValueError(_("Users must have a password"))
+            raise ValueError("Users must have a password")
         email = self.normalize_email(email)
         user = self.model(
             email=email, first_name=first_name, last_name=last_name, **extra_fields
@@ -50,10 +50,6 @@ class User(AbstractUser):
     username = None
 
     objects: UserManager = UserManager()
-
-    # @property
-    # def is_superuser(self):
-    #     return self.is_staff
 
     def __str__(self):
         return f"{self.email} | {self.first_name} | {self.last_name}"

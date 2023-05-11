@@ -45,7 +45,6 @@ class TestViews(APITestCase):
         self.assertEquals(response.status_code, status.HTTP_200_OK)
 
         response = client.get("/api/application/1/")
-        # response = client.get("/api/application/")
         self.assertEquals(response.status_code, status.HTTP_200_OK)
         self.assertEquals(response.data["name"], application_name)
 
