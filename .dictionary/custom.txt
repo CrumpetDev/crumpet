@@ -2,7 +2,9 @@ biochar
 codegen
 crumplet
 formik
+generateschema
 openapi
+openapitools
 Puro
 simplejwt
 styfle
