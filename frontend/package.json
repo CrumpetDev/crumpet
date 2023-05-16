@@ -59,6 +59,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
+    "autoprefixer": "^10.4.14",
     "eslint": "^8.34.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-recommended": "^4.1.0",
@@ -71,7 +72,9 @@
     "identity-obj-proxy": "^3.0.0",
     "jest-environment-jsdom": "^29.4.3",
     "openapi-typescript-codegen": "^0.23.0",
+    "postcss": "^8.4.23",
     "prettier": "^2.8.4",
+    "tailwindcss": "^3.3.2",
     "ts-jest": "^29.0.5"
   }
 }
