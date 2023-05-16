@@ -1,12 +1,15 @@
+# Mac 
+.DS_Store
+
 # Django #
 *.log
 *.pot
 *.pyc
-__pycache__
-db.sqlite3
+__pycache__/
+/backend/db.sqlite3
 media
 
-# Backup files # 
+# Backup files
 *.bak 
 
 # If you are using PyCharm # 
@@ -16,9 +19,6 @@ media
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
-
-# AWS User-specific
-.idea/**/aws.xml
 
 # Generated files
 .idea/**/contentModel.xml
@@ -41,9 +41,6 @@ media
 
 # IntelliJ
 out/
-
-# JIRA plugin
-atlassian-ide-plugin.xml
 
 # Python # 
 *.py[cod] 
@@ -84,9 +81,6 @@ coverage.xml
 *.cover 
 .hypothesis/ 
 
-# Jupyter Notebook 
-.ipynb_checkpoints 
-
 # pyenv 
 .python-version 
 
@@ -95,15 +89,6 @@ celerybeat-schedule.*
 
 # SageMath parsed files 
 *.sage.py 
-
-# Environments 
-.env 
-.venv 
-env/ 
-venv/ 
-ENV/ 
-env.bak/ 
-venv.bak/ 
 
 # mkdocs documentation 
 /site 
