@@ -1,7 +1,7 @@
 dictionaryDefinitions:
   - name: myWords
     path: ./.dictionary/custom.txt
-    addWords: true
+    addWords: tru
 dictionaries:
   - myWords
   
