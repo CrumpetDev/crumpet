@@ -12,5 +12,9 @@ export default defineConfig(() => {
       outDir: 'build',
     },
     plugins: [react(), viteTsconfigPaths(), eslint()],
+    test: {
+      globals: true,
+      environment: 'jsdom',
+    },
   };
 });
