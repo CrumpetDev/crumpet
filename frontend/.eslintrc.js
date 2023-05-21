@@ -7,7 +7,12 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
   ],
   parser: '@typescript-eslint/parser',
-  plugins: ["jest", 'prettier','@typescript-eslint', "react", "react-hooks", "testing-library"],
+  plugins: ["jest", 'prettier', '@typescript-eslint', "react", "react-hooks", "testing-library"],
+  settings: {
+    "react": {
+      "version": "detect"
+    }
+  },
   rules: {
     'no-console': ['error'],
     'no-shadow': ['error'],
