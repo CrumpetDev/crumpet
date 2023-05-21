@@ -1,4 +1,4 @@
-# crumplet
+# Crumpet
 
 ## Frontend Guide
 
