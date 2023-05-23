@@ -3,6 +3,7 @@ import Welcome from 'pages/welcome/welcome';
 import { createHashRouter } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import NotFound from './404';
+import Login from 'pages/Authentication';
 
 const useRouter = () => {
   const [cookies] = useCookies(['refreshToken']);
@@ -24,7 +25,7 @@ const useRouter = () => {
   if (authenticated) {
     routerList.push({
       path: '/login',
-      element: <h1>LOGIN</h1>,
+      element: <Login />,
     });
   }
 

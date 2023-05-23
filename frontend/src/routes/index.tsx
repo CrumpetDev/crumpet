@@ -1,4 +1,4 @@
-import useRouter from './unauthenticatedRoutes';
+import useRouter from './useRouter';
 import { RouterProvider } from 'react-router-dom';
 
 const Routes = () => {

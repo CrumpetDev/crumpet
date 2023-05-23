@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import viteTsconfigPaths from 'vite-tsconfig-paths'
-import eslint from 'vite-plugin-eslint'
+import viteTsconfigPaths from 'vite-tsconfig-paths';
+import eslint from 'vite-plugin-eslint';
 
 export default defineConfig(() => {
   return {
@@ -15,6 +15,11 @@ export default defineConfig(() => {
     test: {
       globals: true,
       environment: 'jsdom',
+    },
+    resolve: {
+      alias: {
+        assets: './src/assets',
+      },
     },
   };
 });
