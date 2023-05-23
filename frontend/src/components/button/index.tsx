@@ -6,7 +6,9 @@ interface CustomButtonProps {
 
 const CustomButton = ({ text, onClick, styles }: CustomButtonProps) => {
   return (
-    <button onClick={onClick} className={`rounded-md bg-gray-600 py-2 px-8 text-white ${styles}`}>
+    <button
+      onClick={onClick}
+      className={`w-full rounded-md bg-gray-600 py-2 px-8 text-white ${styles}`}>
       {text}
     </button>
   );
