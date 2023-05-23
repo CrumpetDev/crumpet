@@ -1,0 +1,4 @@
+{
+  "prettier.configPath": "./frontend/.prettierrc.js",
+  "prettier.bracketSpacing": false
+}
