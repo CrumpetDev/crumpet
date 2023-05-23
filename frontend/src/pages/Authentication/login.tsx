@@ -1,7 +1,17 @@
 import LargeLogo from 'assets/images/Logo Large.svg';
+import Button from 'components/Button';
 
 const Login = () => {
-  return <img src={LargeLogo} alt="logo" className="logo" />;
+  const handleSubmit = () => {
+    console.log('submit');
+  };
+
+  return (
+    <>
+      <img src={LargeLogo} alt="logo" className="logo" />
+      <Button onClick={handleSubmit} text="Login" />
+    </>
+  );
 };
 
 export default Login;
