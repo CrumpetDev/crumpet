@@ -64,3 +64,4 @@ xlrd
 xlutils
 xlwt
 xmlfile
+gitcommitmessage
