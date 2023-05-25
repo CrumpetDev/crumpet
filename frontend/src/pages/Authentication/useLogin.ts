@@ -6,8 +6,8 @@ const useLogin = () => {
       email: '',
       password: '',
     },
-    onSubmit: async values => {
-      console.log(values);
+    onSubmit: () => {
+      // console.log(values); -- Functionality to be added after backend is complete
     },
   });
 

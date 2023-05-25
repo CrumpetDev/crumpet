@@ -7,7 +7,7 @@ export const baseUrl = () => {
   if (import.meta.env.VITE_REACT_APP_ENVIRONMENT === 'debug') {
     return 'http://localhost:8000';
   } else {
-    return process.env.VITE_REACT_APP_API_URL;
+    return import.meta.env.VITE_REACT_APP_API_URL;
   }
 };
 

@@ -8,7 +8,9 @@ import React from 'react';
 
 vi.mock('axios');
 vi.mock('react-cookie');
+// @ts-ignore
 const mockedAxios = axios as vi.Mocked<typeof axios>;
+// @ts-ignore
 const mockedUseCookies = useCookies as vi.Mocked<typeof useCookies>;
 
 const mockedTokenContext = {
