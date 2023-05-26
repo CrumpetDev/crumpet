@@ -14,23 +14,25 @@ Thank you for your interest in contributing to Crumpet! Whether you're fixing a 
 
 Please follow the coding conventions already established in the project. These may include things like indentation styles, placement of brackets, etc. If in doubt, follow the style of existing code.
 
-## Linting and Spelling Check
+Absolutely! Here's your revised "Linting and Spelling Check" section:
 
-We aim to maintain high code quality and readability in our project. To help with this, we use a few tools that will run as pre-commit hooks using [pre-commit](https://pre-commit.com/).
+## Linting and Spell Check
+
+To maintain high code quality and readability in our project, we've implemented several checks that run automatically on all Pull Requests. We also recommend running them locally as [pre-commit hooks](https://pre-commit.com/) to catch issues early and make the review process smoother.
 
 ### Flake8
 
-Flake8 is a powerful Python tool that we use for linting. It checks our codebase against coding style (PEP8), programming errors (like 'variable not defined' and 'unused import') among others. By running Flake8 before each commit, we can ensure that our codebase remains clean and well-structured. More about Flake8 can be found at its [GitHub page](https://github.com/PyCQA/flake8).
+Flake8 is a powerful Python tool that we use for linting. It checks our codebase against coding style (PEP8), programming errors (like 'variable not defined' and 'unused import') among others. More about Flake8 can be found on its [official site](https://flake8.pycqa.org/en/latest/).
 
 ### CSpell
 
-In addition to linting, we also want to ensure that our spelling is correct across the project. For this, we use CSpell. It is an open-source tool designed to catch spelling errors in your code. Find more details about CSpell on its [GitHub page](https://github.com/streetsidesoftware/cspell).
+To ensure that our spelling is correct across the project, we use CSpell. Find more details about CSpell on its [GitHub page](https://github.com/streetsidesoftware/cspell).
 
 By adhering to these standards, we can all contribute to the quality, readability, and overall health of the project. 
 
 ## Commit Messages
 
-Writing good commit messages is important for maintaining the long-term health of our project. Here's a summary of best practices:
+Writing good commit messages is important for maintaining the long-term health of our project. Here's a summary of what we consider best practices:
 
 1. Separate subject from body with a blank line.
 2. Limit the subject line to 50 characters.
