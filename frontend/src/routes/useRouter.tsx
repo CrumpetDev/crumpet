@@ -20,7 +20,7 @@ const useRouter = () => {
     },
   ];
 
-  const authenticated = !cookies.refreshToken;
+  const authenticated = cookies.refreshToken;
 
   if (authenticated) {
     routerList.push({
