@@ -18,15 +18,17 @@ const useRouter = () => {
       element: <NotFound />,
       status: 404,
     },
+    {
+      path: '/login',
+      element: <Login />,
+    },
   ];
 
   const authenticated = cookies.refreshToken;
 
   if (authenticated) {
-    routerList.push({
-      path: '/login',
-      element: <Login />,
-    });
+    // Authenticated routes here
+    // routerList.push({});
   }
 
   const router = createHashRouter(routerList);
