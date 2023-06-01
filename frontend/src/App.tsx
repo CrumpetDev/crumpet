@@ -1,17 +1,14 @@
 import React from 'react';
 // import { setOpenApiBase } from 'api/configOpenApi';
-import { RouterProvider } from 'react-router-dom';
-import router from './Routes';
+import Router from './routes';
 
 function App() {
-	// Will not work until openapi is setup
-	// useEffect(() => {
-	//   setOpenApiBase();
-	// }, []);
+  // Will not work until openapi is setup
+  // useEffect(() => {
+  //   setOpenApiBase();
+  // }, []);
 
-	return (
-		<RouterProvider router={router} />
-	);
+  return <Router />;
 }
 
 export default App;
