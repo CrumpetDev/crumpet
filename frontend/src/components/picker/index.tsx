@@ -10,15 +10,16 @@ interface Item {
 interface PickerProps {
   items: Item[];
   initialSelection?: Item;
+  widthFill?: boolean;
 }
 
-const Picker = ({ items, initialSelection }: PickerProps) => {
-  const [selectedItem, setSelectedItem] = useState(
-    initialSelection || items[0],
-  );
+const Picker = ({ items, initialSelection, widthFill = false }: PickerProps) => {
+  const [selectedItem, setSelectedItem] = useState(initialSelection || items[0]);
+
+  const widthClass = widthFill ? 'w-full' : 'w-72';
 
   return (
-    <div className="top-16 w-72">
+    <div className={`top-16 ${widthClass}`}>
       <Listbox value={selectedItem} onChange={setSelectedItem}>
         <div className="relative mt-1">
           <Listbox.Button
@@ -28,10 +29,7 @@ const Picker = ({ items, initialSelection }: PickerProps) => {
               focus-visible:ring-offset-orange-300 sm:text-sm border border-crumpet-light-300">
             <span className="block truncate">{selectedItem.name}</span>
             <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-              <MdUnfoldMore
-                className="h-5 w-5 text-oxford"
-                aria-hidden="true"
-              />
+              <MdUnfoldMore className="h-5 w-5 text-oxford" aria-hidden="true" />
             </span>
           </Listbox.Button>
           <Transition
@@ -47,9 +45,7 @@ const Picker = ({ items, initialSelection }: PickerProps) => {
                   key={itemIdx}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-10 pr-4 
-                      ${
-                        active ? 'bg-crumpet-bright-100 text-crumpet-bright-500' : 'text-gray-900'
-                      }`
+                      ${active ? 'bg-crumpet-bright-100 text-crumpet-bright-500' : 'text-gray-900'}`
                   }
                   value={item}>
                   {({ selected }) => (
@@ -63,10 +59,7 @@ const Picker = ({ items, initialSelection }: PickerProps) => {
                         <span
                           className="absolute inset-y-0 left-0 flex items-center pl-3 
                             text-red">
-                          <MdOutlineCheck
-                            className="h-5 w-5"
-                            aria-hidden="true"
-                          />
+                          <MdOutlineCheck className="h-5 w-5" aria-hidden="true" />
                         </span>
                       ) : null}
                     </>
