@@ -15,6 +15,7 @@ const SidebarButtonPrimary = ({
 }: SidebarButtonProps) => {
   return (
     <button
+			onClick={onClick}
       className={`${widthFill ? 'w-full' : ''} ${
         selected ? 'bg-crumpet-light-200' : ''
       } hover:bg-crumpet-light-200 text-oxford font-bold py-2 px-3 rounded-md justify-start gap-3 

@@ -15,6 +15,7 @@ const SidebarButtonSecondary = ({
 }: SidebarButtonProps) => {
   return (
     <button
+			onClick={onClick}
       className={`${
         widthFill ? 'w-full' : ''
       } bg-transparent hover:text-crumpet-dark-300 text-crumpet-dark-500 
