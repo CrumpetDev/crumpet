@@ -49,7 +49,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    runs-on: [self-hosted, linux, omen]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Install modules
