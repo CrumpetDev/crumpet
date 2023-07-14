@@ -1,3 +1,6 @@
+evenodd
+heebo
+svgr
 asgiref
 biochar
 buttonelement
@@ -65,3 +68,4 @@ xlutils
 xlwt
 xmlfile
 gitcommitmessage
+headlessui
