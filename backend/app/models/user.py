@@ -8,7 +8,7 @@ from typing import List, Type
 
 class UserManager(BaseUserManager):
     """
-    Custom user model manager with email is the identifier.
+    Custom user model manager with email as the identifier.
     """
 
     model: Type["User"]
@@ -19,7 +19,7 @@ class UserManager(BaseUserManager):
         if not first_name:
             raise ValueError("Users must have a first name")
         if not last_name:
-            raise ValueError("Users must have a password")
+            raise ValueError("Users must have a last name")
         email = self.normalize_email(email)
         user = self.model(
             email=email, first_name=first_name, last_name=last_name, **extra_fields
