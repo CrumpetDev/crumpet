@@ -24,13 +24,13 @@ from rest_framework_simplejwt.views import (
 )
 
 
-from rest_framework import routers
+from app.utils import OptionalTrailingSlashRouter
 from app.views.project_views import ProjectsView
-
 from app.views.register_view import RegisterView
 from app.views.user_view import UserDetailView
 
-router = routers.SimpleRouter()
+
+router = OptionalTrailingSlashRouter()
 
 router.register(r"projects", ProjectsView, basename="projects")
 
