@@ -11,9 +11,13 @@ class ProjectViewTest(BaseAPITest):
         self.user2_client = self.create_user_and_return_client(
             "user2@test.com", "pass", "User", "Two"
         )
+        self.user3_client = self.create_user_and_return_client(
+            "user3@test.com", "pass", "User", "Three"
+        )
 
         self.user1 = User.objects.get(email="user1@test.com")
         self.user2 = User.objects.get(email="user2@test.com")
+        self.user3 = User.objects.get(email="user3@test.com")
 
         self.project1 = Project.objects.create(name="project1")
         self.project2 = Project.objects.create(name="project2")
@@ -23,6 +27,10 @@ class ProjectViewTest(BaseAPITest):
         )
         ProjectMembership.objects.create(
             user=self.user2, project=self.project2, type=ProjectMembership.MembershipType.ADMIN
+        )
+
+        ProjectMembership.objects.create(
+            user=self.user3, project=self.project1, type=ProjectMembership.MembershipType.MEMBER
         )
 
     def test_user_can_access_their_projects(self):
@@ -62,3 +70,17 @@ class ProjectViewTest(BaseAPITest):
     def test_user_cannot_delete_other_users_project(self):
         response = self.user1_client.delete(f"/projects/{self.project2.id}/")
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_non_admin_user_cannot_update_project(self):
+        response = self.user3_client.patch(
+            f"/projects/{self.project1.id}/", {"name": "updated_project"}
+        )
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        # Make sure the name did not change
+        self.assertNotEqual(Project.objects.get(id=self.project1.id).name, "updated_project")
+
+    def test_non_admin_user_cannot_delete_project(self):
+        response = self.user3_client.delete(f"/projects/{self.project1.id}/")
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+        # Make sure the project still exists
+        self.assertEqual(Project.objects.filter(id=self.project1.id).exists(), True)
