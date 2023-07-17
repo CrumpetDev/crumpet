@@ -25,7 +25,7 @@ from rest_framework_simplejwt.views import (
 
 
 from rest_framework import routers
-from app.views.application_views import ApplicationDetail, ApplicationList
+from app.views.project_views import ProjectDetail, ProjectList
 
 from app.views.register_view import RegisterView
 from app.views.user_view import UserDetailView
@@ -42,11 +42,11 @@ urlpatterns = [
     # API Views
     path("api/register/", RegisterView.as_view(), name="register"),
     path("api/user/", UserDetailView.as_view(), name="user-detail"),
-    path("api/applications/", ApplicationList.as_view(), name="application-list"),
+    path("api/projects/", ProjectList.as_view(), name="project-list"),
     path(
-        "api/application/<int:pk>/",
-        ApplicationDetail.as_view(),
-        name="application-detail",
+        "api/project/<int:pk>/",
+        ProjectDetail.as_view(),
+        name="project-detail",
     ),
     # Meta Views
     path(

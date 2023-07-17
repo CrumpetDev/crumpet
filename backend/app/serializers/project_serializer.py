@@ -1,22 +1,22 @@
 from rest_framework import serializers
-from app.models import Application
-from app.models.application import ApplicationMembership
+from app.models import Project
+from app.models.project import ProjectMembership
 
 
-class ApplicationMembershipSerializer(serializers.ModelSerializer):
+class ProjectMembershipSerializer(serializers.ModelSerializer):
     """Used as a nested serializer by ApplicationSerializer."""
 
     class Meta(object):
-        model = ApplicationMembership
+        model = ProjectMembership
         fields = ["id", "user", "type"]
         depth = 1
 
 
-class ApplicationSerializer(serializers.ModelSerializer):
+class ProjectSerializer(serializers.ModelSerializer):
     members = serializers.SerializerMethodField()
 
     class Meta:
-        model = Application
+        model = Project
         fields = ["id", "name", "members"]
 
     def __init__(self, *args, **kwargs):
@@ -33,7 +33,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
             for field_name in existing - allowed:
                 self.fields.pop(field_name)
 
-    def get_members(self, obj):
-        """obj is an Application instance. Returns list of dicts"""
-        query_set = ApplicationMembership.objects.filter(application=obj)
-        return [ApplicationMembershipSerializer(m).data for m in query_set]
+    def get_members(self, obj: Project):
+        """obj is an Project instance. Returns list of dicts"""
+        query_set = ProjectMembership.objects.filter(project=obj)
+        return [ProjectMembershipSerializer(m).data for m in query_set]

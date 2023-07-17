@@ -11,5 +11,5 @@ from .proxy_elements import (
     ButtonElement,
 )
 from .user import User
-from .application import Application, ApplicationMembership
+from .project import Project, ProjectMembership
 from .selector import Selector
