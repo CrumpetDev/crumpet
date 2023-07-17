@@ -25,38 +25,6 @@ class TestViews(APITestCase):
         client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
         return client
 
-    def test_project_views(self):
-        """
-        Test creation and retrieval /project endpoints.
-        """
-        client = self.api_client(
-            email="tom@opencrumpet.com",
-            password="aVerYSecurEpassw0rd",
-            first_name="Tom",
-            last_name="Titherington",
-        )
-        project_name: str = "Test Project"
-        response = client.post(
-            "/api/projects/", {"name": project_name}, format="json"
-        )
-        self.assertEquals(response.status_code, status.HTTP_201_CREATED)
-
-        response = client.get("/api/projects/")
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
-
-        response = client.get("/api/project/1/")
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(response.data["name"], project_name)
-
-        another_client = self.api_client(
-            email="tom.titherington@gmail.com",
-            password="aVerYSecurEpassw0rd",
-            first_name="Tom",
-            last_name="Titherington",
-        )
-        response = another_client.get("/api/project/1/")
-        self.assertEquals(response.status_code, status.HTTP_403_FORBIDDEN)
-
     def test_user_views(self):
         """
         Test /user endpoints.

@@ -25,12 +25,14 @@ from rest_framework_simplejwt.views import (
 
 
 from rest_framework import routers
-from app.views.project_views import ProjectDetail, ProjectList
+from app.views.project_views import ProjectsView
 
 from app.views.register_view import RegisterView
 from app.views.user_view import UserDetailView
 
 router = routers.SimpleRouter()
+
+router.register(r"projects", ProjectsView, basename="projects")
 
 urlpatterns = [
     # Admin
@@ -42,12 +44,6 @@ urlpatterns = [
     # API Views
     path("api/register/", RegisterView.as_view(), name="register"),
     path("api/user/", UserDetailView.as_view(), name="user-detail"),
-    path("api/projects/", ProjectList.as_view(), name="project-list"),
-    path(
-        "api/project/<int:pk>/",
-        ProjectDetail.as_view(),
-        name="project-detail",
-    ),
     # Meta Views
     path(
         "openapi",
@@ -55,7 +51,7 @@ urlpatterns = [
             title="backend",
             description="The rest api for backend",
             version="1.0.0",
-            permission_classes=[]
+            permission_classes=[],
         ),
         name="openapi-schema",
     ),
