@@ -7,7 +7,7 @@ from app.models import User
 class TestUserAuth(APITestCase):
     def test_register(self):
         response = self.client.post(
-            "/api/register/",
+            "/register/",
             {
                 "email": "tom@opencrumpet.com",
                 "password": "aVerYSecurEpassw0rd!",
@@ -27,7 +27,7 @@ class TestUserAuth(APITestCase):
         user.save()
 
         response = self.client.post(
-            "/api/token/",
+            "/token/",
             {
                 "first_name": "Tom",
                 "last_name": "Titherington",

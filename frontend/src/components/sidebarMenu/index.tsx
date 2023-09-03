@@ -1,4 +1,6 @@
+import { Popover, Transition } from '@headlessui/react';
 import Picker from 'components/picker';
+import CustomButton from 'components/button';
 import SidebarButtonPrimary from './sidebarButtonPrimary';
 import SidebarButtonSecondary from './sidebarButtonSecondary';
 import {
@@ -8,13 +10,21 @@ import {
   MdOutlineOpenInNew,
   MdSettings,
   MdOutlineBadge,
+  MdCheck,
 } from 'react-icons/md';
 import { ReactComponent as Flow } from 'assets/icons/Flow Icon.svg';
 import { ReactComponent as CrumpetLogo } from 'assets/images/Crumpet Logo Oxford.svg';
+import { Fragment } from 'react';
+import { Outlet } from 'react-router-dom';
 
 const environments = [
   { id: 1, name: 'Development' },
   { id: 2, name: 'Production' },
+];
+
+const projects = [
+  { id: 1, name: 'Crumpet', selected: true },
+  { id: 2, name: 'Muffin', selected: false },
 ];
 
 const SidebarMenu = () => {
@@ -45,6 +55,7 @@ const SidebarMenu = () => {
   ];
 
   return (
+		<>
     <div
       className="w-64 h-screen pt-4 bg-crumpet-light-100 border-r border-crumpet-light-300 flex-col 
                 justify-between items-center gap-8 flex">
@@ -83,17 +94,68 @@ const SidebarMenu = () => {
             widthFill={true}
           />
         </div>
-        <div className="w-full flex justify-between items-center p-4 border-t border-crumpet-light-300">
-          <div className="flex items-center space-x-4">
-            <div className="w-8 h-8 rounded-full bg-blue-400 text-white flex items-center justify-center">
-              C
-            </div>
-            <span className="text-base font-semibold">Crumpet</span>
-          </div>
-          <MdChevronRight className="fill-gray-500" />
-        </div>
+        {/* TODO: Add Popover component from headless UI here */}
+
+        <Popover className="relative w-full">
+          {({ open }) => (
+            <>
+              <Popover.Button
+                className="w-full flex justify-between items-center p-4 border-t 
+																				border-crumpet-light-300">
+                <div className="flex items-center space-x-4">
+                  <div className="w-8 h-8 rounded-full bg-blue-400 text-white flex items-center justify-center">
+                    C
+                  </div>
+                  <span className="text-base font-semibold">Crumpet</span>
+                </div>
+                <MdChevronRight className="fill-gray-500" />
+              </Popover.Button>
+              <Transition
+                show={open}
+                as={Fragment}
+                enter="transition ease-out duration-200"
+                enterFrom="opacity-0 translate-y-1"
+                enterTo="opacity-100 translate-y-0"
+                leave="transition ease-in duration-150"
+                leaveFrom="opacity-100 translate-y-0"
+                leaveTo="opacity-0 translate-y-1">
+                <Popover.Panel
+                  static
+                  className="absolute z-10 max-w-sm px-0 transform translate-x-full bottom-4">
+                  <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
+                    <div className="flex flex-col gap-1 relative px-4 py-3 bg-white">
+                      {projects.map((project, index) => (
+                        <div
+                          className={`flex flex-row justify-between items-center py-1 px-2 gap-2 rounded ${
+                            project.selected ? 'bg-crumpet-light-100' : 'bg-white'
+                          }`}
+                          key={index}>
+                          <MdSettings
+                            onClick={() => {
+                              console.log('clicked');
+                            }}
+                          />
+                          <span className="grow"> {project.name} </span>
+                          {project.selected ? <MdCheck /> : <></>}
+                        </div>
+                      ))}
+                      <CustomButton
+                        text="Add New"
+                        onClick={() => {
+                          console.log('clicked');
+                        }}
+                      />
+                    </div>
+                  </div>
+                </Popover.Panel>
+              </Transition>
+            </>
+          )}
+        </Popover>
       </div>
     </div>
+			<Outlet />
+		</>
   );
 };
 

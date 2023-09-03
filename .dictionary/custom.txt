@@ -71,3 +71,7 @@ xlwt
 xmlfile
 gitcommitmessage
 headlessui
+isort
+pylint
+tomli
+tomlkit

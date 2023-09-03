@@ -37,7 +37,7 @@ export const useAuthentication = () => {
     setAuthenticating(true);
     return await tokenApi
       .createTokenObtainPair({
-        username: email,
+        email: email,
         password,
       })
       .then(async response => {

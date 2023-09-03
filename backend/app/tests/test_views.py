@@ -36,5 +36,5 @@ class TestViews(APITestCase):
             last_name="Titherington",
         )
 
-        response = client.delete("/api/user/")
+        response = client.delete("/user/")
         self.assertEquals(response.status_code, status.HTTP_200_OK)

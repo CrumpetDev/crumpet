@@ -26,234 +26,58 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 /**
  * 
  * @export
- * @interface Batch
+ * @interface Project
  */
-export interface Batch {
+export interface Project {
     /**
      * 
      * @type {number}
-     * @memberof Batch
+     * @memberof Project
      */
     'id'?: number;
     /**
      * 
-     * @type {number}
-     * @memberof Batch
+     * @type {string}
+     * @memberof Project
      */
-    'feedstock_weight'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'feedstock_moisture_content'?: number;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Batch
-     */
-    'testing'?: boolean;
+    'name': string;
     /**
      * 
      * @type {string}
-     * @memberof Batch
+     * @memberof Project
      */
-    'created_at'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Batch
-     */
-    'updated_at'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'biochar_produced'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'moisture_content'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'a1_diesel_consumed'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'a2_diesel_consumed'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'a3_diesel_consumed'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'a3_electricity_consumed'?: number | null;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'a3_feedstock_preparation'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'a3_propane_consumption'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'a3_stack_emissions_n20'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'a3_stack_emissions_ch4'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'a3_stack_emissions_c02'?: number;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'a4_diesel_consumed'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Batch
-     */
-    'start_date': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Batch
-     */
-    'end_date': string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Batch
-     */
-    'feedstock': number;
+    'members'?: string;
 }
 /**
  * 
  * @export
- * @interface BatchCSV
+ * @interface Register
  */
-export interface BatchCSV {
-    /**
-     * 
-     * @type {number}
-     * @memberof BatchCSV
-     */
-    'id'?: number;
+export interface Register {
     /**
      * 
      * @type {string}
-     * @memberof BatchCSV
+     * @memberof Register
      */
-    'file_name'?: string;
+    'password': string;
     /**
      * 
      * @type {string}
-     * @memberof BatchCSV
+     * @memberof Register
      */
-    'created_at'?: string;
+    'email': string;
     /**
      * 
      * @type {string}
-     * @memberof BatchCSV
+     * @memberof Register
      */
-    'updated_at'?: string;
-    /**
-     * 
-     * @type {File}
-     * @memberof BatchCSV
-     */
-    'csv_file': File;
-}
-/**
- * 
- * @export
- * @interface Feedstock
- */
-export interface Feedstock {
-    /**
-     * 
-     * @type {number}
-     * @memberof Feedstock
-     */
-    'id'?: number;
+    'first_name'?: string;
     /**
      * 
      * @type {string}
-     * @memberof Feedstock
+     * @memberof Register
      */
-    'feedstock_type'?: string;
-    /**
-     * 
-     * @type {number}
-     * @memberof Feedstock
-     */
-    'lab_results'?: number | null;
-}
-/**
- * 
- * @export
- * @interface Report
- */
-export interface Report {
-    /**
-     * 
-     * @type {number}
-     * @memberof Report
-     */
-    'id'?: number;
-    /**
-     * 
-     * @type {string}
-     * @memberof Report
-     */
-    'file_name'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Report
-     */
-    'created_at'?: string;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Report
-     */
-    'template'?: boolean;
-    /**
-     * 
-     * @type {File}
-     * @memberof Report
-     */
-    'file': File;
+    'last_name'?: string;
 }
 /**
  * 
@@ -266,7 +90,7 @@ export interface TokenObtainPair {
      * @type {string}
      * @memberof TokenObtainPair
      */
-    'username': string;
+    'email': string;
     /**
      * 
      * @type {string}
@@ -308,19 +132,19 @@ export interface TokenVerify {
 }
 
 /**
- * BatchApi - axios parameter creator
+ * ProjectsApi - axios parameter creator
  * @export
  */
-export const BatchApiAxiosParamCreator = function (configuration?: Configuration) {
+export const ProjectsApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {Batch} [batch] 
+         * @param {Project} [project] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createBatch: async (batch?: Batch, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/batch/`;
+        createProject: async (project?: Project, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/projects/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -339,7 +163,7 @@ export const BatchApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(batch, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(project, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -348,14 +172,14 @@ export const BatchApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
-         * @param {string} id A unique integer value identifying this batch.
+         * @param {string} id A unique integer value identifying this project.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        destroyBatch: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        destroyProject: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('destroyBatch', 'id', id)
-            const localVarPath = `/batch/{id}/`
+            assertParamExists('destroyProject', 'id', id)
+            const localVarPath = `/projects/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -384,8 +208,8 @@ export const BatchApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listBatchs: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/batch/`;
+        listProjects: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/projects/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -410,15 +234,15 @@ export const BatchApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
-         * @param {string} id A unique integer value identifying this batch.
-         * @param {Batch} [batch] 
+         * @param {string} id A unique integer value identifying this project.
+         * @param {Project} [project] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        partialUpdateBatch: async (id: string, batch?: Batch, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        partialUpdateProject: async (id: string, project?: Project, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('partialUpdateBatch', 'id', id)
-            const localVarPath = `/batch/{id}/`
+            assertParamExists('partialUpdateProject', 'id', id)
+            const localVarPath = `/projects/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -438,7 +262,7 @@ export const BatchApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(batch, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(project, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -447,14 +271,14 @@ export const BatchApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
-         * @param {string} id A unique integer value identifying this batch.
+         * @param {string} id A unique integer value identifying this project.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        retrieveBatch: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        retrieveProject: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('retrieveBatch', 'id', id)
-            const localVarPath = `/batch/{id}/`
+            assertParamExists('retrieveProject', 'id', id)
+            const localVarPath = `/projects/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -480,15 +304,15 @@ export const BatchApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
-         * @param {string} id A unique integer value identifying this batch.
-         * @param {Batch} [batch] 
+         * @param {string} id A unique integer value identifying this project.
+         * @param {Project} [project] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateBatch: async (id: string, batch?: Batch, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateProject: async (id: string, project?: Project, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateBatch', 'id', id)
-            const localVarPath = `/batch/{id}/`
+            assertParamExists('updateProject', 'id', id)
+            const localVarPath = `/projects/{id}/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -508,7 +332,7 @@ export const BatchApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(batch, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(project, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -519,30 +343,30 @@ export const BatchApiAxiosParamCreator = function (configuration?: Configuration
 };
 
 /**
- * BatchApi - functional programming interface
+ * ProjectsApi - functional programming interface
  * @export
  */
-export const BatchApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = BatchApiAxiosParamCreator(configuration)
+export const ProjectsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ProjectsApiAxiosParamCreator(configuration)
     return {
         /**
          * 
-         * @param {Batch} [batch] 
+         * @param {Project} [project] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createBatch(batch?: Batch, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Batch>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createBatch(batch, options);
+        async createProject(project?: Project, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Project>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createProject(project, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {string} id A unique integer value identifying this batch.
+         * @param {string} id A unique integer value identifying this project.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async destroyBatch(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.destroyBatch(id, options);
+        async destroyProject(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.destroyProject(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -550,200 +374,201 @@ export const BatchApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async listBatchs(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Batch>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listBatchs(options);
+        async listProjects(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Project>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listProjects(options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {string} id A unique integer value identifying this batch.
-         * @param {Batch} [batch] 
+         * @param {string} id A unique integer value identifying this project.
+         * @param {Project} [project] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async partialUpdateBatch(id: string, batch?: Batch, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Batch>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.partialUpdateBatch(id, batch, options);
+        async partialUpdateProject(id: string, project?: Project, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Project>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.partialUpdateProject(id, project, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {string} id A unique integer value identifying this batch.
+         * @param {string} id A unique integer value identifying this project.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async retrieveBatch(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Batch>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.retrieveBatch(id, options);
+        async retrieveProject(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Project>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.retrieveProject(id, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
-         * @param {string} id A unique integer value identifying this batch.
-         * @param {Batch} [batch] 
+         * @param {string} id A unique integer value identifying this project.
+         * @param {Project} [project] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateBatch(id: string, batch?: Batch, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Batch>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateBatch(id, batch, options);
+        async updateProject(id: string, project?: Project, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Project>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateProject(id, project, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
 
 /**
- * BatchApi - factory interface
+ * ProjectsApi - factory interface
  * @export
  */
-export const BatchApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = BatchApiFp(configuration)
+export const ProjectsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ProjectsApiFp(configuration)
     return {
         /**
          * 
-         * @param {Batch} [batch] 
+         * @param {Project} [project] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createBatch(batch?: Batch, options?: any): AxiosPromise<Batch> {
-            return localVarFp.createBatch(batch, options).then((request) => request(axios, basePath));
+        createProject(project?: Project, options?: any): AxiosPromise<Project> {
+            return localVarFp.createProject(project, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {string} id A unique integer value identifying this batch.
+         * @param {string} id A unique integer value identifying this project.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        destroyBatch(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.destroyBatch(id, options).then((request) => request(axios, basePath));
+        destroyProject(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.destroyProject(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        listBatchs(options?: any): AxiosPromise<Array<Batch>> {
-            return localVarFp.listBatchs(options).then((request) => request(axios, basePath));
+        listProjects(options?: any): AxiosPromise<Array<Project>> {
+            return localVarFp.listProjects(options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {string} id A unique integer value identifying this batch.
-         * @param {Batch} [batch] 
+         * @param {string} id A unique integer value identifying this project.
+         * @param {Project} [project] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        partialUpdateBatch(id: string, batch?: Batch, options?: any): AxiosPromise<Batch> {
-            return localVarFp.partialUpdateBatch(id, batch, options).then((request) => request(axios, basePath));
+        partialUpdateProject(id: string, project?: Project, options?: any): AxiosPromise<Project> {
+            return localVarFp.partialUpdateProject(id, project, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {string} id A unique integer value identifying this batch.
+         * @param {string} id A unique integer value identifying this project.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        retrieveBatch(id: string, options?: any): AxiosPromise<Batch> {
-            return localVarFp.retrieveBatch(id, options).then((request) => request(axios, basePath));
+        retrieveProject(id: string, options?: any): AxiosPromise<Project> {
+            return localVarFp.retrieveProject(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {string} id A unique integer value identifying this batch.
-         * @param {Batch} [batch] 
+         * @param {string} id A unique integer value identifying this project.
+         * @param {Project} [project] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateBatch(id: string, batch?: Batch, options?: any): AxiosPromise<Batch> {
-            return localVarFp.updateBatch(id, batch, options).then((request) => request(axios, basePath));
+        updateProject(id: string, project?: Project, options?: any): AxiosPromise<Project> {
+            return localVarFp.updateProject(id, project, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * BatchApi - object-oriented interface
+ * ProjectsApi - object-oriented interface
  * @export
- * @class BatchApi
+ * @class ProjectsApi
  * @extends {BaseAPI}
  */
-export class BatchApi extends BaseAPI {
+export class ProjectsApi extends BaseAPI {
     /**
      * 
-     * @param {Batch} [batch] 
+     * @param {Project} [project] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BatchApi
+     * @memberof ProjectsApi
      */
-    public createBatch(batch?: Batch, options?: AxiosRequestConfig) {
-        return BatchApiFp(this.configuration).createBatch(batch, options).then((request) => request(this.axios, this.basePath));
+    public createProject(project?: Project, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).createProject(project, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} id A unique integer value identifying this batch.
+     * @param {string} id A unique integer value identifying this project.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BatchApi
+     * @memberof ProjectsApi
      */
-    public destroyBatch(id: string, options?: AxiosRequestConfig) {
-        return BatchApiFp(this.configuration).destroyBatch(id, options).then((request) => request(this.axios, this.basePath));
+    public destroyProject(id: string, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).destroyProject(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BatchApi
+     * @memberof ProjectsApi
      */
-    public listBatchs(options?: AxiosRequestConfig) {
-        return BatchApiFp(this.configuration).listBatchs(options).then((request) => request(this.axios, this.basePath));
+    public listProjects(options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).listProjects(options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} id A unique integer value identifying this batch.
-     * @param {Batch} [batch] 
+     * @param {string} id A unique integer value identifying this project.
+     * @param {Project} [project] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BatchApi
+     * @memberof ProjectsApi
      */
-    public partialUpdateBatch(id: string, batch?: Batch, options?: AxiosRequestConfig) {
-        return BatchApiFp(this.configuration).partialUpdateBatch(id, batch, options).then((request) => request(this.axios, this.basePath));
+    public partialUpdateProject(id: string, project?: Project, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).partialUpdateProject(id, project, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} id A unique integer value identifying this batch.
+     * @param {string} id A unique integer value identifying this project.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BatchApi
+     * @memberof ProjectsApi
      */
-    public retrieveBatch(id: string, options?: AxiosRequestConfig) {
-        return BatchApiFp(this.configuration).retrieveBatch(id, options).then((request) => request(this.axios, this.basePath));
+    public retrieveProject(id: string, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).retrieveProject(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {string} id A unique integer value identifying this batch.
-     * @param {Batch} [batch] 
+     * @param {string} id A unique integer value identifying this project.
+     * @param {Project} [project] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BatchApi
+     * @memberof ProjectsApi
      */
-    public updateBatch(id: string, batch?: Batch, options?: AxiosRequestConfig) {
-        return BatchApiFp(this.configuration).updateBatch(id, batch, options).then((request) => request(this.axios, this.basePath));
+    public updateProject(id: string, project?: Project, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).updateProject(id, project, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
 
+
 /**
- * BatchCSVApi - axios parameter creator
+ * RegisterApi - axios parameter creator
  * @export
  */
-export const BatchCSVApiAxiosParamCreator = function (configuration?: Configuration) {
+export const RegisterApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {BatchCSV} [batchCSV] 
+         * @param {Register} [register] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createBatchCSV: async (batchCSV?: BatchCSV, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/batchCSV/`;
+        createUser: async (register?: Register, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/register/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -762,176 +587,7 @@ export const BatchCSVApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(batchCSV, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this batch csv.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        destroyBatchCSV: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('destroyBatchCSV', 'id', id)
-            const localVarPath = `/batchCSV/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        listBatchCSVs: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/batchCSV/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this batch csv.
-         * @param {BatchCSV} [batchCSV] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        partialUpdateBatchCSV: async (id: string, batchCSV?: BatchCSV, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('partialUpdateBatchCSV', 'id', id)
-            const localVarPath = `/batchCSV/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(batchCSV, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this batch csv.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        retrieveBatchCSV: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('retrieveBatchCSV', 'id', id)
-            const localVarPath = `/batchCSV/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this batch csv.
-         * @param {BatchCSV} [batchCSV] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateBatchCSV: async (id: string, batchCSV?: BatchCSV, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateBatchCSV', 'id', id)
-            const localVarPath = `/batchCSV/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(batchCSV, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(register, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -942,1155 +598,63 @@ export const BatchCSVApiAxiosParamCreator = function (configuration?: Configurat
 };
 
 /**
- * BatchCSVApi - functional programming interface
+ * RegisterApi - functional programming interface
  * @export
  */
-export const BatchCSVApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = BatchCSVApiAxiosParamCreator(configuration)
+export const RegisterApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = RegisterApiAxiosParamCreator(configuration)
     return {
         /**
          * 
-         * @param {BatchCSV} [batchCSV] 
+         * @param {Register} [register] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createBatchCSV(batchCSV?: BatchCSV, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BatchCSV>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createBatchCSV(batchCSV, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this batch csv.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async destroyBatchCSV(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.destroyBatchCSV(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async listBatchCSVs(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<BatchCSV>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listBatchCSVs(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this batch csv.
-         * @param {BatchCSV} [batchCSV] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async partialUpdateBatchCSV(id: string, batchCSV?: BatchCSV, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BatchCSV>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.partialUpdateBatchCSV(id, batchCSV, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this batch csv.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async retrieveBatchCSV(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BatchCSV>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.retrieveBatchCSV(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this batch csv.
-         * @param {BatchCSV} [batchCSV] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateBatchCSV(id: string, batchCSV?: BatchCSV, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<BatchCSV>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateBatchCSV(id, batchCSV, options);
+        async createUser(register?: Register, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Register>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createUser(register, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
 };
 
 /**
- * BatchCSVApi - factory interface
+ * RegisterApi - factory interface
  * @export
  */
-export const BatchCSVApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = BatchCSVApiFp(configuration)
+export const RegisterApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = RegisterApiFp(configuration)
     return {
         /**
          * 
-         * @param {BatchCSV} [batchCSV] 
+         * @param {Register} [register] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createBatchCSV(batchCSV?: BatchCSV, options?: any): AxiosPromise<BatchCSV> {
-            return localVarFp.createBatchCSV(batchCSV, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this batch csv.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        destroyBatchCSV(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.destroyBatchCSV(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        listBatchCSVs(options?: any): AxiosPromise<Array<BatchCSV>> {
-            return localVarFp.listBatchCSVs(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this batch csv.
-         * @param {BatchCSV} [batchCSV] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        partialUpdateBatchCSV(id: string, batchCSV?: BatchCSV, options?: any): AxiosPromise<BatchCSV> {
-            return localVarFp.partialUpdateBatchCSV(id, batchCSV, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this batch csv.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        retrieveBatchCSV(id: string, options?: any): AxiosPromise<BatchCSV> {
-            return localVarFp.retrieveBatchCSV(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this batch csv.
-         * @param {BatchCSV} [batchCSV] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateBatchCSV(id: string, batchCSV?: BatchCSV, options?: any): AxiosPromise<BatchCSV> {
-            return localVarFp.updateBatchCSV(id, batchCSV, options).then((request) => request(axios, basePath));
+        createUser(register?: Register, options?: any): AxiosPromise<Register> {
+            return localVarFp.createUser(register, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * BatchCSVApi - object-oriented interface
+ * RegisterApi - object-oriented interface
  * @export
- * @class BatchCSVApi
+ * @class RegisterApi
  * @extends {BaseAPI}
  */
-export class BatchCSVApi extends BaseAPI {
+export class RegisterApi extends BaseAPI {
     /**
      * 
-     * @param {BatchCSV} [batchCSV] 
+     * @param {Register} [register] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof BatchCSVApi
+     * @memberof RegisterApi
      */
-    public createBatchCSV(batchCSV?: BatchCSV, options?: AxiosRequestConfig) {
-        return BatchCSVApiFp(this.configuration).createBatchCSV(batchCSV, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id A unique integer value identifying this batch csv.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof BatchCSVApi
-     */
-    public destroyBatchCSV(id: string, options?: AxiosRequestConfig) {
-        return BatchCSVApiFp(this.configuration).destroyBatchCSV(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof BatchCSVApi
-     */
-    public listBatchCSVs(options?: AxiosRequestConfig) {
-        return BatchCSVApiFp(this.configuration).listBatchCSVs(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id A unique integer value identifying this batch csv.
-     * @param {BatchCSV} [batchCSV] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof BatchCSVApi
-     */
-    public partialUpdateBatchCSV(id: string, batchCSV?: BatchCSV, options?: AxiosRequestConfig) {
-        return BatchCSVApiFp(this.configuration).partialUpdateBatchCSV(id, batchCSV, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id A unique integer value identifying this batch csv.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof BatchCSVApi
-     */
-    public retrieveBatchCSV(id: string, options?: AxiosRequestConfig) {
-        return BatchCSVApiFp(this.configuration).retrieveBatchCSV(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id A unique integer value identifying this batch csv.
-     * @param {BatchCSV} [batchCSV] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof BatchCSVApi
-     */
-    public updateBatchCSV(id: string, batchCSV?: BatchCSV, options?: AxiosRequestConfig) {
-        return BatchCSVApiFp(this.configuration).updateBatchCSV(id, batchCSV, options).then((request) => request(this.axios, this.basePath));
+    public createUser(register?: Register, options?: AxiosRequestConfig) {
+        return RegisterApiFp(this.configuration).createUser(register, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
-
-/**
- * FeedstockApi - axios parameter creator
- * @export
- */
-export const FeedstockApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {Feedstock} [feedstock] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createFeedstock: async (feedstock?: Feedstock, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/feedstock/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(feedstock, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this feedstock.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        destroyFeedstock: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('destroyFeedstock', 'id', id)
-            const localVarPath = `/feedstock/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        listFeedstocks: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/feedstock/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this feedstock.
-         * @param {Feedstock} [feedstock] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        partialUpdateFeedstock: async (id: string, feedstock?: Feedstock, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('partialUpdateFeedstock', 'id', id)
-            const localVarPath = `/feedstock/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(feedstock, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this feedstock.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        retrieveFeedstock: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('retrieveFeedstock', 'id', id)
-            const localVarPath = `/feedstock/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this feedstock.
-         * @param {Feedstock} [feedstock] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateFeedstock: async (id: string, feedstock?: Feedstock, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateFeedstock', 'id', id)
-            const localVarPath = `/feedstock/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(feedstock, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * FeedstockApi - functional programming interface
- * @export
- */
-export const FeedstockApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = FeedstockApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {Feedstock} [feedstock] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async createFeedstock(feedstock?: Feedstock, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Feedstock>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createFeedstock(feedstock, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this feedstock.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async destroyFeedstock(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.destroyFeedstock(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async listFeedstocks(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Feedstock>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listFeedstocks(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this feedstock.
-         * @param {Feedstock} [feedstock] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async partialUpdateFeedstock(id: string, feedstock?: Feedstock, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Feedstock>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.partialUpdateFeedstock(id, feedstock, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this feedstock.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async retrieveFeedstock(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Feedstock>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.retrieveFeedstock(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this feedstock.
-         * @param {Feedstock} [feedstock] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateFeedstock(id: string, feedstock?: Feedstock, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Feedstock>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFeedstock(id, feedstock, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-    }
-};
-
-/**
- * FeedstockApi - factory interface
- * @export
- */
-export const FeedstockApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = FeedstockApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {Feedstock} [feedstock] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createFeedstock(feedstock?: Feedstock, options?: any): AxiosPromise<Feedstock> {
-            return localVarFp.createFeedstock(feedstock, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this feedstock.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        destroyFeedstock(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.destroyFeedstock(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        listFeedstocks(options?: any): AxiosPromise<Array<Feedstock>> {
-            return localVarFp.listFeedstocks(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this feedstock.
-         * @param {Feedstock} [feedstock] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        partialUpdateFeedstock(id: string, feedstock?: Feedstock, options?: any): AxiosPromise<Feedstock> {
-            return localVarFp.partialUpdateFeedstock(id, feedstock, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this feedstock.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        retrieveFeedstock(id: string, options?: any): AxiosPromise<Feedstock> {
-            return localVarFp.retrieveFeedstock(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this feedstock.
-         * @param {Feedstock} [feedstock] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateFeedstock(id: string, feedstock?: Feedstock, options?: any): AxiosPromise<Feedstock> {
-            return localVarFp.updateFeedstock(id, feedstock, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * FeedstockApi - object-oriented interface
- * @export
- * @class FeedstockApi
- * @extends {BaseAPI}
- */
-export class FeedstockApi extends BaseAPI {
-    /**
-     * 
-     * @param {Feedstock} [feedstock] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FeedstockApi
-     */
-    public createFeedstock(feedstock?: Feedstock, options?: AxiosRequestConfig) {
-        return FeedstockApiFp(this.configuration).createFeedstock(feedstock, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id A unique integer value identifying this feedstock.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FeedstockApi
-     */
-    public destroyFeedstock(id: string, options?: AxiosRequestConfig) {
-        return FeedstockApiFp(this.configuration).destroyFeedstock(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FeedstockApi
-     */
-    public listFeedstocks(options?: AxiosRequestConfig) {
-        return FeedstockApiFp(this.configuration).listFeedstocks(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id A unique integer value identifying this feedstock.
-     * @param {Feedstock} [feedstock] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FeedstockApi
-     */
-    public partialUpdateFeedstock(id: string, feedstock?: Feedstock, options?: AxiosRequestConfig) {
-        return FeedstockApiFp(this.configuration).partialUpdateFeedstock(id, feedstock, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id A unique integer value identifying this feedstock.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FeedstockApi
-     */
-    public retrieveFeedstock(id: string, options?: AxiosRequestConfig) {
-        return FeedstockApiFp(this.configuration).retrieveFeedstock(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id A unique integer value identifying this feedstock.
-     * @param {Feedstock} [feedstock] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof FeedstockApi
-     */
-    public updateFeedstock(id: string, feedstock?: Feedstock, options?: AxiosRequestConfig) {
-        return FeedstockApiFp(this.configuration).updateFeedstock(id, feedstock, options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-/**
- * GeneratePuroApi - axios parameter creator
- * @export
- */
-export const GeneratePuroApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        listgeneratePuros: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/generatePuro/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * GeneratePuroApi - functional programming interface
- * @export
- */
-export const GeneratePuroApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = GeneratePuroApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async listgeneratePuros(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<any>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listgeneratePuros(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-    }
-};
-
-/**
- * GeneratePuroApi - factory interface
- * @export
- */
-export const GeneratePuroApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = GeneratePuroApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        listgeneratePuros(options?: any): AxiosPromise<Array<any>> {
-            return localVarFp.listgeneratePuros(options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * GeneratePuroApi - object-oriented interface
- * @export
- * @class GeneratePuroApi
- * @extends {BaseAPI}
- */
-export class GeneratePuroApi extends BaseAPI {
-    /**
-     * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof GeneratePuroApi
-     */
-    public listgeneratePuros(options?: AxiosRequestConfig) {
-        return GeneratePuroApiFp(this.configuration).listgeneratePuros(options).then((request) => request(this.axios, this.basePath));
-    }
-}
-
-
-/**
- * ReportApi - axios parameter creator
- * @export
- */
-export const ReportApiAxiosParamCreator = function (configuration?: Configuration) {
-    return {
-        /**
-         * 
-         * @param {Report} [report] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createReport: async (report?: Report, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/report/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(report, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this report.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        destroyReport: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('destroyReport', 'id', id)
-            const localVarPath = `/report/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        listReports: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/report/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this report.
-         * @param {Report} [report] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        partialUpdateReport: async (id: string, report?: Report, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('partialUpdateReport', 'id', id)
-            const localVarPath = `/report/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(report, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this report.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        retrieveReport: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('retrieveReport', 'id', id)
-            const localVarPath = `/report/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this report.
-         * @param {Report} [report] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateReport: async (id: string, report?: Report, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateReport', 'id', id)
-            const localVarPath = `/report/{id}/`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-    
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(report, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-    }
-};
-
-/**
- * ReportApi - functional programming interface
- * @export
- */
-export const ReportApiFp = function(configuration?: Configuration) {
-    const localVarAxiosParamCreator = ReportApiAxiosParamCreator(configuration)
-    return {
-        /**
-         * 
-         * @param {Report} [report] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async createReport(report?: Report, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Report>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createReport(report, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this report.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async destroyReport(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.destroyReport(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async listReports(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Report>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.listReports(options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this report.
-         * @param {Report} [report] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async partialUpdateReport(id: string, report?: Report, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Report>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.partialUpdateReport(id, report, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this report.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async retrieveReport(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Report>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.retrieveReport(id, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this report.
-         * @param {Report} [report] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateReport(id: string, report?: Report, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Report>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateReport(id, report, options);
-            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
-        },
-    }
-};
-
-/**
- * ReportApi - factory interface
- * @export
- */
-export const ReportApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
-    const localVarFp = ReportApiFp(configuration)
-    return {
-        /**
-         * 
-         * @param {Report} [report] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createReport(report?: Report, options?: any): AxiosPromise<Report> {
-            return localVarFp.createReport(report, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this report.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        destroyReport(id: string, options?: any): AxiosPromise<void> {
-            return localVarFp.destroyReport(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        listReports(options?: any): AxiosPromise<Array<Report>> {
-            return localVarFp.listReports(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this report.
-         * @param {Report} [report] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        partialUpdateReport(id: string, report?: Report, options?: any): AxiosPromise<Report> {
-            return localVarFp.partialUpdateReport(id, report, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this report.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        retrieveReport(id: string, options?: any): AxiosPromise<Report> {
-            return localVarFp.retrieveReport(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {string} id A unique integer value identifying this report.
-         * @param {Report} [report] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateReport(id: string, report?: Report, options?: any): AxiosPromise<Report> {
-            return localVarFp.updateReport(id, report, options).then((request) => request(axios, basePath));
-        },
-    };
-};
-
-/**
- * ReportApi - object-oriented interface
- * @export
- * @class ReportApi
- * @extends {BaseAPI}
- */
-export class ReportApi extends BaseAPI {
-    /**
-     * 
-     * @param {Report} [report] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ReportApi
-     */
-    public createReport(report?: Report, options?: AxiosRequestConfig) {
-        return ReportApiFp(this.configuration).createReport(report, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id A unique integer value identifying this report.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ReportApi
-     */
-    public destroyReport(id: string, options?: AxiosRequestConfig) {
-        return ReportApiFp(this.configuration).destroyReport(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ReportApi
-     */
-    public listReports(options?: AxiosRequestConfig) {
-        return ReportApiFp(this.configuration).listReports(options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id A unique integer value identifying this report.
-     * @param {Report} [report] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ReportApi
-     */
-    public partialUpdateReport(id: string, report?: Report, options?: AxiosRequestConfig) {
-        return ReportApiFp(this.configuration).partialUpdateReport(id, report, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id A unique integer value identifying this report.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ReportApi
-     */
-    public retrieveReport(id: string, options?: AxiosRequestConfig) {
-        return ReportApiFp(this.configuration).retrieveReport(id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {string} id A unique integer value identifying this report.
-     * @param {Report} [report] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof ReportApi
-     */
-    public updateReport(id: string, report?: Report, options?: AxiosRequestConfig) {
-        return ReportApiFp(this.configuration).updateReport(id, report, options).then((request) => request(this.axios, this.basePath));
-    }
-}
 
 
 /**
@@ -2318,5 +882,157 @@ export class TokenApi extends BaseAPI {
         return TokenApiFp(this.configuration).createTokenVerify(tokenVerify, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
+
+
+/**
+ * UserApi - axios parameter creator
+ * @export
+ */
+export const UserApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Delete the current user.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        destroyUserDetail: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/user/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Return the user details.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listUserDetails: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/user/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * UserApi - functional programming interface
+ * @export
+ */
+export const UserApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = UserApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Delete the current user.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async destroyUserDetail(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.destroyUserDetail(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * Return the user details.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listUserDetails(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<any>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listUserDetails(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * UserApi - factory interface
+ * @export
+ */
+export const UserApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = UserApiFp(configuration)
+    return {
+        /**
+         * Delete the current user.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        destroyUserDetail(options?: any): AxiosPromise<void> {
+            return localVarFp.destroyUserDetail(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Return the user details.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listUserDetails(options?: any): AxiosPromise<Array<any>> {
+            return localVarFp.listUserDetails(options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * UserApi - object-oriented interface
+ * @export
+ * @class UserApi
+ * @extends {BaseAPI}
+ */
+export class UserApi extends BaseAPI {
+    /**
+     * Delete the current user.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public destroyUserDetail(options?: AxiosRequestConfig) {
+        return UserApiFp(this.configuration).destroyUserDetail(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Return the user details.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UserApi
+     */
+    public listUserDetails(options?: AxiosRequestConfig) {
+        return UserApiFp(this.configuration).listUserDetails(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
 
 
