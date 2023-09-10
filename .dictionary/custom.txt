@@ -75,3 +75,4 @@ isort
 pylint
 tomli
 tomlkit
+projectmembership
