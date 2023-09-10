@@ -76,3 +76,5 @@ pylint
 tomli
 tomlkit
 projectmembership
+Qcet
+ZIZW
