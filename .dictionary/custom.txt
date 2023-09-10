@@ -80,3 +80,5 @@ Qcet
 ZIZW
 runserver
 pgdata
+pyca
+pycryptodome
