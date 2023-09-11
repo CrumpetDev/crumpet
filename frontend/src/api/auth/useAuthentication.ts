@@ -80,6 +80,7 @@ export const useAuthentication = () => {
           return true;
         })
         .catch(() => {
+					//NOTE: Should we not await the response from tokenRefresh before returning false?
           tokenRefresh();
           return false;
         });
