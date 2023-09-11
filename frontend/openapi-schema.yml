@@ -282,8 +282,42 @@ components:
         name:
           type: string
           maxLength: 100
-        members:
+        api_key:
           type: string
+          maxLength: 256
+        members:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              user:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  first_name:
+                    type: string
+                    maxLength: 150
+                  last_name:
+                    type: string
+                    maxLength: 150
+                  email:
+                    type: string
+                    format: email
+                    maxLength: 254
+                required:
+                - email
+              type:
+                enum:
+                - ADM
+                - MEM
+                type: string
+            required:
+            - user
           readOnly: true
       required:
       - name

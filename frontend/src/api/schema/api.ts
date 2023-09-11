@@ -46,7 +46,77 @@ export interface Project {
      * @type {string}
      * @memberof Project
      */
-    'members'?: string;
+    'api_key'?: string;
+    /**
+     * 
+     * @type {Array<ProjectMembersInner>}
+     * @memberof Project
+     */
+    'members'?: Array<ProjectMembersInner>;
+}
+/**
+ * 
+ * @export
+ * @interface ProjectMembersInner
+ */
+export interface ProjectMembersInner {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectMembersInner
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {ProjectMembersInnerUser}
+     * @memberof ProjectMembersInner
+     */
+    'user': ProjectMembersInnerUser;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectMembersInner
+     */
+    'type'?: ProjectMembersInnerTypeEnum;
+}
+
+export const ProjectMembersInnerTypeEnum = {
+    Adm: 'ADM',
+    Mem: 'MEM'
+} as const;
+
+export type ProjectMembersInnerTypeEnum = typeof ProjectMembersInnerTypeEnum[keyof typeof ProjectMembersInnerTypeEnum];
+
+/**
+ * 
+ * @export
+ * @interface ProjectMembersInnerUser
+ */
+export interface ProjectMembersInnerUser {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectMembersInnerUser
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectMembersInnerUser
+     */
+    'first_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectMembersInnerUser
+     */
+    'last_name'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectMembersInnerUser
+     */
+    'email': string;
 }
 /**
  * 
