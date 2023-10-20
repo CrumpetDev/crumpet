@@ -7,9 +7,9 @@ type ProjectsStore = {
   projects: ApiState<Project[]>;
   fetchProjects: (config: Configuration) => void;
   setSelectedProject: (projectId: number) => void;
+  createProject: (name: string, config: Configuration) => void;
 };
 
-//TODO: Need to handle currently active project vs. selected project (in the settings page)
 export const useProjectsStore = create<ProjectsStore>((set, get) => ({
   selectedProject: ApiState.initial(),
   projects: ApiState.initial(),
@@ -28,5 +28,10 @@ export const useProjectsStore = create<ProjectsStore>((set, get) => ({
         set(state => ({ selectedProject: ApiState.hasData(proj) }));
       }
     }
+  },
+  createProject: async (name: string, config: Configuration) => {
+    const res = await new ProjectsApi(config).createProject({ name: name });
+    set(state => ({ selectedProject: ApiState.hasData(res.data) }));
+    get().fetchProjects(config);
   },
 }));
