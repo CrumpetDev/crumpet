@@ -1,4 +1,4 @@
-import { Popover, Transition } from '@headlessui/react';
+import { Dialog, Popover, Transition } from '@headlessui/react';
 import Picker from 'components/picker';
 import CustomButton from 'components/button';
 import SidebarButtonPrimary from './sidebarButtonPrimary';
@@ -14,7 +14,9 @@ import {
 } from 'react-icons/md';
 import { ReactComponent as Flow } from 'assets/icons/Flow Icon.svg';
 import { ReactComponent as CrumpetLogo } from 'assets/images/Crumpet Logo Oxford.svg';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
+import TextInput from 'components/textInput';
+import { CreateProjectModal } from 'features/projects/components/CreateProjectModal';
 
 const environments = [
   { id: 1, name: 'Development' },
@@ -33,6 +35,18 @@ interface SidebarMenuProps {
 }
 
 const SidebarMenu = ({ projects }: SidebarMenuProps) => {
+  //TODO: Use custom modal and encapsulate logic into its own hook
+  const [projectName, setProjectName] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
   // icon property is a function to allow for styling
   const ButtonList = [
     {
@@ -143,7 +157,7 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
                         <CustomButton
                           text="Add New"
                           onClick={() => {
-                            console.log('clicked');
+                            openModal();
                           }}
                         />
                       </div>
@@ -155,6 +169,7 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
           </Popover>
         </div>
       </div>
+      <CreateProjectModal isOpen={isOpen} onClose={closeModal} />
     </>
   );
 };
