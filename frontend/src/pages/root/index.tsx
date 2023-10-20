@@ -1,8 +1,8 @@
 import { useApiConfig } from 'api';
 import SidebarMenu from 'components/sidebarMenu';
+import { useProjectsStore } from 'features/projects/stores/useProjectsStore';
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { useProjectsStore } from 'stores/useProjectsStore';
 
 const Root = () => {
   const { config } = useApiConfig();

@@ -3,8 +3,8 @@ import CustomButton from 'components/button';
 import CopyInput from 'components/copyInput';
 import Table from 'components/table';
 import TextInput from 'components/textInput';
+import { useProjectsStore } from 'features/projects/stores/useProjectsStore';
 import { MdAdd } from 'react-icons/md';
-import { useProjectsStore } from 'stores/useProjectsStore';
 import useSettings from './useSettings';
 
 const headers = [
