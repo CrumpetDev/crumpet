@@ -6,6 +6,10 @@ module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
+			animation: {
+				'in': 'in 0.3s forwards',
+				'out': 'out 0.3s forwards'
+			},
       dropShadow: {
         lg: '4px 4px 16px rgba(0, 0, 0, 0.15)',
       },
