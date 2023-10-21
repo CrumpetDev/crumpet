@@ -6,12 +6,12 @@ import { Outlet, useNavigate } from 'react-router-dom';
 
 const Root = () => {
   const { config } = useApiConfig();
-  const { projects, fetchProjects, setSelectedProject } = useProjectsStore();
+  const { projects, fetchAndSelectProject, setSelectedProject } = useProjectsStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchProjects(config);
-  }, [fetchProjects, config]);
+    fetchAndSelectProject(config);
+  }, [fetchAndSelectProject, config]);
 
   return (
     <div className="flex h-screen v-screen">
@@ -38,7 +38,7 @@ const Root = () => {
                 <Outlet />
               </>
             );
-							//TODO: Handle these cases (probs toast and navigate away?)
+          //TODO: Handle these cases (probs toast and navigate away?)
           case 'hasError':
             return <div>Error encountered</div>; // Render the error
           case 'hasDataWithError':

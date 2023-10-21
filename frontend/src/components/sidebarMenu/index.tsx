@@ -4,7 +4,6 @@ import CustomButton from 'components/button';
 import SidebarButtonPrimary from './sidebarButtonPrimary';
 import SidebarButtonSecondary from './sidebarButtonSecondary';
 import {
-  MdSpoke,
   MdChevronRight,
   MdSupport,
   MdOutlineOpenInNew,
@@ -15,8 +14,9 @@ import {
 import { ReactComponent as Flow } from 'assets/icons/Flow Icon.svg';
 import { ReactComponent as CrumpetLogo } from 'assets/images/Crumpet Logo Oxford.svg';
 import { Fragment, useState } from 'react';
-import TextInput from 'components/textInput';
 import { CreateProjectModal } from 'features/projects/components/CreateProjectModal';
+import { useProjectsStore } from 'features/projects/stores/useProjectsStore';
+import { getFirstLetter } from 'utils';
 
 const environments = [
   { id: 1, name: 'Development' },
@@ -35,9 +35,9 @@ interface SidebarMenuProps {
 }
 
 const SidebarMenu = ({ projects }: SidebarMenuProps) => {
-  //TODO: Use custom modal and encapsulate logic into its own hook
-  const [projectName, setProjectName] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const { selectedProject } = useProjectsStore();
+  const isLoadingState = ['initial', 'loading', 'hasError'].includes(selectedProject.state);
 
   function closeModal() {
     setIsOpen(false);
@@ -64,19 +64,12 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
         console.log('Clicked Button');
       },
     },
-    {
-      label: 'Segments',
-      icon: () => <MdSpoke />,
-      onClick: () => {
-        console.log('Clicked Button');
-      },
-    },
   ];
 
   return (
     <>
       <div
-        className="w-64 h-screen pt-4 bg-crumpet-light-100 border-r border-crumpet-light-300 flex-col 
+        className="w-72 h-screen pt-4 bg-crumpet-light-100 border-r border-crumpet-light-300 flex-col 
                 justify-between items-center gap-8 flex">
         <div className="self-stretch px-4 py-3 flex-col justify-start gap-8 flex">
           <div className="flex items-center gap-2">
@@ -84,7 +77,7 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
             <div className="text-oxford font-heebo font-black text-2xl">Crumpet</div>
           </div>
           <Picker widthFill={true} items={environments} initialSelection={environments[0]} />
-          <div className="flex-col justify-start items-start gap-4 flex w-full">
+          <div className="flex-col justify-start items-start gap-0.5 flex w-full">
             {ButtonList.map((button, index) => (
               <SidebarButtonPrimary
                 key={index}
@@ -98,7 +91,7 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
           </div>
         </div>
         <div className="self-stretch flex-col justify-end items-center gap-4 flex">
-          <div className="self-stretch flex flex-col gap-4 px-4 ">
+          <div className="self-stretch flex flex-col gap-0.5 px-4 ">
             <SidebarButtonSecondary
               icon={<MdSupport />}
               label="Support"
@@ -116,15 +109,27 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
           <Popover className="relative w-full">
             {({ open }) => (
               <>
-                <Popover.Button
+                <Popover.Button disabled={isLoadingState}
                   className="w-full flex justify-between items-center p-4 border-t 
 																				border-crumpet-light-300">
-                  <div className="flex items-center space-x-4">
-                    <div className="w-8 h-8 rounded-full bg-blue-400 text-white flex items-center justify-center">
-                      C
+                  {isLoadingState ? (
+                    // Render pulsing grey rectangle for initial, loading, and hasError states
+                    <div className="flex items-center space-x-4 animate-pulse">
+                      <div className="w-8 h-8 rounded bg-crumpet-light-300"></div>
+                      <div className="w-32 h-6 rounded bg-crumpet-light-300"></div>
                     </div>
-                    <span className="text-base font-semibold">Crumpet</span>
-                  </div>
+                  ) : (
+                    <div className="flex items-center space-x-4">
+                      <div className="w-8 h-8 rounded bg-blue-400 text-white flex items-center justify-center">
+                        {getFirstLetter(
+                          selectedProject.state === 'hasData' ? selectedProject.data.name : null,
+                        )}
+                      </div>
+                      <span className="text-base font-semibold">
+                        {selectedProject.state === 'hasData' ? selectedProject.data.name : ''}
+                      </span>
+                    </div>
+                  )}
                   <MdChevronRight className="fill-gray-500" />
                 </Popover.Button>
                 <Transition

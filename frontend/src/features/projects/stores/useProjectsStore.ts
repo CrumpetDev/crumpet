@@ -7,6 +7,7 @@ type ProjectsStore = {
   projects: ApiState<Project[]>;
   fetchProjects: (config: Configuration) => void;
   setSelectedProject: (projectId: number) => void;
+	fetchAndSelectProject: (config: Configuration) => void;
   createProject: (name: string, config: Configuration) => void;
 };
 
@@ -28,6 +29,18 @@ export const useProjectsStore = create<ProjectsStore>((set, get) => ({
         set(state => ({ selectedProject: ApiState.hasData(proj) }));
       }
     }
+  },
+  fetchAndSelectProject: (config: Configuration) => {
+    set(state => ({ projects: ApiState.loading() }));
+    new ProjectsApi(config)
+      .listProjects()
+      .then(res =>
+        set(state => ({
+          projects: ApiState.hasData(res.data),
+          selectedProject: ApiState.hasData(res.data[0]),
+        })),
+      )
+      .catch(err => set(state => ({ projects: ApiState.hasError(err) })));
   },
   createProject: async (name: string, config: Configuration) => {
     const res = await new ProjectsApi(config).createProject({ name: name });
