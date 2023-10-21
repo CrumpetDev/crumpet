@@ -19,9 +19,9 @@ const SidebarButtonSecondary = ({
       className={`${
         widthFill ? 'w-full' : ''
       } bg-transparent hover:text-crumpet-dark-300 text-crumpet-dark-500 
-				py-2 px-3 rounded-md justify-start gap-3 inline-flex items-center`}>
+				p-2 rounded-md justify-start gap-3 inline-flex items-center`}>
       {icon}
-      <div className="text-[14px] font-semibold">{label}</div>
+      <div className="text-sm font-semibold">{label}</div>
       <div className="ml-auto fill-crumpet-dark-500">{secondaryIcon}</div>
     </button>
   );
