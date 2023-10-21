@@ -1,7 +1,9 @@
 import { Dialog, Transition } from '@headlessui/react';
 import EmphasisButton from 'components/buttons/EmphasisButton';
 import { TextInput } from 'components/inputs';
+import Toast from 'components/Toast';
 import { Fragment } from 'react';
+import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import useCreateProject from '../hooks/useCreateProject';
 
@@ -19,6 +21,7 @@ export const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps)
 
   const onSubmit = () => {
     close();
+    toast.custom(t => <Toast customMessage="Project created successfully" toast={t} />);
   };
 
   const { formik } = useCreateProject({ onSubmit: onSubmit });
