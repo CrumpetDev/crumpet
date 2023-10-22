@@ -20,6 +20,7 @@ import { getFirstLetter } from 'utils';
 import { TextButton } from 'components/buttons';
 import { useNavigate } from 'react-router';
 import { isHasData } from 'api/utils';
+import { usePopper } from 'react-popper';
 
 const environments = [
   { id: 1, name: 'Development' },
@@ -42,6 +43,12 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
   const { selectedProject, setSelectedProject } = useProjectsStore();
   const isLoadingState = ['initial', 'loading', 'hasError'].includes(selectedProject.state);
   const navigate = useNavigate();
+
+  const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    placement: 'top',
+  });
 
   function closeModal() {
     setIsOpen(false);
@@ -114,6 +121,7 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
             {({ open }) => (
               <>
                 <Popover.Button
+                  ref={setReferenceElement}
                   disabled={isLoadingState}
                   className="w-full flex justify-between items-center p-4 border-t 
 																				border-crumpet-light-300">
@@ -148,7 +156,10 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
                   leaveTo="opacity-0 translate-y-1">
                   <Popover.Panel
                     static
-                    className="absolute z-10 w-60 px-0 transform translate-x-full bottom-4">
+                    ref={setPopperElement}
+                    style={styles.popper}
+                    {...attributes.popper}
+										className="w-full px-2">
                     <div className="overflow-hidden rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
                       <div className="flex flex-col gap-4 relative p-4 bg-white">
                         {projects.map((project, index) => (
