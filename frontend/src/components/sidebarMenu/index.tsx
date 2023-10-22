@@ -1,6 +1,5 @@
-import { Dialog, Popover, Transition } from '@headlessui/react';
+import { Popover, Transition } from '@headlessui/react';
 import Picker from 'components/picker';
-import CustomButton from 'components/button';
 import SidebarButtonPrimary from './sidebarButtonPrimary';
 import SidebarButtonSecondary from './sidebarButtonSecondary';
 import {
@@ -10,6 +9,7 @@ import {
   MdSettings,
   MdOutlineBadge,
   MdCheck,
+  MdAdd,
 } from 'react-icons/md';
 import { ReactComponent as Flow } from 'assets/icons/Flow Icon.svg';
 import { ReactComponent as CrumpetLogo } from 'assets/images/Crumpet Logo Oxford.svg';
@@ -17,6 +17,9 @@ import { Fragment, useState } from 'react';
 import { CreateProjectModal } from 'features/projects/components/CreateProjectModal';
 import { useProjectsStore } from 'features/projects/stores/useProjectsStore';
 import { getFirstLetter } from 'utils';
+import { TextButton } from 'components/buttons';
+import { useNavigate } from 'react-router';
+import { isHasData } from 'api/utils';
 
 const environments = [
   { id: 1, name: 'Development' },
@@ -36,8 +39,9 @@ interface SidebarMenuProps {
 
 const SidebarMenu = ({ projects }: SidebarMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { selectedProject } = useProjectsStore();
+  const { selectedProject, setSelectedProject } = useProjectsStore();
   const isLoadingState = ['initial', 'loading', 'hasError'].includes(selectedProject.state);
+  const navigate = useNavigate();
 
   function closeModal() {
     setIsOpen(false);
@@ -109,7 +113,8 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
           <Popover className="relative w-full">
             {({ open }) => (
               <>
-                <Popover.Button disabled={isLoadingState}
+                <Popover.Button
+                  disabled={isLoadingState}
                   className="w-full flex justify-between items-center p-4 border-t 
 																				border-crumpet-light-300">
                   {isLoadingState ? (
@@ -122,11 +127,11 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
                     <div className="flex items-center space-x-4">
                       <div className="w-8 h-8 rounded bg-blue-400 text-white flex items-center justify-center">
                         {getFirstLetter(
-                          selectedProject.state === 'hasData' ? selectedProject.data.name : null,
+                          isHasData(selectedProject) ? selectedProject.data.name : null,
                         )}
                       </div>
                       <span className="text-base font-semibold">
-                        {selectedProject.state === 'hasData' ? selectedProject.data.name : ''}
+                        {isHasData(selectedProject) ? selectedProject.data.name : ''}
                       </span>
                     </div>
                   )}
@@ -143,28 +148,41 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
                   leaveTo="opacity-0 translate-y-1">
                   <Popover.Panel
                     static
-                    className="absolute z-10 max-w-sm px-0 transform translate-x-full bottom-4">
-                    <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                      <div className="flex flex-col gap-1 relative px-4 py-3 bg-white">
+                    className="absolute z-10 w-60 px-0 transform translate-x-full bottom-4">
+                    <div className="overflow-hidden rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
+                      <div className="flex flex-col gap-4 relative p-4 bg-white">
                         {projects.map((project, index) => (
-                          <div
-                            className={`flex flex-row justify-between items-center py-1 px-2 gap-2 rounded ${
-                              project.selected ? 'bg-crumpet-light-100' : 'bg-white'
-                            }`}
-                            key={index}>
-                            <MdSettings
-                              onClick={() => project.onSettingsClick?.call(null, project)}
-                            />
-                            <span className="grow"> {project.name} </span>
-                            {project.selected ? <MdCheck /> : <></>}
-                          </div>
+                          <button
+                            key={index}
+                            onClick={() => setSelectedProject(project.id)}
+                            className="flex flex-row justify-between items-center">
+                            <div className="flex flex-row gap-2 w-full">
+                              <div
+                                className="w-8 h-8 rounded bg-blue-400 text-white
+																					flex items-center justify-center">
+                                {getFirstLetter(project.name)}
+                              </div>
+                              <div className="flex flex-col">
+                                <p className="text-sm font-medium text-oxford text-left">
+                                  {project.name}
+                                </p>
+                                <p className="text-xs text-grey-700 text-left">1 member</p>
+                              </div>
+                            </div>
+                            {isHasData(selectedProject) && project.id == selectedProject.data.id ? (
+                              <MdCheck className="text-grey-900" />
+                            ) : (
+                              <></>
+                            )}
+                          </button>
                         ))}
-                        <CustomButton
-                          text="Add New"
-                          onClick={() => {
-                            openModal();
-                          }}
+                        <div className="w-full h-[1px] bg-crumpet-light-200"></div>
+                        <TextButton
+                          text="Project settings"
+                          icon={<MdSettings />}
+                          onClick={() => navigate('/settings')}
                         />
+                        <TextButton text="New project" icon={<MdAdd />} onClick={openModal} />
                       </div>
                     </div>
                   </Popover.Panel>
