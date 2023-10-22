@@ -65,3 +65,31 @@ export const ApiState = {
   hasError,
   hasDataWithError,
 };
+
+/**
+ * Type guards for ApiState.
+ *
+ * See https://www.typescriptlang.org/docs/handbook/advanced-types.html for details.
+ */
+
+export const isHasData = <T>(
+  state: ApiState<T>,
+): state is
+  | { state: 'hasData'; data: T }
+  | { state: 'hasDataWithError'; data: T; error: Error } => {
+  return state.state === 'hasData' || state.state === 'hasDataWithError';
+};
+
+export const isInitial = <T>(state: ApiState<T>): state is { state: 'initial' } =>
+  state.state === 'initial';
+
+export const isLoading = <T>(state: ApiState<T>): state is { state: 'loading' } =>
+  state.state === 'loading';
+
+export const isHasError = <T>(state: ApiState<T>): state is { state: 'hasError'; error: Error } =>
+  state.state === 'hasError';
+
+export const isHasDataWithError = <T>(
+  state: ApiState<T>,
+): state is { state: 'hasDataWithError'; data: T; error: Error } =>
+  state.state === 'hasDataWithError';
