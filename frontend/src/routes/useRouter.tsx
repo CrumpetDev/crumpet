@@ -6,7 +6,7 @@ import NotFound from './404';
 import Login from 'pages/Authentication';
 import SidebarMenu from 'components/sidebarMenu';
 import Root from 'pages/root';
-import Settings from 'pages/settings/settings';
+import Settings from 'features/projects/pages/ProjectSettings';
 import Flows from 'pages/flows';
 import { useAuthentication } from 'api';
 import ProtectedRoute from './ProtectedRoute';
