@@ -28,6 +28,7 @@ module.exports = {
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],
         heebo: ['Heebo', ...defaultTheme.fontFamily.sans],
+				ubuntu: ['Ubuntu', ...defaultTheme.fontFamily.mono],
       },
       fontSize: {
         regular: '13px',
