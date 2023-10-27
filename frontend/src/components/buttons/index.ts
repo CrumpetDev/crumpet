@@ -1,2 +1,3 @@
 export { default as EmphasisButton } from './EmphasisButton';
-export {default as TextButton} from './TextButton';
+export { default as TextButton } from './TextButton';
+export { default as OutlineButton } from './OutlineButton';
