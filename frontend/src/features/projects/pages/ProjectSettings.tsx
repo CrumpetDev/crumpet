@@ -1,11 +1,12 @@
 import { ProjectMembersInner, ProjectMembersInnerTypeEnum } from 'api';
 import CustomButton from 'components/button';
-import CopyInput from 'components/copyInput';
+import { CopyInput, TextInput } from 'components/inputs';
+import { OutlineButton } from 'components/buttons';
 import Table from 'components/table';
-import TextInput from 'components/textInput';
+import { MembersTable } from 'components/tables';
 import { useProjectsStore } from 'features/projects/stores/useProjectsStore';
 import { MdAdd } from 'react-icons/md';
-import useSettings from './useSettings';
+import useSettings from '../hooks/useProjectSettings';
 
 const headers = [
   { propertyName: 'email', displayName: 'Email' },
@@ -53,7 +54,7 @@ const Settings = () => {
       {(() => {
         switch (selectedProject.state) {
           case 'loading':
-						//TODO: Better loading experience
+            //TODO: Better loading experience
             return <div>Loading...</div>; // Just an example
           case 'hasData': {
             console.log('members', selectedProject.data.members);
@@ -61,49 +62,43 @@ const Settings = () => {
 
             return (
               <div className="flex flex-col gap-5">
-                <div className="flex flex-col gap-1">
-                  <p className="text-lg font-semibold">Project Settings</p>
-                  <p className="text-base">Customise your project settings here.</p>
-                </div>
                 <TextInput
                   label="Project Name"
-                  value={formik.values.projectName}
+                  description="The display name of your project."
+                  value={formik.values.projectName ?? ''}
                   onChange={formik.handleChange}
                   placeholder="Name"
                   inputProps={{ id: 'projectName' }}
                 />
-                <div className="flex flex-col w-full gap-2">
-                  <p className="font-bold">Members</p>
-                  <Table headers={headers} data={membersData} onMoreClick={handleMoreClick} />
-                  <CustomButton
-                    styles="self-start"
-                    text="Invite member"
-                    icon={<MdAdd />}
-                    onClick={() => console.log('button clicked')}
-                  />
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-col justify-start items-start gap-1">
+                    <h4 className="text-oxford text-sm font-semibold">Members</h4>
+                    <p className="text-grey-700 text-sm">Manage the members of your project.</p>
+                  </div>
+                  <MembersTable data={membersData} />
                 </div>
-                <div className="flex flex-col w-full gap-2">
-                  <p className="font-bold"> Project API Key</p>
-                  <CopyInput
-                    className="self-start"
-                    value={selectedProject.data.api_key?.toString() ?? ''}
-                  />
-                </div>
-                <div className="flex flex-col w-full gap-2">
-                  <p className="font-bold"> Project ID</p>
-                  <p className="text-base">
-                    You can use this to reference your project in the API.
-                  </p>
-                  <CopyInput
-                    className="self-start"
-                    value={selectedProject.data.id?.toString() ?? ''}
-                  />
+                <CopyInput
+                  label="Project API Key"
+                  description="Use this key to authorize API requests."
+                  value={selectedProject.data.api_key?.toString() ?? ''}
+                />
+                <CopyInput
+                  label="Project ID"
+                  description="You can use this to reference your project in our API."
+                  value={selectedProject.data.id?.toString() ?? ''}
+                />
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-col justify-start items-start gap-1">
+                    <h4 className="text-oxford text-sm font-semibold">Danger Zone</h4>
+                    <p className="text-grey-700 text-sm">Delete your project and all associated data.</p>
+                  </div>
+                  <OutlineButton label="Delete project" className="self-start"/>
                 </div>
               </div>
             );
           }
           case 'hasError':
-						//TODO: Toast error message and navigate away (probs to / route)
+            //TODO: Toast error message and navigate away (probs to / route)
             return <div>Error encountered</div>; // Render the error
           case 'hasDataWithError':
             return <div>Data loaded but with error</div>; // Handle this case as well
