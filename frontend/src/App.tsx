@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 // import { setOpenApiBase } from 'api/configOpenApi';
 import Router from './routes';
 import { TokenContext } from 'api';
-import { Toaster } from 'react-hot-toast';
+import { ToastContainer } from 'components/toasts';
 
 function App() {
   const [accessToken, setAccessToken] = useState<string>('');
@@ -16,7 +16,7 @@ function App() {
   return (
     <TokenContext.Provider value={{ accessToken, setAccessToken, refreshToken, setRefreshToken }}>
       <Router />
-			<Toaster position="bottom-right" />
+      <ToastContainer />
     </TokenContext.Provider>
   );
 }

@@ -8,7 +8,7 @@ import { useProjectsStore } from 'features/projects/stores/useProjectsStore';
 import { MdAdd } from 'react-icons/md';
 import useSettings from '../hooks/useProjectSettings';
 import toast from 'react-hot-toast';
-import Toast from 'components/Toast';
+import Toast from 'components/toasts/Toast';
 
 const headers = [
   { propertyName: 'email', displayName: 'Email' },
@@ -101,9 +101,7 @@ const Settings = () => {
                     className="self-start"
                     onClick={async () =>
                       await deleteProject(selectedProject.data.id?.toString() ?? '', () =>
-                        toast.custom(t => (
-                          <Toast toast={t} customMessage="Project deleted successfully" />
-                        )),
+                        toast.success('Project deleted successfully'),
                       )
                     }
                   />
