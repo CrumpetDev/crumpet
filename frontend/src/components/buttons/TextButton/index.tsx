@@ -2,17 +2,19 @@ import React from 'react';
 import { MdSettings } from 'react-icons/md';
 
 interface TextButtonProps {
-  text: string;
+  label: string;
   icon?: React.ReactElement;
-  onClick: () => void;
+  enabled?: boolean;
+  onClick?: () => void;
 }
-const TextButton = ({ text, icon, onClick }: TextButtonProps) => {
+const TextButton = ({ label, icon, enabled = true, onClick }: TextButtonProps) => {
+  const color = enabled ? 'text-grey-700 group-hover:text-grey-500' : 'text-grey-500'
   return (
-    <button className="justify-start items-center gap-2 inline-flex group" onClick={onClick}>
+    <button disabled={!enabled} className="justify-start items-center gap-2 inline-flex group" onClick={onClick}>
 			{icon && React.cloneElement(icon, {
-        className: "text-grey-700 group-hover:text-grey-500"
+        className: color 
       })}
-      <p className="text-sm text-grey-700 font-medium group-hover:text-grey-500">{text}</p>
+      <p className={`text-sm font-medium ${color}`}>{label}</p>
     </button>
   );
 };

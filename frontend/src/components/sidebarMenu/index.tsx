@@ -189,11 +189,11 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
                         ))}
                         <div className="w-full h-[1px] bg-crumpet-light-200"></div>
                         <TextButton
-                          text="Project settings"
+                          label="Project settings"
                           icon={<MdSettings />}
                           onClick={() => navigate('/settings')}
                         />
-                        <TextButton text="New project" icon={<MdAdd />} onClick={openModal} />
+                        <TextButton label="New project" icon={<MdAdd />} onClick={openModal} />
                       </div>
                     </div>
                   </Popover.Panel>
