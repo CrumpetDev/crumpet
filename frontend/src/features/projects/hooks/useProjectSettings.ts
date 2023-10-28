@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useProjectsStore } from '../stores/useProjectsStore';
 import { useNavigate } from 'react-router';
+import toast from 'react-hot-toast';
 
 
 interface FormValues {
@@ -45,7 +46,7 @@ const useSettings = ({ projectName: initialProjectName}: FormValues) => {
       onDelete?.();
       navigate('/flows');
     } catch (error) {
-      //TODO: Toast
+      toast.error("An error occurred when trying to delete this project");
       setErrors(['An error occurred']);
     } finally {
       setLoading(false);

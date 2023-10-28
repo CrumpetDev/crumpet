@@ -22,7 +22,6 @@ export const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps)
   const onSubmit = () => {
     close();
     toast.success("Project created successfully");
-    //toast.custom(t => <Toast customMessage="Project created successfully" toast={t} />);
   };
 
   const { formik } = useCreateProject({ onSubmit: onSubmit });
