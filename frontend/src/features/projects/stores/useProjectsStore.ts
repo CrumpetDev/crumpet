@@ -2,16 +2,18 @@ import { Configuration, Project, ProjectsApi } from 'api';
 import { ApiState } from 'api/utils';
 import { create } from 'zustand';
 
-type ProjectsStore = {
+interface State {
   selectedProject: ApiState<Project>;
   projects: ApiState<Project[]>;
+}
+interface Actions {
   fetchProjects: (config: Configuration) => void;
   setSelectedProject: (projectId: number) => void;
   fetchAndSelectProject: (config: Configuration) => void;
   createProject: (name: string, config: Configuration) => void;
-};
+}
 
-export const useProjectsStore = create<ProjectsStore>((set, get) => ({
+export const useProjectsStore = create<State & Actions>((set, get) => ({
   selectedProject: ApiState.initial(),
   projects: ApiState.initial(),
   fetchProjects: (config: Configuration) => {

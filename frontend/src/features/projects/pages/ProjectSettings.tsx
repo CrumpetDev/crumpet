@@ -1,20 +1,12 @@
 import { ProjectMembersInner, ProjectMembersInnerTypeEnum } from 'api';
-import CustomButton from 'components/button';
 import { CopyInput, TextInput } from 'components/inputs';
-import { OutlineButton } from 'components/buttons';
-import Table from 'components/table';
+import { MainButton, OutlineButton, TextButton } from 'components/buttons';
 import { MembersTable } from 'components/tables';
 import { useProjectsStore } from 'features/projects/stores/useProjectsStore';
-import { MdAdd } from 'react-icons/md';
+import { MdAdd, MdSave } from 'react-icons/md';
 import useSettings from '../hooks/useProjectSettings';
 import toast from 'react-hot-toast';
-import Toast from 'components/toasts/Toast';
-
-const headers = [
-  { propertyName: 'email', displayName: 'Email' },
-  { propertyName: 'name', displayName: 'Name' },
-  { propertyName: 'role', displayName: 'Role' },
-];
+import { useShallow } from 'zustand/react/shallow';
 
 type UserData = {
   email: string;
@@ -23,7 +15,8 @@ type UserData = {
 };
 
 const Settings = () => {
-  const { selectedProject } = useProjectsStore();
+  const selectedProject = useProjectsStore(useShallow(state => state.selectedProject));
+  //const { selectedProject } = useProjectsStore();
   //TODO: Can we improve this to just pass in selectedProject as is without a check?
   const { formik, deleteProject } = useSettings(
     selectedProject.state == 'hasData'
@@ -47,10 +40,6 @@ const Settings = () => {
     );
   };
 
-  const handleMoreClick = () => {
-    console.log('More icon clicked');
-  };
-
   return (
     <div className="w-full h-full container px-6 py-8">
       {(() => {
@@ -68,9 +57,14 @@ const Settings = () => {
                   label="Project Name"
                   description="The display name of your project."
                   value={formik.values.projectName ?? ''}
+                  error={
+                    formik.touched.projectName && formik.errors.projectName
+                      ? formik.errors.projectName
+                      : null
+                  }
                   onChange={formik.handleChange}
                   placeholder="Name"
-                  inputProps={{ id: 'projectName' }}
+                  inputProps={{ id: 'projectName', onBlur: formik.handleBlur }}
                 />
                 <div className="flex flex-col gap-2">
                   <div className="flex flex-col justify-start items-start gap-1">

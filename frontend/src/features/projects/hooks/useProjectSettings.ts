@@ -1,16 +1,15 @@
 import { ProjectsApi, useApiConfig } from 'api';
-import { useFormik } from 'formik';
+import { FormikErrors, useFormik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useProjectsStore } from '../stores/useProjectsStore';
 import { useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
 
-
 interface FormValues {
   projectName?: string;
 }
 
-const useSettings = ({ projectName: initialProjectName}: FormValues) => {
+const useSettings = ({ projectName: initialProjectName }: FormValues) => {
   const [errors, setErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const { fetchAndSelectProject } = useProjectsStore();
@@ -20,6 +19,13 @@ const useSettings = ({ projectName: initialProjectName}: FormValues) => {
   const formik = useFormik({
     initialValues: {
       projectName: initialProjectName || '',
+    },
+    validate: values => {
+      const formErrors: FormikErrors<FormValues> = {};
+      if (!values.projectName) {
+        formErrors.projectName = 'You must provide a name.';
+      }
+      return formErrors;
     },
     onSubmit: ({ projectName }: FormValues) => {
       // if (email && password) {
@@ -34,9 +40,10 @@ const useSettings = ({ projectName: initialProjectName}: FormValues) => {
   useEffect(() => {
     // this is to prevent infinite re-render cycle
     if (formik.values.projectName !== initialProjectName) {
+      console.log("inside use effect");
       formik.setFieldValue('projectName', initialProjectName);
     }
-  }, [initialProjectName, formik]);
+  }, [initialProjectName]);
 
   const deleteProject = async (id: string, onDelete?: () => void) => {
     setLoading(true);
@@ -46,7 +53,7 @@ const useSettings = ({ projectName: initialProjectName}: FormValues) => {
       onDelete?.();
       navigate('/flows');
     } catch (error) {
-      toast.error("An error occurred when trying to delete this project");
+      toast.error('An error occurred when trying to delete this project');
       setErrors(['An error occurred']);
     } finally {
       setLoading(false);
