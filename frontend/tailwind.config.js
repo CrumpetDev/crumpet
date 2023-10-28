@@ -53,6 +53,11 @@ module.exports = {
           700: '#7D766C',
           900: '#51493E',
         },
+        'crumpet-yellow': {
+          500: '#F3AE3B',
+          400: '#F4B64F',
+          200: '#F9D79D',
+        },
         oxford: '#05052C',
         'hunyadi-yellow': '#FBC571',
       },
