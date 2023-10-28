@@ -7,6 +7,8 @@ import { MembersTable } from 'components/tables';
 import { useProjectsStore } from 'features/projects/stores/useProjectsStore';
 import { MdAdd } from 'react-icons/md';
 import useSettings from '../hooks/useProjectSettings';
+import toast from 'react-hot-toast';
+import Toast from 'components/Toast';
 
 const headers = [
   { propertyName: 'email', displayName: 'Email' },
@@ -23,7 +25,7 @@ type UserData = {
 const Settings = () => {
   const { selectedProject } = useProjectsStore();
   //TODO: Can we improve this to just pass in selectedProject as is without a check?
-  const { formik } = useSettings(
+  const { formik, deleteProject } = useSettings(
     selectedProject.state == 'hasData'
       ? { projectName: selectedProject?.data.name }
       : { projectName: '' },
@@ -90,9 +92,21 @@ const Settings = () => {
                 <div className="flex flex-col gap-2">
                   <div className="flex flex-col justify-start items-start gap-1">
                     <h4 className="text-oxford text-sm font-semibold">Danger Zone</h4>
-                    <p className="text-grey-700 text-sm">Delete your project and all associated data.</p>
+                    <p className="text-grey-700 text-sm">
+                      Delete your project and all associated data.
+                    </p>
                   </div>
-                  <OutlineButton label="Delete project" className="self-start"/>
+                  <OutlineButton
+                    label="Delete project"
+                    className="self-start"
+                    onClick={async () =>
+                      await deleteProject(selectedProject.data.id?.toString() ?? '', () =>
+                        toast.custom(t => (
+                          <Toast toast={t} customMessage="Project deleted successfully" />
+                        )),
+                      )
+                    }
+                  />
                 </div>
               </div>
             );

@@ -7,7 +7,7 @@ type ProjectsStore = {
   projects: ApiState<Project[]>;
   fetchProjects: (config: Configuration) => void;
   setSelectedProject: (projectId: number) => void;
-	fetchAndSelectProject: (config: Configuration) => void;
+  fetchAndSelectProject: (config: Configuration) => void;
   createProject: (name: string, config: Configuration) => void;
 };
 
