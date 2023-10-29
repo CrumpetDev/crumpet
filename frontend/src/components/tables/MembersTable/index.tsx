@@ -17,11 +17,14 @@ const MembersTable = ({onClick, data} : MembersTableProps) => {
         const isFirst = index === 0;
         const isLast = index === data.length - 1;
         //Add appropriate borders and rounded edges depending on element index
-        const conditionalClassNames = isFirst
+        let conditionalClassNames = isFirst
           ? 'rounded-t border-t'
           : isLast
           ? 'rounded-b border-t border-b'
           : 'border-t';
+        if (isFirst && isLast) {
+          conditionalClassNames = 'rounded border-t border-b';
+        }
         return (
           <div
             key={index}
