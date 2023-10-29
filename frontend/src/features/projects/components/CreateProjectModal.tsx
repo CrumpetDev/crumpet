@@ -1,10 +1,8 @@
 import { Dialog, Transition } from '@headlessui/react';
 import EmphasisButton from 'components/buttons/EmphasisButton';
 import { TextInput } from 'components/inputs';
-import Toast from 'components/toasts/Toast';
 import { Fragment } from 'react';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
 import useCreateProject from '../hooks/useCreateProject';
 
 interface CreateProjectModalProps {
@@ -13,7 +11,6 @@ interface CreateProjectModalProps {
 }
 
 export const CreateProjectModal = ({ isOpen, onClose }: CreateProjectModalProps) => {
-  const navigate = useNavigate();
   const close = () => {
     formik.resetForm({ values: formik.initialValues, errors: {} });
     onClose();
