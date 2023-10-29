@@ -1,5 +1,4 @@
 import React from 'react';
-import Welcome from 'pages/welcome/welcome';
 import { createHashRouter, Navigate, RouteObject } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import NotFound from './404';
