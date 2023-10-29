@@ -9,7 +9,7 @@ const ToastContainer = () => {
     <div
       onMouseEnter={startPause}
       onMouseLeave={endPause}
-      className="fixed bottom-4 right-4 space-y-2 flex flex-col-reverse">
+      className="fixed bottom-4 right-4 gap-2 flex flex-col-reverse">
       {toasts
         .filter(toast => toast.visible)
         .map(toast => {
