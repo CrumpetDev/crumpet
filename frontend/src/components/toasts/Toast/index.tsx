@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import { MdInfoOutline } from 'react-icons/md';
 
@@ -12,17 +12,18 @@ interface ToastProps {
 const Toast = ({ id, message, type = 'info', duration = 4000 }: ToastProps) => {
   const [progress, setProgress] = useState(100);
   const intervalRef = useRef<number | null>(null);
-  const color = type == 'info' ? 'bg-radial-ultra-light' : type == 'success' ? 'bg-green-600' : 'bg-red-600';
+  const color =
+    type == 'info' ? 'bg-radial-ultra-light' : type == 'success' ? 'bg-green-600' : 'bg-red-600';
   const progressColor =
     type == 'info' ? 'bg-gray-200' : type == 'success' ? 'bg-green-200' : 'bg-red-200';
 
-  const startProgress = () => {
+  const startProgress = useCallback(() => {
     if (!intervalRef.current) {
       intervalRef.current = window.setInterval(() => {
         setProgress(prev => Math.max(prev - 100 / (duration / 10), 0));
       }, 10);
     }
-  };
+  }, [duration]);
 
   const stopProgress = () => {
     if (intervalRef.current) {
@@ -34,7 +35,7 @@ const Toast = ({ id, message, type = 'info', duration = 4000 }: ToastProps) => {
   useEffect(() => {
     startProgress();
     return stopProgress;
-  }, []);
+  }, [startProgress]);
 
   return (
     <div
