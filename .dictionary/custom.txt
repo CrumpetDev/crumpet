@@ -1,3 +1,5 @@
+viewsets
+projs
 evenodd
 heebo
 svgr
@@ -69,3 +71,18 @@ xlwt
 xmlfile
 gitcommitmessage
 headlessui
+isort
+pylint
+tomli
+tomlkit
+projectmembership
+Qcet
+ZIZW
+runserver
+pgdata
+pyca
+pycryptodome
+zustand
+probs
+Customise
+popperjs

@@ -10,3 +10,23 @@ services:
     ports:
       - "8000:8000"
     tty: true
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: "crumpet_postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: crumpet_db
+      POSTGRES_USER: head_baker
+      POSTGRES_PASSWORD: Crumpet2023
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+

@@ -24,30 +24,26 @@ from rest_framework_simplejwt.views import (
 )
 
 
-from rest_framework import routers
-from app.views.application_views import ApplicationDetail, ApplicationList
-
+from app.utils import OptionalTrailingSlashRouter
+from app.views.project_views import ProjectsView
 from app.views.register_view import RegisterView
 from app.views.user_view import UserDetailView
 
-router = routers.SimpleRouter()
+
+router = OptionalTrailingSlashRouter()
+
+router.register(r"projects", ProjectsView, basename="projects")
 
 urlpatterns = [
     # Admin
     path("admin/", admin.site.urls),
     # Auth
-    path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
-    path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
-    path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
+    path("token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),
+    path("token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
+    path("token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     # API Views
-    path("api/register/", RegisterView.as_view(), name="register"),
-    path("api/user/", UserDetailView.as_view(), name="user-detail"),
-    path("api/applications/", ApplicationList.as_view(), name="application-list"),
-    path(
-        "api/application/<int:pk>/",
-        ApplicationDetail.as_view(),
-        name="application-detail",
-    ),
+    path("register/", RegisterView.as_view(), name="register"),
+    path("user/", UserDetailView.as_view(), name="user-detail"),
     # Meta Views
     path(
         "openapi",
@@ -55,7 +51,7 @@ urlpatterns = [
             title="backend",
             description="The rest api for backend",
             version="1.0.0",
-            permission_classes=[]
+            permission_classes=[],
         ),
         name="openapi-schema",
     ),

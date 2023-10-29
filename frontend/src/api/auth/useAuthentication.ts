@@ -37,7 +37,7 @@ export const useAuthentication = () => {
     setAuthenticating(true);
     return await tokenApi
       .createTokenObtainPair({
-        username: email,
+        email: email,
         password,
       })
       .then(async response => {
@@ -80,6 +80,7 @@ export const useAuthentication = () => {
           return true;
         })
         .catch(() => {
+					//NOTE: Should we not await the response from tokenRefresh before returning false?
           tokenRefresh();
           return false;
         });

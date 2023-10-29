@@ -18,10 +18,10 @@ const SidebarButtonPrimary = ({
 			onClick={onClick}
       className={`${widthFill ? 'w-full' : ''} ${
         selected ? 'bg-crumpet-light-200' : ''
-      } hover:bg-crumpet-light-200 text-oxford font-bold py-2 px-3 rounded-md justify-start gap-3 
+      } hover:bg-crumpet-light-200 text-oxford font-bold p-2 rounded-md justify-start gap-3 
 				inline-flex items-center`}>
       {icon}
-      <div className="text-slate-900 text-[14px] font-semibold">{label}</div>
+      <div className="text-slate-900 text-sm font-semibold">{label}</div>
     </button>
   );
 };

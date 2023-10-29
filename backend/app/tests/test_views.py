@@ -1,7 +1,7 @@
 from rest_framework.test import APIClient, APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import status
-from app.models import User, Application
+from app.models import User, Project
 
 
 class TestViews(APITestCase):
@@ -25,38 +25,6 @@ class TestViews(APITestCase):
         client.credentials(HTTP_AUTHORIZATION=f"Bearer {refresh.access_token}")
         return client
 
-    def test_application_views(self):
-        """
-        Test creation and retrieval /application endpoints.
-        """
-        client = self.api_client(
-            email="tom@opencrumpet.com",
-            password="aVerYSecurEpassw0rd",
-            first_name="Tom",
-            last_name="Titherington",
-        )
-        application_name: str = "Test Application"
-        response = client.post(
-            "/api/applications/", {"name": application_name}, format="json"
-        )
-        self.assertEquals(response.status_code, status.HTTP_201_CREATED)
-
-        response = client.get("/api/applications/")
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
-
-        response = client.get("/api/application/1/")
-        self.assertEquals(response.status_code, status.HTTP_200_OK)
-        self.assertEquals(response.data["name"], application_name)
-
-        another_client = self.api_client(
-            email="tom.titherington@gmail.com",
-            password="aVerYSecurEpassw0rd",
-            first_name="Tom",
-            last_name="Titherington",
-        )
-        response = another_client.get("/api/application/1/")
-        self.assertEquals(response.status_code, status.HTTP_403_FORBIDDEN)
-
     def test_user_views(self):
         """
         Test /user endpoints.
@@ -68,5 +36,5 @@ class TestViews(APITestCase):
             last_name="Titherington",
         )
 
-        response = client.delete("/api/user/")
+        response = client.delete("/user/")
         self.assertEquals(response.status_code, status.HTTP_200_OK)
