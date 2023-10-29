@@ -17,7 +17,6 @@ const useSettings = ({
   projectId: number;
   projectName: string;
 }) => {
-  const [errors, setErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const { fetchAndSelectProject } = useProjectsStore();
   const { config } = useApiConfig();
@@ -34,7 +33,7 @@ const useSettings = ({
       }
       return formErrors;
     },
-    onSubmit: async ({ projectName }: FormValues, { setSubmitting }) => {
+    onSubmit: async ({ projectName }: FormValues, { setSubmitting, setErrors }) => {
       setSubmitting(true);
       if (projectName == undefined) {
         setSubmitting(false);
@@ -45,17 +44,27 @@ const useSettings = ({
         fetchAndSelectProject(config, projectId);
         toast.success(`Updated project ${projectName} successfully`);
       } catch (e) {
-        //TODO: Propagate errors to form using setError etc.
         if (e instanceof AxiosError) {
           if (e.response) {
             const errorData = e.response.data;
-            if (errorData.detail) {
-              console.error('General error:', errorData.detail);
-            } else {
-              // Handle model field errors.
-              for (const field in errorData) {
-                console.error(`Error with ${field}:`, errorData[field].join(', '));
+
+            // Handle model field errors
+            const formikErrors: FormikErrors<FormValues> = {};
+            for (const field in errorData) {
+              if (field in formik.initialValues) {
+                formikErrors[field as keyof FormValues] = errorData[field].join(', ');
+              } else {
+                // If it's a general error or an error for a field not in your form
+                console.error(`Error: ${errorData[field].join(', ')}`);
+                toast.error('Something went wrong when updating the project.');
               }
+            }
+            setErrors(formikErrors);
+
+            // For general errors
+            if (errorData.detail) {
+              console.error(`General error: ${errorData.detail}`);
+              toast.error('Something went wrong when updating the project.');
             }
           }
         } else {
@@ -84,7 +93,6 @@ const useSettings = ({
       navigate('/flows');
     } catch (error) {
       toast.error('An error occurred when trying to delete this project');
-      setErrors(['An error occurred']);
     } finally {
       setLoading(false);
     }
@@ -93,7 +101,6 @@ const useSettings = ({
   return {
     formik,
     loading,
-    errors,
     deleteProject,
   };
 };
