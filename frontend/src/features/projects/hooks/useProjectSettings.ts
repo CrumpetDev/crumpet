@@ -4,12 +4,19 @@ import { useEffect, useState } from 'react';
 import { useProjectsStore } from '../stores/useProjectsStore';
 import { useNavigate } from 'react-router';
 import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
 
 interface FormValues {
   projectName?: string;
 }
 
-const useSettings = ({ projectName: initialProjectName }: FormValues) => {
+const useSettings = ({
+  projectId,
+  projectName: initialProjectName,
+}: {
+  projectId: number;
+  projectName: string;
+}) => {
   const [errors, setErrors] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const { fetchAndSelectProject } = useProjectsStore();
@@ -27,20 +34,43 @@ const useSettings = ({ projectName: initialProjectName }: FormValues) => {
       }
       return formErrors;
     },
-    onSubmit: ({ projectName }: FormValues) => {
-      // if (email && password) {
-      //   login({ email, password }).then(res => {
-      //     if (res?.success) navigate('/');
-      //     else setErrorAlert(res?.errors[0]);
-      //   });
-      // }
+    onSubmit: async ({ projectName }: FormValues, { setSubmitting }) => {
+      setSubmitting(true);
+      if (projectName == undefined) {
+        setSubmitting(false);
+        return;
+      }
+      try {
+        await new ProjectsApi(config).updateProject(projectId.toString(), { name: projectName });
+        fetchAndSelectProject(config, projectId);
+        toast.success(`Updated project ${projectName} successfully`);
+      } catch (e) {
+        //TODO: Propagate errors to form using setError etc.
+        if (e instanceof AxiosError) {
+          if (e.response) {
+            const errorData = e.response.data;
+            if (errorData.detail) {
+              console.error('General error:', errorData.detail);
+            } else {
+              // Handle model field errors.
+              for (const field in errorData) {
+                console.error(`Error with ${field}:`, errorData[field].join(', '));
+              }
+            }
+          }
+        } else {
+          // Some other error
+          console.error(e);
+        }
+      } finally {
+        setSubmitting(false);
+      }
     },
   });
 
   useEffect(() => {
     // this is to prevent infinite re-render cycle
     if (formik.values.projectName !== initialProjectName) {
-      console.log("inside use effect");
       formik.setFieldValue('projectName', initialProjectName);
     }
   }, [initialProjectName]);

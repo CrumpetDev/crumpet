@@ -7,6 +7,7 @@ import { MdAdd, MdSave } from 'react-icons/md';
 import useSettings from '../hooks/useProjectSettings';
 import toast from 'react-hot-toast';
 import { useShallow } from 'zustand/react/shallow';
+import { useEffect } from 'react';
 
 type UserData = {
   email: string;
@@ -16,12 +17,14 @@ type UserData = {
 
 const Settings = () => {
   const selectedProject = useProjectsStore(useShallow(state => state.selectedProject));
-  //const { selectedProject } = useProjectsStore();
-  //TODO: Can we improve this to just pass in selectedProject as is without a check?
+  // TODO: Refactor this horrendous null check rubbish
   const { formik, deleteProject } = useSettings(
     selectedProject.state == 'hasData'
-      ? { projectName: selectedProject?.data.name }
-      : { projectName: '' },
+      ? {
+          projectId: selectedProject.data?.id ?? 0,
+          projectName: selectedProject?.data.name,
+        }
+      : { projectId: 0, projectName: '' },
   );
 
   // TODO: If there is no selected project, display an error on the page.
@@ -42,13 +45,22 @@ const Settings = () => {
 
   return (
     <div className="w-full h-full container px-6 py-8">
+      <div id="buttons" className="flex flex-row justify-end gap-3">
+        <TextButton onClick={formik.resetForm} enabled={formik.dirty} label="Cancel" />
+        <MainButton
+          label="Save"
+          icon={<MdSave />}
+          enabled={formik.isValid && formik.dirty}
+          type="submit"
+          onClick={formik.handleSubmit}
+        />
+      </div>
       {(() => {
         switch (selectedProject.state) {
           case 'loading':
             //TODO: Better loading experience
             return <div>Loading...</div>; // Just an example
           case 'hasData': {
-            console.log('members', selectedProject.data.members);
             const membersData = convertMembersToUserData(selectedProject.data.members);
 
             return (
