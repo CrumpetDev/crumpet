@@ -9,7 +9,7 @@ interface State {
 interface Actions {
   fetchProjects: (config: Configuration) => void;
   setSelectedProject: (projectId: number) => void;
-  fetchAndSelectProject: (config: Configuration) => void;
+  fetchAndSelectProject: (config: Configuration, projectId?: number) => void;
   createProject: (name: string, config: Configuration) => void;
 }
 
@@ -32,16 +32,18 @@ export const useProjectsStore = create<State & Actions>((set, get) => ({
       }
     }
   },
-  fetchAndSelectProject: (config: Configuration) => {
+  fetchAndSelectProject: (config: Configuration, projectId?: number) => {
     set(state => ({ projects: ApiState.loading() }));
     new ProjectsApi(config)
       .listProjects()
-      .then(res =>
-        set(state => ({
+      .then(res => {
+        const index =
+          projectId == undefined ? 0 : res.data.findIndex(project => project.id == projectId);
+        return set(state => ({
           projects: ApiState.hasData(res.data),
-          selectedProject: ApiState.hasData(res.data[0]),
-        })),
-      )
+          selectedProject: ApiState.hasData(res.data[index]),
+        }));
+      })
       .catch(err => set(state => ({ projects: ApiState.hasError(err) })));
   },
   createProject: async (name: string, config: Configuration) => {
