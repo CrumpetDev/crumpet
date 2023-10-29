@@ -11,10 +11,14 @@ interface CopyInputProps {
 const CopyInput = ({ label, description, value, className }: CopyInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleCopyClick = () => {
-    if (inputRef.current) {
-      inputRef.current.select();
-      document.execCommand('copy');
+  const handleCopyClick = async () => {
+    if (navigator.clipboard && inputRef.current) {
+      try {
+        await navigator.clipboard.writeText(inputRef.current.value);
+        //TODO: Display subtle toast to user
+      } catch (err) {
+        console.error('Failed to copy text: ', err);
+      }
     }
   };
 
@@ -27,8 +31,8 @@ const CopyInput = ({ label, description, value, className }: CopyInputProps) => 
       <div
         className="flex flex-row justify-between items-center w-full p-2 border-crumpet-light-300 
                   border rounded outline-0 text-oxford text-sm font-ubuntu">
-        <input ref={inputRef} type="text" readOnly value={value} />
-        <MdContentCopy className="text-grey-500" onClick={handleCopyClick} />
+        <input className="w-full outline-none" ref={inputRef} type="text" readOnly value={value} />
+        <MdContentCopy className="text-grey-500 hover:cursor-pointer" onClick={handleCopyClick} />
       </div>
     </div>
   );
