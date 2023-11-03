@@ -17,13 +17,17 @@ import sys
 from dotenv import load_dotenv
 import os
 
-LOAD_DOTENV = os.getenv("LOAD_DOTENV", "True") == "True"
-if LOAD_DOTENV:
-    load_dotenv()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')  # Assume development by default
+if ENVIRONMENT == 'production':
+    dotenv_path = BASE_DIR / '.env.production'
+else:
+    dotenv_path = BASE_DIR / '.env.development'
+
+if dotenv_path.exists():
+    load_dotenv(dotenv_path=dotenv_path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
