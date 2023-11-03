@@ -53,6 +53,43 @@ export interface Project {
      * @memberof Project
      */
     'members'?: Array<ProjectMembersInner>;
+    /**
+     * 
+     * @type {Array<ProjectEnvironmentsInner>}
+     * @memberof Project
+     */
+    'environments'?: Array<ProjectEnvironmentsInner>;
+}
+/**
+ * 
+ * @export
+ * @interface ProjectEnvironmentsInner
+ */
+export interface ProjectEnvironmentsInner {
+    /**
+     * 
+     * @type {number}
+     * @memberof ProjectEnvironmentsInner
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectEnvironmentsInner
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ProjectEnvironmentsInner
+     */
+    'identifier': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ProjectEnvironmentsInner
+     */
+    'is_default': boolean;
 }
 /**
  * 
