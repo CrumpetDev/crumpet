@@ -84,20 +84,25 @@ TEMPLATES = [
 WSGI_APPLICATION = "backend.wsgi.application"
 
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+if os.environ.get("DEVELOPMENT_MODE"):
+    host = "localhost"
+else:
+    host = os.environ.get("DB_HOST")
+
+
 DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.environ.get("DB_NAME"),
-            "USER": os.environ.get("DB_USERNAME"),
-            "PASSWORD": os.environ.get("DB_PASSWORD"),
-            "HOST": os.environ.get("DB_HOST"),
-            "PORT": os.environ.get("DB_PORT"),
-        }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USERNAME"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": host, 
+        "PORT": os.environ.get("DB_PORT"),
     }
+}
 print("Connected to database")
 
 
@@ -128,7 +133,7 @@ print("Connected to database")
 #     }
 #     print("Connected to database")
 
-AUTH_USER_MODEL = 'app.User'
+AUTH_USER_MODEL = "app.User"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -184,7 +189,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
-        "app.authentication.ProjectAPIKeyAuthentication"
+        "app.authentication.ProjectAPIKeyAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
