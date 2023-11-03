@@ -22,11 +22,6 @@ import { useNavigate } from 'react-router';
 import { isHasData } from 'api/utils';
 import { usePopper } from 'react-popper';
 
-const environments = [
-  { id: 1, name: 'Development' },
-  { id: 2, name: 'Production' },
-];
-
 interface ProjectEntry {
   id: number;
   name: string;
@@ -87,7 +82,13 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
             <CrumpetLogo style={{ height: '24px', width: '24px' }} />
             <div className="text-oxford font-heebo font-black text-2xl">Crumpet</div>
           </div>
-          <Picker widthFill={true} items={environments} initialSelection={environments[0]} />
+          {isHasData(selectedProject) && selectedProject.data.environments != undefined && (
+            <Picker
+              widthFill={true}
+              items={selectedProject.data.environments}
+              initialSelection={selectedProject.data.environments[0]}
+            />
+          )}
           <div className="flex-col justify-start items-start gap-0.5 flex w-full">
             {ButtonList.map((button, index) => (
               <SidebarButtonPrimary
@@ -159,7 +160,7 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
                     ref={setPopperElement}
                     style={styles.popper}
                     {...attributes.popper}
-										className="w-full px-2">
+                    className="w-full px-2">
                     <div className="overflow-hidden rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
                       <div className="flex flex-col gap-4 relative p-4 bg-white">
                         {projects.map((project, index) => (

@@ -319,6 +319,27 @@ components:
             required:
             - user
           readOnly: true
+        environments:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                readOnly: true
+              name:
+                type: string
+                maxLength: 100
+              identifier:
+                type: string
+                maxLength: 255
+              is_default:
+                type: boolean
+            required:
+            - name
+            - identifier
+            - is_default
+          readOnly: true
       required:
       - name
     TokenObtainPair:

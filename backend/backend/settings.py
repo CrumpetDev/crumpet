@@ -17,13 +17,17 @@ import sys
 from dotenv import load_dotenv
 import os
 
-LOAD_DOTENV = os.getenv("LOAD_DOTENV", "True") == "True"
-if LOAD_DOTENV:
-    load_dotenv()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')  # Assume development by default
+if ENVIRONMENT == 'production':
+    dotenv_path = BASE_DIR / '.env.production'
+else:
+    dotenv_path = BASE_DIR / '.env.development'
+
+if dotenv_path.exists():
+    load_dotenv(dotenv_path=dotenv_path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -84,20 +88,27 @@ TEMPLATES = [
 WSGI_APPLICATION = "backend.wsgi.application"
 
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+if DEVELOPMENT_MODE:
+    print("DEVELOPMENT MODE: ACTIVE")
+    host = "localhost"
+else:
+    print("DEVELOPMENT MODE: INACTIVE")
+    host = os.environ.get("DB_HOST")
+
+
 DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": os.environ.get("DB_NAME"),
-            "USER": os.environ.get("DB_USERNAME"),
-            "PASSWORD": os.environ.get("DB_PASSWORD"),
-            "HOST": os.environ.get("DB_HOST"),
-            "PORT": os.environ.get("DB_PORT"),
-        }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ.get("DB_NAME"),
+        "USER": os.environ.get("DB_USERNAME"),
+        "PASSWORD": os.environ.get("DB_PASSWORD"),
+        "HOST": host, 
+        "PORT": os.environ.get("DB_PORT"),
     }
+}
 print("Connected to database")
 
 
@@ -128,7 +139,7 @@ print("Connected to database")
 #     }
 #     print("Connected to database")
 
-AUTH_USER_MODEL = 'app.User'
+AUTH_USER_MODEL = "app.User"
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -184,7 +195,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
-        "app.authentication.ProjectAPIKeyAuthentication"
+        "app.authentication.ProjectAPIKeyAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",

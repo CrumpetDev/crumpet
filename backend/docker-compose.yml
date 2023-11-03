@@ -10,8 +10,10 @@ services:
     ports:
       - "8000:8000"
     tty: true
+    environment:
+      - ENVIRONMENT=production
     env_file:
-      - .env
+      - .env.production
     depends_on:
       - db
 

@@ -3,7 +3,6 @@ import { Listbox, Transition } from '@headlessui/react';
 import { MdUnfoldMore, MdOutlineCheck } from 'react-icons/md';
 
 interface Item {
-  id: number;
   name: string;
 }
 

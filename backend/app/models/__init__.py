@@ -13,3 +13,4 @@ from .proxy_elements import (
 from .user import User
 from .project import Project, ProjectMembership
 from .selector import Selector
+from .environment import Environment

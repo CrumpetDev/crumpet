@@ -13,7 +13,7 @@ class ProjectsView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, ProjectMemberPermission]
 
     def get_queryset(self):
-        return self.queryset.filter(members__pk=self.request.user.pk)
+        return self.queryset.filter(members__pk=self.request.user.pk).prefetch_related('environments')
 
     def get_object(self):
         # Fetch the object and check if the request user has the necessary permissions.
