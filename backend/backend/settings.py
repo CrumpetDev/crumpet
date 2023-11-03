@@ -87,9 +87,11 @@ WSGI_APPLICATION = "backend.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-if os.environ.get("DEVELOPMENT_MODE"):
+if DEVELOPMENT_MODE:
+    print("DEVELOPMENT MODE: ACTIVE")
     host = "localhost"
 else:
+    print("DEVELOPMENT MODE: INACTIVE")
     host = os.environ.get("DB_HOST")
 
 
