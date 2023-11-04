@@ -17,8 +17,14 @@ class ProjectMembershipSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
-    members = ProjectMembershipSerializer(many=True, read_only=True)
-    environments = EnvironmentSerializer(many=True, read_only=True)
+    # Set source=projectmembership_set explicitly as members (ProjectMembership) is a through model
+    # if you don't do this then DRF will assume the type is User and not ProjectMembership
+    members = ProjectMembershipSerializer(
+        many=True, read_only=True, source="projectmembership_set"
+    )
+    environments = EnvironmentSerializer(
+        many=True, read_only=True, source="environment_set"
+    )
 
     class Meta:
         model = Project
@@ -35,10 +41,15 @@ class ProjectSerializer(serializers.ModelSerializer):
         By using to_representation, we can ensure the members and environments field's
         type is defined explicitly, providing a clear hint for OpenAPI schema generation.
         """
+        print("Inside to_representation")
         representation = super().to_representation(instance)
 
         # Serialize the `members` using `ProjectMembershipSerializer`.
         membership_qs = ProjectMembership.objects.filter(project=instance)
+        for member in membership_qs:
+            # Log type and user attribute to ensure it's a ProjectMembership instance
+            print(f"Member Type: {type(member)}, User: {member.user}")
+
         representation["members"] = ProjectMembershipSerializer(
             membership_qs, many=True
         ).data
