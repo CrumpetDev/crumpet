@@ -59,15 +59,15 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
       label: 'Flows',
       icon: () => <Flow style={{ height: '16px', width: '16px' }} />,
       onClick: () => {
-        console.log('Clicked Button');
+        navigate("/flows");
       },
       selected: true,
     },
     {
-      label: 'Customers',
+      label: 'People',
       icon: () => <MdOutlineBadge />,
       onClick: () => {
-        console.log('Clicked Button');
+        navigate("/people");
       },
     },
   ];

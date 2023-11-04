@@ -9,6 +9,7 @@ import Settings from 'features/projects/pages/ProjectSettings';
 import Flows from 'pages/flows';
 import { useAuthentication } from 'api';
 import ProtectedRoute from './ProtectedRoute';
+import { People } from 'features/people/pages';
 
 const useRouter = () => {
   const [cookies] = useCookies(['refreshToken']);
@@ -23,6 +24,7 @@ const useRouter = () => {
       children: [
         { path: '/', element: <Navigate to="flows" replace /> },
 				{ path: 'flows', element: <Flows />},
+        { path: '/people', element: <People />},
         { path: 'settings', element: <Settings /> },
       ],
     },
