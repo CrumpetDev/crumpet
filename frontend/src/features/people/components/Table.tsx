@@ -5,26 +5,59 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useMemo } from 'react';
+import { HTMLProps, useEffect, useMemo, useRef, useState } from 'react';
 
 const Table = ({ data, columnJson }: { data: any[]; columnJson: any[] }) => {
   // Convert the structure to column definitions for TanStack Table
   const createColumns = (columnStructure: any[]): ColumnDef<unknown>[] => {
     const columnHelper = createColumnHelper<unknown>();
-    return columnStructure.map(column => {
+    const userColumns = columnStructure.map(column => {
       return columnHelper.accessor(column.accessor, {
         header: () => column.header,
         cell: info => info.getValue(),
         size: column.size,
       });
     });
+    return [
+      {
+        id: 'select',
+        header: ({ table }) => (
+          <IndeterminateCheckbox
+            {...{
+              checked: table.getIsAllRowsSelected(),
+              indeterminate: table.getIsSomeRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+            }}
+          />
+        ),
+        cell: ({ row }) => (
+          <div className="px-1">
+            <IndeterminateCheckbox
+              {...{
+                checked: row.getIsSelected(),
+                disabled: !row.getCanSelect(),
+                indeterminate: row.getIsSomeSelected(),
+                onChange: row.getToggleSelectedHandler(),
+              }}
+            />
+          </div>
+        ),
+      },
+      ...userColumns
+    ];
   };
 
   const columns = useMemo(() => createColumns(columnJson), [columnJson]);
+  const [rowSelection, setRowSelection] = useState({});
 
   const tableInstance = useReactTable({
     data,
     columns,
+    state: {
+        rowSelection
+    },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
   });
@@ -84,5 +117,21 @@ const Table = ({ data, columnJson }: { data: any[]; columnJson: any[] }) => {
     </div>
   );
 };
+
+function IndeterminateCheckbox({
+  indeterminate,
+  className = '',
+  ...rest
+}: { indeterminate?: boolean } & HTMLProps<HTMLInputElement>) {
+  const ref = useRef<HTMLInputElement>(null!);
+
+  useEffect(() => {
+    if (typeof indeterminate === 'boolean') {
+      ref.current.indeterminate = !rest.checked && indeterminate;
+    }
+  }, [ref, indeterminate]);
+
+  return <input type="checkbox" ref={ref} className={className + ' cursor-pointer'} {...rest} />;
+}
 
 export default Table;
