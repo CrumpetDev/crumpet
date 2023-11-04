@@ -6,6 +6,7 @@
     "@babel/preset-typescript": "^7.21.0",
     "@headlessui/react": "latest",
     "@popperjs/core": "^2.11.8",
+    "@tanstack/react-table": "^8.10.7",
     "@testing-library/dom": "^9.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.0.0",
