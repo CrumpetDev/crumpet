@@ -10,6 +10,7 @@ import PropertyHeader from './headers/PropertyHeader';
 import { MdAdd } from 'react-icons/md';
 import EditableCell from './cells/EditableCell';
 import { IndeterminateCheckbox } from 'components';
+import AddPropertyHeader from './headers/AddPropertyHeader';
 
 const Table = ({ data, columnJson }: { data: any[]; columnJson: any[] }) => {
   // Convert the structure to column definitions for TanStack Table
@@ -54,12 +55,8 @@ const Table = ({ data, columnJson }: { data: any[]; columnJson: any[] }) => {
       },
       ...userColumns,
       {
-        id: 'add_column',
-        header: ({ table }) => (
-          <div className="flex items-center p-2">
-            <MdAdd className="text-center text-base text-grey-700" />{' '}
-          </div>
-        ),
+        id: 'add_property',
+        header: ({table}) => <AddPropertyHeader />,
         cell: ({ row }) => <div></div>,
       },
     ];
