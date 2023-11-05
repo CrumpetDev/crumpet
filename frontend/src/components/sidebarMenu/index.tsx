@@ -125,7 +125,7 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
                   ref={setReferenceElement}
                   disabled={isLoadingState}
                   className="w-full flex justify-between items-center p-4 border-t 
-																				border-crumpet-light-300">
+														 outline-none border-crumpet-light-300">
                   {isLoadingState ? (
                     // Render pulsing grey rectangle for initial, loading, and hasError states
                     <div className="flex items-center space-x-4 animate-pulse">

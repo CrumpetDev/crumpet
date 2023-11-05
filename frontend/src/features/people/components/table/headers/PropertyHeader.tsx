@@ -15,10 +15,7 @@ const PropertyHeader = <TData, TValue>({ header, value }: PropertyHeaderProps<TD
         width: header.getSize(),
         position: 'relative',
       }}>
-        {value}
-      {/* {header.isPlaceholder
-        ? null
-        : flexRender(header.column.columnDef.header, header.getContext())} */}
+      {value}
       <div
         {...{
           onMouseDown: header.getResizeHandler(),
