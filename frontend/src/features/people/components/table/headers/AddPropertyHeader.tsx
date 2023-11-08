@@ -1,11 +1,11 @@
 import { Popover, Transition } from '@headlessui/react';
 import { SlimTextInput } from 'components/inputs';
-import { usePeopleStore, PropertyDefinition } from 'features/people/stores/usePeopleStore';
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react';
+import { usePeopleStore } from 'features/people/stores/usePeopleStore';
+import { Fragment, useCallback, useState } from 'react';
 import { MdAdd } from 'react-icons/md';
 import { usePopper } from 'react-popper';
-import _ from 'lodash';
 import { nanoid } from 'nanoid';
+import { MainButton } from 'components/buttons';
 
 const AddPropertyHeader = () => {
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
@@ -15,30 +15,13 @@ const AddPropertyHeader = () => {
   });
 
   const [id] = useState(() => nanoid()); // Initialize with a new GUID
-  const [property, setProperty] = useState<Partial<Omit<PropertyDefinition, 'id'>>>({});
+  const [displayName, setDisplayName] = useState('');
+  const [identifier, setIdentifier] = useState('');
 
-  const debounce = useCallback(
-    // Delay saving state until user activity stops
-    _.debounce((definition: Partial<Omit<PropertyDefinition, 'id'>>) => {
-      usePeopleStore.getState().upsertDefinition(id, definition);
-      // API Calls go here
-      const val = usePeopleStore.getState().propertyDefinitions;
-      console.log(val);
-    }, 750), // Delay (ms)
-    [usePeopleStore.getState().propertyDefinitions],
-  );
-
-  const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = event.target;
-      setProperty(prev => {
-        const updatedProperty = { ...prev, [name]: value };
-        debounce(updatedProperty);
-        return updatedProperty;
-      });
-    },
-    [debounce], // Only recreate this function if debounceSave changes
-  );
+  //TODO: Do I need to use useCallback here?
+  const handleAddColumn = useCallback(() => {
+    usePeopleStore.getState().upsertDefinition(id, { header: displayName, accessor: identifier });
+  }, [usePeopleStore.getState().propertyDefinitions, id, displayName, identifier]);
 
   return (
     <Popover>
@@ -62,18 +45,26 @@ const AddPropertyHeader = () => {
                 ref={setPopperElement}
                 style={styles.popper}
                 {...attributes.popper}
-                className="w-64 overflow-hidden p-4 bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5">
+                className="flex flex-col w-64 overflow-hidden p-4 gap-2 bg-white rounded-md shadow-lg ring-1 ring-black 
+                          ring-opacity-5">
                 <SlimTextInput
                   label="Display Name"
                   placeholder="Property name"
-                  onChange={event => handleChange(event)}
+                  onChange={e => setDisplayName(e.target.value)}
                   inputProps={{ name: 'header' }}
                 />
                 <SlimTextInput
                   label="Identifier"
                   placeholder="property_name"
-                  onChange={event => handleChange(event)}
+                  onChange={e => setIdentifier(e.target.value)}
                   inputProps={{ name: 'accessor' }}
+                />
+                <div className="w-full h-[1px] bg-crumpet-light-200"></div>
+                <MainButton
+                  className="justify-center"
+                  label="Add property"
+                  icon={<MdAdd />}
+                  onClick={handleAddColumn}
                 />
               </Popover.Panel>
             </Transition>

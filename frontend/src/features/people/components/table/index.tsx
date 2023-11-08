@@ -11,58 +11,48 @@ import { MdAdd } from 'react-icons/md';
 import EditableCell from './cells/EditableCell';
 import { IndeterminateCheckbox } from 'components';
 import AddPropertyHeader from './headers/AddPropertyHeader';
+import { usePeopleStore } from 'features/people/stores/usePeopleStore';
+import SelectableHeader from './headers/SelectableHeader';
+import SelectableCell from './cells/SelectableCell';
 
-const Table = ({ data, columnJson }: { data: any[]; columnJson: any[] }) => {
-  // Convert the structure to column definitions for TanStack Table
-  const createColumns = (columnStructure: any[]): ColumnDef<unknown>[] => {
+interface TableProps {
+  data: any[];
+  columnJson: any[];
+  className?: string;
+}
+
+const Table = ({ data, columnJson, className }: TableProps) => {
+  const propertyDefs = usePeopleStore(state => state.propertyDefinitions);
+
+  const columns = useMemo(() => {
     const columnHelper = createColumnHelper<unknown>();
-    const userColumns = columnStructure.map(column => {
-      return columnHelper.accessor(column.accessor, {
-        header: ({ header }) => <PropertyHeader header={header} value={column.header} />,
+
+    const cols = Object.entries(propertyDefs).map(([key, value]) => {
+      return columnHelper.accessor(value.accessor, {
+        header: ({ header }) => <PropertyHeader header={header} value={value.header} />,
         cell: info => <EditableCell cell={info.cell} value={info.getValue()} />,
-        size: column.size,
+        size: 180,
       });
     });
+
     return [
       {
         id: 'select',
-        header: ({ table }) => (
-          <div className="flex items-center justify-center p-2 border-r border-crumpet-light-200">
-            <IndeterminateCheckbox
-              {...{
-                checked: table.getIsAllRowsSelected(),
-                indeterminate: table.getIsSomeRowsSelected(),
-                onChange: table.getToggleAllRowsSelectedHandler(),
-              }}
-            />
-          </div>
-        ),
-        cell: ({ row }) => (
-          <div className="flex items-center justify-center p-2 border-r border-crumpet-light-200">
-            <IndeterminateCheckbox
-              {...{
-                checked: row.getIsSelected(),
-                disabled: !row.getCanSelect(),
-                indeterminate: row.getIsSomeSelected(),
-                onChange: row.getToggleSelectedHandler(),
-              }}
-            />
-          </div>
-        ),
+        header: ({ table }) => <SelectableHeader table={table} />,
+        cell: ({ row }) => <SelectableCell row={row} />,
         size: 48,
         maxSize: 48,
         minSize: 48,
       },
-      ...userColumns,
+      ...cols,
       {
         id: 'add_property',
-        header: ({table}) => <AddPropertyHeader />,
+        header: ({ table }) => <AddPropertyHeader />,
         cell: ({ row }) => <div></div>,
       },
-    ];
-  };
+    ] as ColumnDef<unknown>[];
+  }, [propertyDefs]);
 
-  const columns = useMemo(() => createColumns(columnJson), [columnJson]);
   const [rowSelection, setRowSelection] = useState({});
 
   const tableInstance = useReactTable({
@@ -78,7 +68,7 @@ const Table = ({ data, columnJson }: { data: any[]; columnJson: any[] }) => {
   });
 
   return (
-    <div className="relative overflow-x-auto">
+    <div className={`relative overflow-x-auto ${className}`}>
       <div className="thead border-b border-t border-crumpet-light-200">
         {tableInstance.getHeaderGroups().map(headerGroup => (
           <div className="tr flex" key={headerGroup.id}>
