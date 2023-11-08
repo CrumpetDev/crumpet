@@ -18,10 +18,9 @@ const AddPropertyHeader = () => {
   const [displayName, setDisplayName] = useState('');
   const [identifier, setIdentifier] = useState('');
 
-  //TODO: Do I need to use useCallback here?
-  const handleAddColumn = useCallback(() => {
+  const handleAddColumn = () => {
     usePeopleStore.getState().upsertDefinition(id, { header: displayName, accessor: identifier });
-  }, [usePeopleStore.getState().propertyDefinitions, id, displayName, identifier]);
+  };
 
   return (
     <Popover>
