@@ -54,6 +54,7 @@ module.exports = {
           900: '#51493E',
         },
         'crumpet-yellow': {
+          600: '#DB9D35',
           500: '#F3AE3B',
           400: '#F4B64F',
           200: '#F9D79D',
