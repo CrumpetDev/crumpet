@@ -30,7 +30,15 @@ const Table = ({ data, columnJson, className }: TableProps) => {
     const cols = Object.entries(propertyDefs).map(([key, value]) => {
       return columnHelper.accessor(value.accessor, {
         header: ({ header }) => <PropertyHeader header={header} value={value.header} />,
-        cell: info => <EditableCell cell={info.cell} value={info.getValue()} />,
+        cell: info => (
+          <EditableCell
+            column={info.column}
+            table={info.table}
+            row={info.row}
+            cell={info.cell}
+            value={info.getValue()}
+          />
+        ),
         size: 180,
       });
     });
