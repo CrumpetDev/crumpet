@@ -32,7 +32,7 @@ const ExtendedMainButton = ({
         type={type}
         className={` justify-start items-center gap-2 inline-flex h-full rounded-l p-2 text-sm font-semibold 
               ${backgroundColor} ${
-          permanentlyDisabled ? 'border-grey-500 bg-grey-700 text-grey-200' : 'text-white'
+          permanentlyDisabled ? 'border border-grey-500 bg-grey-700 text-grey-200' : 'text-white'
         } 
               ${className}`}>
         {icon &&
@@ -44,7 +44,7 @@ const ExtendedMainButton = ({
       <button
         disabled={!enabled}
         className={`h-full p-2 ${backgroundColor} ${
-          permanentlyDisabled ? 'border-grey-500 bg-grey-700' : ''
+          permanentlyDisabled ? ' border-r border-t border-b border-grey-500 bg-grey-700' : ''
         } rounded-r ${className}`}>
         <MdExpandMore className={`text-base ${permanentlyDisabled ? 'text-grey-200' : 'text-white'}`} />
       </button>
