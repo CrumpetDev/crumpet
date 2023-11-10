@@ -18,6 +18,7 @@ interface State {
 interface Actions {
   upsertDefinition: (id: string, definition: Partial<Omit<PropertyDefinition, 'id'>>) => void;
   updateData: (rowIndex: number, columnId: string, value: unknown) => void;
+  addRow: () => void;
 }
 
 function isKeyOfDataObject(
@@ -43,6 +44,12 @@ export const usePeopleStore = create<State & Actions>(set => ({
         if (row) {
           row[columnId] = value;
         }
+      }),
+    ),
+  addRow: () =>
+    set(
+      produce<State>(draft => {
+        draft.data.push({});
       }),
     ),
   propertyDefinitions: {
