@@ -21,6 +21,7 @@ import { TextButton } from 'components/buttons';
 import { useNavigate } from 'react-router';
 import { isHasData } from 'api/utils';
 import { usePopper } from 'react-popper';
+import { useLocation } from 'react-router-dom';
 
 interface ProjectEntry {
   id: number;
@@ -37,6 +38,7 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const { selectedProject, setSelectedProject } = useProjectsStore();
   const isLoadingState = ['initial', 'loading', 'hasError'].includes(selectedProject.state);
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
@@ -53,10 +55,15 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
     setIsOpen(true);
   }
 
+  const isActive = (path: string) => {
+    return location.pathname === path;
+  };
+
   // icon property is a function to allow for styling
   const ButtonList = [
     {
       label: 'Flows',
+      path: '/flows',
       icon: () => <Flow style={{ height: '16px', width: '16px' }} />,
       onClick: () => {
         navigate("/flows");
@@ -65,6 +72,7 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
     },
     {
       label: 'People',
+      path: '/people',
       icon: () => <MdOutlineBadge />,
       onClick: () => {
         navigate("/people");
@@ -97,7 +105,7 @@ const SidebarMenu = ({ projects }: SidebarMenuProps) => {
                 label={button.label}
                 onClick={button.onClick}
                 widthFill={true}
-                selected={button.selected}
+                selected={isActive(button.path)}
               />
             ))}
           </div>
