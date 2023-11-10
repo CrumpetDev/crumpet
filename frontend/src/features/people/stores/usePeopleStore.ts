@@ -10,14 +10,41 @@ export interface PropertyDefinition {
 
 interface State {
   propertyDefinitions: Record<string, Omit<PropertyDefinition, 'id'>>;
+  data: unknown[];
 }
 
 //TODO: Maybe rename to upsertProperty ?
+
 interface Actions {
   upsertDefinition: (id: string, definition: Partial<Omit<PropertyDefinition, 'id'>>) => void;
+  updateData: (rowIndex: number, columnId: string, value: unknown) => void;
+}
+
+function isKeyOfDataObject(
+  key: any,
+  dataObject: Record<string, any>,
+): key is keyof typeof dataObject {
+  return key in dataObject;
 }
 
 export const usePeopleStore = create<State & Actions>(set => ({
+  data: [
+    { name: 'Jane Doe', age: 30 },
+    { name: 'Jane Doe', age: 32 },
+    { name: 'Earl Grey of West Sussex', age: 400000000 },
+    // ... more data
+  ],
+  updateData: (rowIndex: number, columnId: string, value: unknown) =>
+    set(
+      produce<State>(draft => {
+        //const row = draft.data[rowIndex];
+        //TODO: Try and get the isKeyOfDataObject to work
+        const row = draft.data[rowIndex] as Record<string, any>;
+        if (row) {
+          row[columnId] = value;
+        }
+      }),
+    ),
   propertyDefinitions: {
     id_1: { accessor: 'name', header: 'Name' },
     id_2: { accessor: 'age', header: 'Age' },

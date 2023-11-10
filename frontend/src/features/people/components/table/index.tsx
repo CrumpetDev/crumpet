@@ -5,24 +5,22 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { HTMLProps, useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import PropertyHeader from './headers/PropertyHeader';
-import { MdAdd } from 'react-icons/md';
 import EditableCell from './cells/EditableCell';
-import { IndeterminateCheckbox } from 'components';
 import AddPropertyHeader from './headers/AddPropertyHeader';
 import { usePeopleStore } from 'features/people/stores/usePeopleStore';
 import SelectableHeader from './headers/SelectableHeader';
 import SelectableCell from './cells/SelectableCell';
 
 interface TableProps {
-  data: any[];
-  columnJson: any[];
   className?: string;
 }
 
-const Table = ({ data, columnJson, className }: TableProps) => {
+const Table = ({ className }: TableProps) => {
   const propertyDefs = usePeopleStore(state => state.propertyDefinitions);
+  const data = usePeopleStore(state => state.data);
+  const updateData = usePeopleStore(state => state.updateData);
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<unknown>();
@@ -73,6 +71,9 @@ const Table = ({ data, columnJson, className }: TableProps) => {
     onRowSelectionChange: setRowSelection,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
+    meta: {
+      updateData,
+    },
   });
 
   return (
