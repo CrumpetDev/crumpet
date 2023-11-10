@@ -21,13 +21,6 @@ interface Actions {
   addRow: () => void;
 }
 
-function isKeyOfDataObject(
-  key: any,
-  dataObject: Record<string, any>,
-): key is keyof typeof dataObject {
-  return key in dataObject;
-}
-
 export const usePeopleStore = create<State & Actions>(set => ({
   data: [
     { name: 'Jane Doe', age: 30 },
@@ -38,8 +31,6 @@ export const usePeopleStore = create<State & Actions>(set => ({
   updateData: (rowIndex: number, columnId: string, value: unknown) =>
     set(
       produce<State>(draft => {
-        //const row = draft.data[rowIndex];
-        //TODO: Try and get the isKeyOfDataObject to work
         const row = draft.data[rowIndex] as Record<string, any>;
         if (row) {
           row[columnId] = value;
