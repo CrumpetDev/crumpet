@@ -27,7 +27,7 @@ const Table = ({ className }: TableProps) => {
 
     const cols = Object.entries(propertyDefs).map(([key, value]) => {
       return columnHelper.accessor(value.accessor, {
-        header: ({ header }) => <PropertyHeader header={header} value={value.header} />,
+        header: ({ header }) => <PropertyHeader header={header} propertyKey={key} value={value.header} />,
         cell: info => (
           <EditableCell
             column={info.column}

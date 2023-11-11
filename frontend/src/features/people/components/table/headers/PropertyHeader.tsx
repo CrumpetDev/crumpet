@@ -1,23 +1,35 @@
 import { Popover, Transition } from '@headlessui/react';
-import { Header, flexRender } from '@tanstack/react-table';
+import { Header } from '@tanstack/react-table';
 import { SlimTextInput } from 'components/inputs';
+import { usePeopleStore } from 'features/people/stores/usePeopleStore';
 import { Fragment, useEffect, useState } from 'react';
 import { usePopper } from 'react-popper';
 
 interface PropertyHeaderProps<TData, TValue> {
   header: Header<TData, TValue>;
   value: string;
+  propertyKey: string;
 }
 
-const PropertyHeader = <TData, TValue>({ header, value }: PropertyHeaderProps<TData, TValue>) => {
+const PropertyHeader = <TData, TValue>({
+  header,
+  value,
+  propertyKey,
+}: PropertyHeaderProps<TData, TValue>) => {
   const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null);
   const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null);
   const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: 'bottom',
   });
 
-  //TODO: Get display name from store
-  const [displayName, setDisplayName] = useState('');
+  const propertyHeader = usePeopleStore(state => state.propertyDefinitions[propertyKey].header);
+  const [displayName, setDisplayName] = useState(propertyHeader);
+
+  const upsertDefinition = usePeopleStore(state => state.upsertDefinition);
+
+  useEffect(() => {
+    setDisplayName(propertyHeader);
+  }, [propertyHeader]);
 
   const [isDragging, setIsDragging] = useState(false);
 
@@ -95,12 +107,16 @@ const PropertyHeader = <TData, TValue>({ header, value }: PropertyHeaderProps<TD
                 style={styles.popper}
                 {...attributes.popper}
                 className="flex flex-col w-64 overflow-hidden p-4 gap-2 bg-white rounded-md shadow-lg ring-1 ring-black 
-                          ring-opacity-5">
+                          ring-opacity-5 z-10">
                 <SlimTextInput
                   label="Display Name"
                   placeholder="Property name"
+                  value={displayName}
                   onChange={e => setDisplayName(e.target.value)}
-                  inputProps={{ name: 'header' }}
+                  inputProps={{
+                    name: 'header',
+                    onBlur: () => upsertDefinition(propertyKey, { header: displayName }),
+                  }}
                 />
               </Popover.Panel>
             </Transition>
@@ -109,7 +125,6 @@ const PropertyHeader = <TData, TValue>({ header, value }: PropertyHeaderProps<TD
       )}
     </Popover>
   );
-
 };
 
 export default PropertyHeader;
