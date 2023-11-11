@@ -1,3 +1,4 @@
+import { RowSelectionState } from '@tanstack/react-table';
 import { produce } from 'immer';
 import { create } from 'zustand';
 
@@ -11,6 +12,7 @@ export interface PropertyDefinition {
 interface State {
   propertyDefinitions: Record<string, Omit<PropertyDefinition, 'id'>>;
   data: unknown[];
+  rowSelection: RowSelectionState | undefined;
 }
 
 //TODO: Maybe rename to upsertProperty ?
@@ -20,6 +22,7 @@ interface Actions {
   deleteDefinition: (id: string) => void;
   updateData: (rowIndex: number, columnId: string, value: unknown) => void;
   addRow: () => void;
+  setRowSelection: (newRowSelection: RowSelectionState) => void;
 }
 
 export const usePeopleStore = create<State & Actions>(set => ({
@@ -44,6 +47,7 @@ export const usePeopleStore = create<State & Actions>(set => ({
         draft.data.push({});
       }),
     ),
+  rowSelection: {},
   propertyDefinitions: {
     id_1: { accessor: 'name', header: 'Name' },
     id_2: { accessor: 'age', header: 'Age' },
@@ -61,10 +65,18 @@ export const usePeopleStore = create<State & Actions>(set => ({
         }
       }),
     ),
-    deleteDefinition: (id) => // Implement the delete function
+  deleteDefinition: (
+    id, // Implement the delete function
+  ) =>
     set(
       produce<State>(draft => {
         delete draft.propertyDefinitions[id];
+      }),
+    ),
+  setRowSelection: newRowSelection =>
+    set(
+      produce<State>(draft => {
+        draft.rowSelection = newRowSelection;
       }),
     ),
 }));

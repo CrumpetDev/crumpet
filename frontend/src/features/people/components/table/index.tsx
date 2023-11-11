@@ -1,5 +1,7 @@
 import {
   ColumnDef,
+  RowSelectionState,
+  Updater,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
@@ -59,7 +61,20 @@ const Table = ({ className }: TableProps) => {
     ] as ColumnDef<unknown>[];
   }, [propertyDefs]);
 
-  const [rowSelection, setRowSelection] = useState({});
+  //const [rowSelection, setRowSelection] = useState({});
+
+  const rowSelection = usePeopleStore(state => state.rowSelection);
+  const setRowSelection = usePeopleStore(state => state.setRowSelection);
+
+  const handleRowSelectionChange = (newRowSelection: Updater<RowSelectionState>) => {
+    if (typeof newRowSelection === 'function') {
+      // Call the function
+      setRowSelection(newRowSelection(rowSelection ?? {}));
+    } else {
+      // Otherwise, use newRowSelection as the new state directly
+      setRowSelection(newRowSelection);
+    }
+  }
 
   const tableInstance = useReactTable({
     data,
@@ -68,7 +83,7 @@ const Table = ({ className }: TableProps) => {
       rowSelection,
     },
     enableRowSelection: true,
-    onRowSelectionChange: setRowSelection,
+    onRowSelectionChange: handleRowSelectionChange,
     columnResizeMode: 'onChange',
     getCoreRowModel: getCoreRowModel(),
     meta: {
