@@ -1,8 +1,10 @@
 import { Popover, Transition } from '@headlessui/react';
 import { Header } from '@tanstack/react-table';
+import { TextButton } from 'components/buttons';
 import { SlimTextInput } from 'components/inputs';
 import { usePeopleStore } from 'features/people/stores/usePeopleStore';
 import { Fragment, useEffect, useState } from 'react';
+import { MdDelete } from 'react-icons/md';
 import { usePopper } from 'react-popper';
 
 interface PropertyHeaderProps<TData, TValue> {
@@ -26,6 +28,7 @@ const PropertyHeader = <TData, TValue>({
   const [displayName, setDisplayName] = useState(propertyHeader);
 
   const upsertDefinition = usePeopleStore(state => state.upsertDefinition);
+  const deleteDefinition = usePeopleStore(state => state.deleteDefinition);
 
   useEffect(() => {
     setDisplayName(propertyHeader);
@@ -117,6 +120,13 @@ const PropertyHeader = <TData, TValue>({
                     name: 'header',
                     onBlur: () => upsertDefinition(propertyKey, { header: displayName }),
                   }}
+                />
+                <div className="w-full h-[1px] bg-crumpet-light-200"></div>
+                <TextButton
+                label="Delete property"
+                color="text-red-600 group-hover:text-red-700"
+                  icon={<MdDelete />}
+                  onClick={() => deleteDefinition(propertyKey) }
                 />
               </Popover.Panel>
             </Transition>

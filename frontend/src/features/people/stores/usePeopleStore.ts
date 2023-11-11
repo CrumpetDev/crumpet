@@ -17,6 +17,7 @@ interface State {
 
 interface Actions {
   upsertDefinition: (id: string, definition: Partial<Omit<PropertyDefinition, 'id'>>) => void;
+  deleteDefinition: (id: string) => void;
   updateData: (rowIndex: number, columnId: string, value: unknown) => void;
   addRow: () => void;
 }
@@ -58,6 +59,12 @@ export const usePeopleStore = create<State & Actions>(set => ({
           // (you should validate the full object structure here)
           draft.propertyDefinitions[id] = newDefinition as Omit<PropertyDefinition, 'id'>;
         }
+      }),
+    ),
+    deleteDefinition: (id) => // Implement the delete function
+    set(
+      produce<State>(draft => {
+        delete draft.propertyDefinitions[id];
       }),
     ),
 }));
