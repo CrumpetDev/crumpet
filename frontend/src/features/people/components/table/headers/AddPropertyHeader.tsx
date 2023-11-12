@@ -26,7 +26,7 @@ const AddPropertyHeader = () => {
     <Popover>
       {({ open }) => (
         <>
-          <Popover.Button ref={setReferenceElement} className="flex items-center p-2 outline-none">
+          <Popover.Button ref={setReferenceElement} className="flex flex-row h-full items-center p-2 outline-none">
             <MdAdd className="text-center text-base text-grey-700" />
           </Popover.Button>
           <Popover.Panel>
