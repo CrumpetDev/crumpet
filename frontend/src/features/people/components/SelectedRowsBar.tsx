@@ -1,4 +1,5 @@
 import { MdDeleteOutline } from 'react-icons/md';
+import { usePeopleStore } from '../stores/usePeopleStore';
 
 interface SelectedRowsBarProps {
   selectedCount: number;
@@ -9,9 +10,8 @@ const SelectedRowsBar = ({ selectedCount }: SelectedRowsBarProps) => {
   const visibleClasses = 'opacity-100 translate-y-0'; // Final state: visible
   const hiddenClasses = 'opacity-0 translate-y-1'; // Initial state: invisible
 
-  const deleteSelected = () => {
-    console.log('delete selected');
-  };
+  const deleteSelected = usePeopleStore(state => state.deleteSelectedRows);
+
   return (
     <div
       className={`flex flex-row transition ease-in-out duration-200 transform bg-white border 

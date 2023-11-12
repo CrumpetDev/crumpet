@@ -23,6 +23,7 @@ interface Actions {
   updateData: (rowIndex: number, columnId: string, value: unknown) => void;
   addRow: () => void;
   setRowSelection: (newRowSelection: RowSelectionState) => void;
+  deleteSelectedRows: () => void;
 }
 
 export const usePeopleStore = create<State & Actions>(set => ({
@@ -77,6 +78,17 @@ export const usePeopleStore = create<State & Actions>(set => ({
     set(
       produce<State>(draft => {
         draft.rowSelection = newRowSelection;
+      }),
+    ),
+    deleteSelectedRows: () =>
+    set(
+      produce<State>(draft => {
+        if (draft.rowSelection) {
+          // Filter out the rows that are selected
+          draft.data = draft.data.filter((_, index) => !draft.rowSelection?.[index]);
+          // Reset the rowSelection state after deletion
+          draft.rowSelection = {};
+        }
       }),
     ),
 }));
