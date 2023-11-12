@@ -162,6 +162,141 @@ paths:
           description: ''
       tags:
       - projects
+  /environments/:
+    get:
+      operationId: listEnvironments
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Environment'
+          description: ''
+      tags:
+      - environments
+    post:
+      operationId: createEnvironment
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Environment'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+          description: ''
+      tags:
+      - environments
+  /environments/{id}/:
+    get:
+      operationId: retrieveEnvironment
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this environment.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+          description: ''
+      tags:
+      - environments
+    put:
+      operationId: updateEnvironment
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this environment.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Environment'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+          description: ''
+      tags:
+      - environments
+    patch:
+      operationId: partialUpdateEnvironment
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this environment.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Environment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Environment'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Environment'
+          description: ''
+      tags:
+      - environments
+    delete:
+      operationId: destroyEnvironment
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this environment.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - environments
   /token/:
     post:
       operationId: createTokenObtainPair
@@ -342,6 +477,28 @@ components:
           readOnly: true
       required:
       - name
+    Environment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        identifier:
+          type: string
+          maxLength: 255
+        is_default:
+          type: boolean
+        data_schema:
+          type: object
+          nullable: true
+      required:
+      - name
+      - identifier
+      - is_default
+      - data_schema
     TokenObtainPair:
       type: object
       properties:
