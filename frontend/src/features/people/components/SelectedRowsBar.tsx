@@ -19,14 +19,14 @@ const SelectedRowsBar = ({ selectedCount }: SelectedRowsBarProps) => {
               divide-crumpet-light-200 cursor-default ${
                 isVisible ? visibleClasses : hiddenClasses
               }`}>
-      <div className="h-full text-sm font-semibold text-crumpet-yellow-500 p-2">
+      <div className="h-full text-sm font-semibold self-center text-crumpet-yellow-500 py-1 px-2">
         {selectedCount} selected
       </div>
       <div
-        className="h-full flex flex-row items-center gap-1 text-sm font-medium text-grey-700 p-2
+        className="h-full flex flex-row items-center gap-1 text-sm font-medium text-grey-700 py-1 px-2
                       hover:bg-crumpet-light-100 hover:cursor-pointer hover:text-red-700"
         onClick={deleteSelected}>
-        <MdDeleteOutline className="text-lg" /> Delete
+        <span className="material-symbols-rounded text-lg">delete</span> Delete
       </div>
     </div>
   );
