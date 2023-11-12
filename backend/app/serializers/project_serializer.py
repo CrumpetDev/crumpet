@@ -1,7 +1,7 @@
 from app.models import Project, Environment
 from app.models.project import ProjectMembership
 from .user_serializer import UserSummarySerializer
-from .environment_serializer import EnvironmentSerializer
+from .environment_serializer import EnvironmentInfoSerializer
 from rest_framework import serializers
 
 
@@ -22,7 +22,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     members = ProjectMembershipSerializer(
         many=True, read_only=True, source="projectmembership_set"
     )
-    environments = EnvironmentSerializer(
+    environments = EnvironmentInfoSerializer(
         many=True, read_only=True, source="environment_set"
     )
 
@@ -55,7 +55,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         ).data
         # Serialize the 'environments' using 'EnvironmentSerializer'
         environment_qs = Environment.objects.filter(project=instance)
-        representation["environments"] = EnvironmentSerializer(
+        representation["environments"] = EnvironmentInfoSerializer(
             environment_qs, many=True
         ).data
 

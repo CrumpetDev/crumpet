@@ -26,6 +26,7 @@ from rest_framework_simplejwt.views import (
 
 from app.utils import OptionalTrailingSlashRouter
 from app.views.project_views import ProjectsView
+from app.views.environments_view import EnvironmentsView
 from app.views.register_view import RegisterView
 from app.views.user_view import UserDetailView
 
@@ -33,6 +34,7 @@ from app.views.user_view import UserDetailView
 router = OptionalTrailingSlashRouter()
 
 router.register(r"projects", ProjectsView, basename="projects")
+router.register(r"environments", EnvironmentsView, basename="environments")
 
 urlpatterns = [
     # Admin
