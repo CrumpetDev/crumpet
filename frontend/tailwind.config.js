@@ -14,6 +14,7 @@ module.exports = {
         lg: '4px 4px 16px rgba(0, 0, 0, 0.15)',
       },
       boxShadow: {
+        'ultra-light': '0 2px 2px 0 rgba(0, 0, 0, 0.04)' ,
         light: '0 2px 4px 0 rgba(0, 0, 0, 0.04), 0 0px 4px 0 rgba(0, 0, 0, 0.08)',
         strong: '0 2px 4px 0 rgba(0, 0, 0, 0.04), 2px 4px 16px 0 rgba(0, 0, 0, 0.12)',
 				raised: '0 1px 2px 0 rgba(0, 0, 0, 0.24)',
