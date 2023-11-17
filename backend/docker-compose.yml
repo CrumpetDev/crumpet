@@ -12,6 +12,7 @@ services:
     tty: true
     environment:
       - ENVIRONMENT=production
+      - REDIS_CHANNELS_HOST=redis_channels
     env_file:
       - .env.production
     depends_on:
@@ -29,6 +30,16 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  redis_channels:
+    image: "redis:latest"
+    container_name: "crumpet_redis_channels"
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_channels_data:/data
+
 volumes:
   pgdata:
+  redis_channels_data:
+
 
