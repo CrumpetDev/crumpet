@@ -3,11 +3,21 @@ from channels.middleware import BaseMiddleware
 from django.core.exceptions import PermissionDenied
 from app.models import Project
 
+
 class ApiKeyAuthMiddleware(BaseMiddleware):
     async def __call__(self, scope, receive, send):
         # Extract API key from the scope (from query params)
-        api_key = scope['query_string'].decode().split('=')[1]
-        
+        try:
+            query_string = scope.get("query_string", b"").decode()
+            if "=" not in query_string:
+                raise PermissionDenied("Malformed request or no API key provided")
+
+            api_key = query_string.split("=")[1]
+        except PermissionDenied as e:
+            raise e
+        except Exception:
+            raise PermissionDenied("Error processing request")
+
         # Validate the API key
         if not await self.is_valid_api_key(api_key):
             raise PermissionDenied("Invalid API key")
