@@ -20,11 +20,11 @@ import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-ENVIRONMENT = os.getenv('ENVIRONMENT', 'development')  # Assume development by default
-if ENVIRONMENT == 'production':
-    dotenv_path = BASE_DIR / '.env.production'
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")  # Assume development by default
+if ENVIRONMENT == "production":
+    dotenv_path = BASE_DIR / ".env.production"
 else:
-    dotenv_path = BASE_DIR / '.env.development'
+    dotenv_path = BASE_DIR / ".env.development"
 
 if dotenv_path.exists():
     load_dotenv(dotenv_path=dotenv_path)
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "channels",
     "corsheaders",
     "app",
 ]
@@ -87,6 +88,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "backend.wsgi.application"
 
+ASGI_APPLICATION = "backend.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -105,7 +107,7 @@ DATABASES = {
         "NAME": os.environ.get("DB_NAME"),
         "USER": os.environ.get("DB_USERNAME"),
         "PASSWORD": os.environ.get("DB_PASSWORD"),
-        "HOST": host, 
+        "HOST": host,
         "PORT": os.environ.get("DB_PORT"),
     }
 }
@@ -215,4 +217,17 @@ JWT_AUTH = {
     "JWT_ALLOW_REFRESH": True,
     # change to fit your needs
     "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(days=7),
+}
+
+# TODO: Check if we're in DEVELOPMENT_MODE for localhost vs channel service
+# Channel layer configurations
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [
+                (os.environ.get("REDIS_CHANNELS_HOST", "localhost"), 6379)
+            ],  # Configure Redis server
+        },
+    },
 }
