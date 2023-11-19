@@ -3,8 +3,18 @@ import { SegmentSelector, SelectedRowsBar, Table } from '../components';
 import { MdAdd, MdConstruction } from 'react-icons/md';
 import { usePeopleStore } from '../stores/usePeopleStore';
 import { SoonLabel } from 'components';
+import { usePeopleSocket } from '../hooks/usePeopleSocket';
+import { useProjectsStore } from 'features/projects/stores/useProjectsStore';
+import { isHasData } from 'api/utils';
 
 const People = () => {
+  const selectedProject = useProjectsStore(state => state.selectedProject);
+  const isActive = isHasData(selectedProject) && !!selectedProject.data.api_key;
+  const socketUrl = isActive
+    ? `ws://localhost:8001/ws/people/?api_key=${selectedProject.data.api_key}`
+    : '';
+  usePeopleSocket({ url: socketUrl, isActive });
+
   const addRow = usePeopleStore(state => state.addRow);
   const selectedRowCount = usePeopleStore(
     state => Object.values(state.rowSelection || {}).filter(value => value).length,

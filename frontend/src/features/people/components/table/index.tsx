@@ -7,15 +7,13 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import PropertyHeader from './headers/PropertyHeader';
 import EditableCell from './cells/EditableCell';
 import AddPropertyHeader from './headers/AddPropertyHeader';
 import { usePeopleStore } from 'features/people/stores/usePeopleStore';
 import SelectableHeader from './headers/SelectableHeader';
 import SelectableCell from './cells/SelectableCell';
-import { useProjectsStore } from 'features/projects/stores/useProjectsStore';
-import { isHasData } from 'api/utils';
 
 interface TableProps {
   className?: string;
@@ -25,7 +23,6 @@ const Table = ({ className }: TableProps) => {
   const propertyDefs = usePeopleStore(state => state.propertyDefinitions);
   const data = usePeopleStore(state => state.data);
   const updateData = usePeopleStore(state => state.updateData);
-  const selectedProject = useProjectsStore(state => state.selectedProject);
 
   const columns = useMemo(() => {
     const columnHelper = createColumnHelper<unknown>();
@@ -65,36 +62,6 @@ const Table = ({ className }: TableProps) => {
       },
     ] as ColumnDef<unknown>[];
   }, [propertyDefs]);
-
-  useEffect(() => {
-    if (isHasData(selectedProject) && selectedProject.data.api_key) {
-      const ws = new WebSocket(
-        `ws://localhost:8001/ws/people/?api_key=${selectedProject.data.api_key}`,
-      );
-
-      ws.onopen = () => {
-        console.log('WebSocket Connected');
-        ws.send(JSON.stringify({ message: 'testing' }));
-      };
-
-      ws.onmessage = e => {
-        const wsData = JSON.parse(e.data);
-        console.log(wsData);
-      };
-
-      ws.onerror = e => {
-        console.error('WebSocket Error', e);
-      };
-
-      ws.onclose = e => {
-        console.log('WebSocket Disconnected');
-      };
-
-      return () => {
-        ws.close();
-      };
-    }
-  }, [selectedProject]);
 
   const rowSelection = usePeopleStore(state => state.rowSelection);
   const setRowSelection = usePeopleStore(state => state.setRowSelection);
