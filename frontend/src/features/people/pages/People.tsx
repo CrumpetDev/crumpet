@@ -3,22 +3,37 @@ import { SegmentSelector, SelectedRowsBar, Table } from '../components';
 import { MdAdd, MdConstruction } from 'react-icons/md';
 import { usePeopleStore } from '../stores/usePeopleStore';
 import { SoonLabel } from 'components';
-import { usePeopleSocket } from '../hooks/usePeopleSocket';
+import { useEffect, useRef } from 'react';
 import { useProjectsStore } from 'features/projects/stores/useProjectsStore';
 import { isHasData } from 'api/utils';
 
 const People = () => {
-  const selectedProject = useProjectsStore(state => state.selectedProject);
-  const isActive = isHasData(selectedProject) && !!selectedProject.data.api_key;
-  const socketUrl = isActive
-    ? `ws://localhost:8001/ws/people/?api_key=${selectedProject.data.api_key}`
-    : '';
-  usePeopleSocket({ url: socketUrl, isActive });
-
   const addRow = usePeopleStore(state => state.addRow);
   const selectedRowCount = usePeopleStore(
     state => Object.values(state.rowSelection || {}).filter(value => value).length,
   );
+
+  const destroy = usePeopleStore(state => state.destroy);
+  const setupSocket = usePeopleStore(state => state.setupSocket);
+  useEffect(() => {
+    // We track changes to the select project as we need the api_key in our socket connection
+    const unsubscribe = useProjectsStore.subscribe(
+      state => state.selectedProject,
+      (selectedProjectState, prevSelectedProjectState) => {
+        if (isHasData(selectedProjectState) && !!selectedProjectState.data.api_key) {
+          const socketUrl = `ws://localhost:8001/ws/people/?api_key=${selectedProjectState.data.api_key}`;
+          setupSocket(socketUrl);
+        }
+      },
+      { fireImmediately: true },
+    );
+
+    return () => {
+      destroy();
+      unsubscribe();
+    };
+  }, [destroy, setupSocket]);
+
   return (
     <div className="h-full w-full flex flex-row">
       <div className="flex-none w-64 self-stretch flex flex-col p-4 py-8 gap-4 border-r border-crumpet-light-300">
