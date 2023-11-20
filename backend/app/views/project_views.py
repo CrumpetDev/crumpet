@@ -1,9 +1,12 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 
 from app.serializers.project_serializer import ProjectSerializer
-from app.models import Project, ProjectMembership
+from app.serializers import PersonSerializer
+from app.models import Project, ProjectMembership, Environment, Person
 from app.permissions import ProjectMemberPermission, ProjectAdminPermission
 
 
@@ -13,7 +16,9 @@ class ProjectsView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, ProjectMemberPermission]
 
     def get_queryset(self):
-        return self.queryset.filter(members__pk=self.request.user.pk).prefetch_related('environments')
+        return self.queryset.filter(members__pk=self.request.user.pk).prefetch_related(
+            "environments"
+        )
 
     def get_object(self):
         # Fetch the object and check if the request user has the necessary permissions.
@@ -37,3 +42,22 @@ class ProjectsView(viewsets.ModelViewSet):
                 user=self.request.user,
                 type=ProjectMembership.MembershipType.ADMIN,
             )
+
+    @action(
+        detail=True,
+        methods=["get"],
+        url_path="people/(?P<environment_identifier>[^/.]+)",
+    )
+    def people_in_environment(self, request, pk=None, environment_identifier=None):
+        """
+        Retrieve all people that belong to the specified project and environment.
+        """
+        try:
+            project = self.get_object()
+            environment = Environment.objects.get(identifier=environment_identifier, project=project)
+            people = Person.objects.filter(environment=environment)
+        except (Project.DoesNotExist, Environment.DoesNotExist):
+            return Response({"error": "Project or Environment not found"}, status=404)
+
+        serializer = PersonSerializer(people, many=True)
+        return Response(serializer.data)
