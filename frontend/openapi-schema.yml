@@ -162,6 +162,32 @@ paths:
           description: ''
       tags:
       - projects
+  /projects/{id}/people/{environment_identifier}/:
+    get:
+      operationId: peopleInEnvironmentProject
+      description: Retrieve all people that belong to the specified project and environment.
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this project.
+        schema:
+          type: string
+      - name: environment_identifier
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+          description: ''
+      tags:
+      - projects
   /environments/:
     get:
       operationId: listEnvironments

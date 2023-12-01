@@ -838,6 +838,43 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
+         * Retrieve all people that belong to the specified project and environment.
+         * @param {string} id A unique integer value identifying this project.
+         * @param {string} environmentIdentifier 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        peopleInEnvironmentProject: async (id: string, environmentIdentifier: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('peopleInEnvironmentProject', 'id', id)
+            // verify required parameter 'environmentIdentifier' is not null or undefined
+            assertParamExists('peopleInEnvironmentProject', 'environmentIdentifier', environmentIdentifier)
+            const localVarPath = `/projects/{id}/people/{environment_identifier}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"environment_identifier"}}`, encodeURIComponent(String(environmentIdentifier)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @param {string} id A unique integer value identifying this project.
          * @param {*} [options] Override http request option.
@@ -958,6 +995,17 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * Retrieve all people that belong to the specified project and environment.
+         * @param {string} id A unique integer value identifying this project.
+         * @param {string} environmentIdentifier 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async peopleInEnvironmentProject(id: string, environmentIdentifier: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Project>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.peopleInEnvironmentProject(id, environmentIdentifier, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * 
          * @param {string} id A unique integer value identifying this project.
          * @param {*} [options] Override http request option.
@@ -1023,6 +1071,16 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
          */
         partialUpdateProject(id: string, project?: Project, options?: any): AxiosPromise<Project> {
             return localVarFp.partialUpdateProject(id, project, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieve all people that belong to the specified project and environment.
+         * @param {string} id A unique integer value identifying this project.
+         * @param {string} environmentIdentifier 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        peopleInEnvironmentProject(id: string, environmentIdentifier: string, options?: any): AxiosPromise<Project> {
+            return localVarFp.peopleInEnvironmentProject(id, environmentIdentifier, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1095,6 +1153,18 @@ export class ProjectsApi extends BaseAPI {
      */
     public partialUpdateProject(id: string, project?: Project, options?: AxiosRequestConfig) {
         return ProjectsApiFp(this.configuration).partialUpdateProject(id, project, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Retrieve all people that belong to the specified project and environment.
+     * @param {string} id A unique integer value identifying this project.
+     * @param {string} environmentIdentifier 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApi
+     */
+    public peopleInEnvironmentProject(id: string, environmentIdentifier: string, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).peopleInEnvironmentProject(id, environmentIdentifier, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
