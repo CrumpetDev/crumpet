@@ -1,8 +1,9 @@
 from django.db import models
 
+from app.fields import PersonSchemaJSONField
 
 class PersonSchema(models.Model):
-    schema = models.JSONField()
+    schema = PersonSchemaJSONField()
     environment = models.OneToOneField(
         "Environment",
         on_delete=models.CASCADE,
