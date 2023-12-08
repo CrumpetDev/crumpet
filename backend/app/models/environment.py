@@ -11,8 +11,6 @@ class Environment(models.Model):
     )
     is_default = models.BooleanField(default=False, blank=False, null=False)
 
-    data_schema = models.JSONField(default=dict, blank=True, null=True)
-
     class Meta:
         unique_together = ["identifier", "project"]
 

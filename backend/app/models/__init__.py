@@ -15,3 +15,4 @@ from .project import Project, ProjectMembership
 from .selector import Selector
 from .environment import Environment
 from .person import Person
+from .person_schema import PersonSchema
