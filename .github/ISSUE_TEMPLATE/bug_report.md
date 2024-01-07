@@ -2,8 +2,8 @@
 name: Bug report
 about: Report a bug or a regression.
 title: 'Ex: History breadcrumb is null on first load (Projects page)'
-labels: 'type: bug'
-assignees: ''
+labels: 'type: bug, type: other'
+assignees: tomtitherington
 
 ---
 
@@ -55,4 +55,4 @@ Add any other context about the problem here.
 - I think a null value here means that there is no history.
 ```
 
-## Thank you for submitting a bug report! Please delete this heading and the examples included in each section before submitting.
+### 🙏 Thank you for submitting a bug report! Please delete this heading and the examples included in each section before submitting. 💫

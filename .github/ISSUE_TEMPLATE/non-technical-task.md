@@ -8,12 +8,12 @@ assignees: ''
 ---
 
 ## Summary
-Briefly describe the work to be done.
+*Briefly describe the work to be done.*
 
 ## Details
-- **Deliverables:** What should be delivered? Go into detail where necessary, this is usually best written as a list of tasks. 
+- **Deliverables:** *What should be delivered? Go into detail where necessary, this is usually best written as a list of tasks.*
 
-**Example:** 
+*Example:* 
 ```
 - [ ] Create dropdown as a Figma component
 - [ ] Share the design as a comment on this issue
