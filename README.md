@@ -1,6 +1,8 @@
+<!--
 <p align="center">
   <img src="https://github.com/CrumpetDev/crumpet/assets/30439911/6ddd604a-336f-4b02-8094-17ed416f2d7b" alt="Crumpet_logo_square">
 </p>
+-->
 
 <h1 align="center">
   Butter up your audience and spread your message effectively.
@@ -10,10 +12,10 @@
   We help engineers and product teams solve customer retention and product education through open-source tooling.
 </p>
 
-<p align="center">
-  <a href="https://www.opencrumpet.com/">🌎 Website</a> - <a href="#">📚 Documentation (soon)</a> - <a href="#">📋 Waitlist</a> - <a href="https://join.slack.com/t/crumpetgroup/shared_invite/zt-1y0si8la9-YR0oxMmmYxRGmO2wmEPDrw" rel="nofollow"><img src="https://github.com/CrumpetDev/crumpet/assets/30439911/0a144f3b-6910-4b53-88dc-47ee09c02c5e" width="12" height="12" style="max-width: 100%; vertical-align: middle;"> Slack</a> - <a href="#"><img src="https://github.com/CrumpetDev/crumpet/assets/30439911/192ad5a4-8bb7-4547-8a4f-ccf2eb7cd5bc" width="12" height="12" style="max-width: 100%; vertical-align: middle;"> Figma (soon)</a>
-</p>
 
+<p align="center">
+  <a href="https://www.opencrumpet.com/">🌎 Website</a> - <a href="#">📚 Documentation (soon)</a> - <a href="https://cq4lqviw38a.typeform.com/to/aGnynFet">📋 Waitlist</a> - <a href="https://join.slack.com/t/crumpetgroup/shared_invite/zt-1y0si8la9-YR0oxMmmYxRGmO2wmEPDrw" rel="nofollow"><img src="https://github.com/CrumpetDev/crumpet/assets/30439911/0a144f3b-6910-4b53-88dc-47ee09c02c5e" width="12" height="12" style="max-width: 100%; vertical-align: middle;"> Slack</a> - <a href="#"><img src="https://github.com/CrumpetDev/crumpet/assets/30439911/192ad5a4-8bb7-4547-8a4f-ccf2eb7cd5bc" width="12" height="12" style="max-width: 100%; vertical-align: middle;"> Figma (soon)</a>
+</p>
 
 <p align="center">
   <img src="https://github.com/CrumpetDev/crumpet/assets/30439911/9f419669-1228-488c-88d1-22944657874f" alt="Repo_Header__4x">
@@ -49,22 +51,27 @@ Pendo, Intercom, AppCues and Chameleon are probably the most well known product 
 - *aren't extensible and offer very limited customisation.*
 - *only fit a handful of use cases (you’re stuck using tooltips and modals that work at a layer above your product via a JavaScript snippet).*
 - *look and feel like an afterthought (since they don’t fit your design language or brand).*
-- *difficult (and often expensive) to self-host.*
+- *are difficult (and often expensive) to self-host.*
 
 ## Why use Crumpet?
 
 Crumpet allows developers to integrate onboarding, education and retention experiences into their software products natively and using their own UI components through a drag-and-drop workflow builder combined with an SDK.
 
 - **🪄 Configure simply, engage purposefully:** modelling customer engagements as steps in a workflow gives engineers and designers as much freedom as possible. This means you can bring your own UI components or use our existing library of templates.
+  
 - **💪 Flexible customer data model:**  share whatever data you want with Crumpet and use this to target specific users or groups. This could be users on a free trial, users of a particular company or whatever you like - it’s just JSON under the hood , no need to retrofit your data into predefined objects on a remote cloud.
+  
 - **🔓 Open-source, open architecture:** Contribute, self-host, fork. Break free from vendor lock-in and join us in transforming how software businesses engage with their customers and drive product adoption.
+  
 - **🎨 Extendable and customisable:** Extend our API and connect Crumpet to your internal systems and tools (i.e. CDPs, CRMs, direct messaging tools like Slack … etc)
+  
 - **💸 Transparent pricing:** Our community self-hosted version will always be free and open-source. Our cloud version is priced like typical usage-based SaaS - you pay only for what you use.
+  
 - **💾 Own your data and host on your terms:** your data never has to leave your infrastructure.
 
 ## What can you do with Crumpet?
 <a name="what-can-you-do"></a>
-We’re currently in the development phase of Crumpet’s alpha version. If you have ideas, think something is missing, have a specific requirement or want to ask a question, please either create an issue or message our Slack community.
+We’re currently in the development phase of Crumpet’s alpha version. If you have ideas, think something is missing, have a specific requirement or just want to ask a question, please either create an issue/disscussion or message our Slack community.
 
 Here’s an idea of what you can build with Crumpet.
 
@@ -150,6 +157,6 @@ Here’s what’s to come:
 ## Get Involved
 
 - You can star the repository.
-- You can [join the waitlist to stay in the loop.]
+- You can [join the waitlist to stay in the loop.](https://cq4lqviw38a.typeform.com/to/aGnynFet)
 - Join our [Slack](https://join.slack.com/t/crumpetgroup/shared_invite/zt-1y0si8la9-YR0oxMmmYxRGmO2wmEPDrw).
-- Contributions are extremely welcome (and very much appreciated)! If you're interested, please message me on Slack and I'll help you get set up.
+- Contributions are extremely welcome (and very much appreciated)! If you're interested, please message me on Slack (for now) and I'll help you get set up.
