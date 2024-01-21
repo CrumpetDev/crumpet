@@ -4,6 +4,10 @@
 </p>
 -->
 
+<p align="center">
+  <img src="https://github.com/CrumpetDev/crumpet/assets/30439911/9f419669-1228-488c-88d1-22944657874f" alt="Repo_Header__4x">
+</p>
+
 <h1 align="center">
   Butter up your audience and spread your message effectively.
 </h1>
@@ -15,10 +19,6 @@
 
 <p align="center">
   <a href="https://www.opencrumpet.com/">🌎 Website</a> - <a href="#">📚 Documentation (soon)</a> - <a href="https://cq4lqviw38a.typeform.com/to/aGnynFet">📋 Waitlist</a> - <a href="https://join.slack.com/t/crumpetgroup/shared_invite/zt-1y0si8la9-YR0oxMmmYxRGmO2wmEPDrw" rel="nofollow"><img src="https://github.com/CrumpetDev/crumpet/assets/30439911/0a144f3b-6910-4b53-88dc-47ee09c02c5e" width="12" height="12" style="max-width: 100%; vertical-align: middle;"> Slack</a> - <a href="#"><img src="https://github.com/CrumpetDev/crumpet/assets/30439911/192ad5a4-8bb7-4547-8a4f-ccf2eb7cd5bc" width="12" height="12" style="max-width: 100%; vertical-align: middle;"> Figma (soon)</a>
-</p>
-
-<p align="center">
-  <img src="https://github.com/CrumpetDev/crumpet/assets/30439911/9f419669-1228-488c-88d1-22944657874f" alt="Repo_Header__4x">
 </p>
 
 <p align="center"> Only interested in features? <a href="#what-can-you-do"> You can skip the spiel by clicking here.</p>
