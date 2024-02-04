@@ -2,13 +2,9 @@
   "python.envFile": "${workspaceFolder}/backend/.env",
   "prettier.configPath": "./frontend/.prettierrc.js",
   "prettier.bracketSpacing": false,
-  "python.testing.unittestArgs": [
-    "-v",
-    "-s",
-    "./backend",
-    "-p",
-    "test_*.py"
-  ],
+  "python.formatting.provider": "black",
+  "black-formatter.args": ["--line-length", "120"],
+  "python.testing.unittestArgs": ["-v", "-s", "./backend", "-p", "test_*.py"],
   "python.testing.pytestEnabled": false,
   "python.testing.unittestEnabled": true
 }
