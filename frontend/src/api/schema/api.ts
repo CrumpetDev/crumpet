@@ -26,6 +26,43 @@ import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base';
 /**
  * 
  * @export
+ * @interface Environment
+ */
+export interface Environment {
+    /**
+     * 
+     * @type {number}
+     * @memberof Environment
+     */
+    'id'?: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof Environment
+     */
+    'name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof Environment
+     */
+    'identifier': string;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Environment
+     */
+    'is_default': boolean;
+    /**
+     * 
+     * @type {object}
+     * @memberof Environment
+     */
+    'data_schema': object | null;
+}
+/**
+ * 
+ * @export
  * @interface Project
  */
 export interface Project {
@@ -239,6 +276,430 @@ export interface TokenVerify {
 }
 
 /**
+ * EnvironmentsApi - axios parameter creator
+ * @export
+ */
+export const EnvironmentsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {Environment} [environment] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createEnvironment: async (environment?: Environment, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/environments/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(environment, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id A unique integer value identifying this environment.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        destroyEnvironment: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('destroyEnvironment', 'id', id)
+            const localVarPath = `/environments/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listEnvironments: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/environments/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id A unique integer value identifying this environment.
+         * @param {Environment} [environment] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        partialUpdateEnvironment: async (id: string, environment?: Environment, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('partialUpdateEnvironment', 'id', id)
+            const localVarPath = `/environments/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(environment, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id A unique integer value identifying this environment.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        retrieveEnvironment: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('retrieveEnvironment', 'id', id)
+            const localVarPath = `/environments/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id A unique integer value identifying this environment.
+         * @param {Environment} [environment] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateEnvironment: async (id: string, environment?: Environment, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateEnvironment', 'id', id)
+            const localVarPath = `/environments/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(environment, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * EnvironmentsApi - functional programming interface
+ * @export
+ */
+export const EnvironmentsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = EnvironmentsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {Environment} [environment] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createEnvironment(environment?: Environment, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Environment>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createEnvironment(environment, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id A unique integer value identifying this environment.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async destroyEnvironment(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.destroyEnvironment(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async listEnvironments(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Environment>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.listEnvironments(options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id A unique integer value identifying this environment.
+         * @param {Environment} [environment] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async partialUpdateEnvironment(id: string, environment?: Environment, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Environment>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.partialUpdateEnvironment(id, environment, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id A unique integer value identifying this environment.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async retrieveEnvironment(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Environment>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.retrieveEnvironment(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} id A unique integer value identifying this environment.
+         * @param {Environment} [environment] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateEnvironment(id: string, environment?: Environment, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Environment>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateEnvironment(id, environment, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * EnvironmentsApi - factory interface
+ * @export
+ */
+export const EnvironmentsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = EnvironmentsApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {Environment} [environment] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createEnvironment(environment?: Environment, options?: any): AxiosPromise<Environment> {
+            return localVarFp.createEnvironment(environment, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id A unique integer value identifying this environment.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        destroyEnvironment(id: string, options?: any): AxiosPromise<void> {
+            return localVarFp.destroyEnvironment(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        listEnvironments(options?: any): AxiosPromise<Array<Environment>> {
+            return localVarFp.listEnvironments(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id A unique integer value identifying this environment.
+         * @param {Environment} [environment] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        partialUpdateEnvironment(id: string, environment?: Environment, options?: any): AxiosPromise<Environment> {
+            return localVarFp.partialUpdateEnvironment(id, environment, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id A unique integer value identifying this environment.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        retrieveEnvironment(id: string, options?: any): AxiosPromise<Environment> {
+            return localVarFp.retrieveEnvironment(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} id A unique integer value identifying this environment.
+         * @param {Environment} [environment] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateEnvironment(id: string, environment?: Environment, options?: any): AxiosPromise<Environment> {
+            return localVarFp.updateEnvironment(id, environment, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * EnvironmentsApi - object-oriented interface
+ * @export
+ * @class EnvironmentsApi
+ * @extends {BaseAPI}
+ */
+export class EnvironmentsApi extends BaseAPI {
+    /**
+     * 
+     * @param {Environment} [environment] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnvironmentsApi
+     */
+    public createEnvironment(environment?: Environment, options?: AxiosRequestConfig) {
+        return EnvironmentsApiFp(this.configuration).createEnvironment(environment, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id A unique integer value identifying this environment.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnvironmentsApi
+     */
+    public destroyEnvironment(id: string, options?: AxiosRequestConfig) {
+        return EnvironmentsApiFp(this.configuration).destroyEnvironment(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnvironmentsApi
+     */
+    public listEnvironments(options?: AxiosRequestConfig) {
+        return EnvironmentsApiFp(this.configuration).listEnvironments(options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id A unique integer value identifying this environment.
+     * @param {Environment} [environment] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnvironmentsApi
+     */
+    public partialUpdateEnvironment(id: string, environment?: Environment, options?: AxiosRequestConfig) {
+        return EnvironmentsApiFp(this.configuration).partialUpdateEnvironment(id, environment, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id A unique integer value identifying this environment.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnvironmentsApi
+     */
+    public retrieveEnvironment(id: string, options?: AxiosRequestConfig) {
+        return EnvironmentsApiFp(this.configuration).retrieveEnvironment(id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} id A unique integer value identifying this environment.
+     * @param {Environment} [environment] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EnvironmentsApi
+     */
+    public updateEnvironment(id: string, environment?: Environment, options?: AxiosRequestConfig) {
+        return EnvironmentsApiFp(this.configuration).updateEnvironment(id, environment, options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+
+/**
  * ProjectsApi - axios parameter creator
  * @export
  */
@@ -377,6 +838,43 @@ export const ProjectsApiAxiosParamCreator = function (configuration?: Configurat
             };
         },
         /**
+         * Retrieve all people that belong to the specified project and environment.
+         * @param {string} id A unique integer value identifying this project.
+         * @param {string} environmentIdentifier 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        peopleInEnvironmentProject: async (id: string, environmentIdentifier: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('peopleInEnvironmentProject', 'id', id)
+            // verify required parameter 'environmentIdentifier' is not null or undefined
+            assertParamExists('peopleInEnvironmentProject', 'environmentIdentifier', environmentIdentifier)
+            const localVarPath = `/projects/{id}/people/{environment_identifier}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"environment_identifier"}}`, encodeURIComponent(String(environmentIdentifier)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
          * 
          * @param {string} id A unique integer value identifying this project.
          * @param {*} [options] Override http request option.
@@ -497,6 +995,17 @@ export const ProjectsApiFp = function(configuration?: Configuration) {
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
+         * Retrieve all people that belong to the specified project and environment.
+         * @param {string} id A unique integer value identifying this project.
+         * @param {string} environmentIdentifier 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async peopleInEnvironmentProject(id: string, environmentIdentifier: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Project>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.peopleInEnvironmentProject(id, environmentIdentifier, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
          * 
          * @param {string} id A unique integer value identifying this project.
          * @param {*} [options] Override http request option.
@@ -562,6 +1071,16 @@ export const ProjectsApiFactory = function (configuration?: Configuration, baseP
          */
         partialUpdateProject(id: string, project?: Project, options?: any): AxiosPromise<Project> {
             return localVarFp.partialUpdateProject(id, project, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieve all people that belong to the specified project and environment.
+         * @param {string} id A unique integer value identifying this project.
+         * @param {string} environmentIdentifier 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        peopleInEnvironmentProject(id: string, environmentIdentifier: string, options?: any): AxiosPromise<Project> {
+            return localVarFp.peopleInEnvironmentProject(id, environmentIdentifier, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -634,6 +1153,18 @@ export class ProjectsApi extends BaseAPI {
      */
     public partialUpdateProject(id: string, project?: Project, options?: AxiosRequestConfig) {
         return ProjectsApiFp(this.configuration).partialUpdateProject(id, project, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * Retrieve all people that belong to the specified project and environment.
+     * @param {string} id A unique integer value identifying this project.
+     * @param {string} environmentIdentifier 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProjectsApi
+     */
+    public peopleInEnvironmentProject(id: string, environmentIdentifier: string, options?: AxiosRequestConfig) {
+        return ProjectsApiFp(this.configuration).peopleInEnvironmentProject(id, environmentIdentifier, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
