@@ -6,13 +6,9 @@ class FlowSchema(UUIDModel):
     identifier = models.CharField(max_length=50, unique=True, blank=False)
     current_version = models.ForeignKey("FlowSchemaVersion", on_delete=models.SET_NULL, null=True, related_name="+")
 
-    # Probably need a latest version property that retrieves the latest version of the schema
-    # i.e. most recently created version
-
-    # def publish_new_version(self, definition):
-    #     new_version = FlowSchemaVersion.objects.create(schema=self, definition=definition)
-    #     self.latest_version = new_version
-    #     self.save()
+    def latest_version(self):
+        # Retrieve the most recent version based on the 'created_at' timestamp
+        return self.versions.order_by("-created_at").first()
 
     def revert_to_version(self, version_identifier):
         try:
