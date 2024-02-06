@@ -47,14 +47,23 @@ class TransitionSchema(UUIDModel):
     """
     Defines a unidirectional transition between steps in (a specific version of) a flow schema.
 
-    A transition connects (from_step) and (to_step) within a flow and are unidirectional. A transition signals that it 
+    A transition connects (from_step) and (to_step) within a flow and are unidirectional. A transition signals that it
     is valid to move from one step (from_step) to another (to_step) if the optional condition is met.
+
+    Transition types include:
+    - MANUAL: Indicates that the transition between steps requires explicit invocation. i.e. a manual transition is 
+    executed only when specifically called.
+    - AUTOMATIC: Indicates that the transition between steps occurs without the need for explicit invocation. If there 
+    is an automatic transition attached to the current step this transition is automatically chosen and executed. 
     """
+
+    class TransitionType(models.TextChoices):
+        MANUAL = "manual"
+        AUTOMATIC = "automatic"
 
     flow_schema_version = models.ForeignKey("FlowSchemaVersion", on_delete=models.CASCADE, related_name="transitions")
     identifier = models.CharField(max_length=100, unique=True, blank=False)
-    # TODO: Define TransitionType choices
-    type = models.CharField(max_length=50, blank=False)
+    type = models.CharField(choices=TransitionType.choices, default=TransitionType.MANUAL, blank=False)
     from_step = models.ForeignKey(StepSchema, on_delete=models.CASCADE, related_name="outgoing_transitions")
     to_step = models.ForeignKey(StepSchema, on_delete=models.CASCADE, related_name="incoming_transitions")
     condition = models.CharField(max_length=500, blank=True)
