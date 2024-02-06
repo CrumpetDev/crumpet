@@ -1,5 +1,5 @@
 from typing import Optional
-from models import UUIDModel
+from models import UUIDModel, Environment
 from django.db import models
 
 
@@ -14,6 +14,7 @@ class FlowSchema(UUIDModel):
 
     identifier = models.CharField(max_length=50, unique=True, blank=False)
     current_version = models.ForeignKey("FlowSchemaVersion", on_delete=models.SET_NULL, null=True, related_name="+")
+    environment = models.ForeignKey(Environment, on_delete=models.CASCADE, related_name='schemas')
 
     def latest_version(self) -> Optional["FlowSchemaVersion"]:
         """Retrieves the most recent version of the flow schema based on the 'created_at' timestamp."""
@@ -58,8 +59,8 @@ class TransitionSchema(UUIDModel):
     """
 
     class TransitionType(models.TextChoices):
-        MANUAL = "manual"
-        AUTOMATIC = "automatic"
+        MANUAL = "manual", "Manual"
+        AUTOMATIC = "automatic", "Automatic"
 
     flow_schema_version = models.ForeignKey("FlowSchemaVersion", on_delete=models.CASCADE, related_name="transitions")
     identifier = models.CharField(max_length=100, unique=True, blank=False)
