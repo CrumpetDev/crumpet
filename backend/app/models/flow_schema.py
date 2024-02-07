@@ -42,6 +42,7 @@ class StepSchema(UUIDModel):
     identifier = models.CharField(max_length=100, unique=True, blank=False)
     name = models.CharField(max_length=100, blank=False)
     action = models.JSONField()
+    properties = models.JSONField()
 
 
 class TransitionSchema(UUIDModel):
