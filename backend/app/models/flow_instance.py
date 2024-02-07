@@ -22,6 +22,13 @@ class FlowInstance(UUIDModel):
     state = models.CharField(choices=FlowState.choices, default=FlowState.ACTIVE)
     environment = models.ForeignKey(Environment, on_delete=models.CASCADE)
 
+    @property
+    def active_steps(self):
+        """
+        Returns a QuerySet of all StepInstance objects related to this FlowInstance that have the state 'ACTIVE'.
+        """
+        return self.steps.filter(state=StepInstance.StepState.ACTIVE)
+
 
 class StepInstance(UUIDModel):
     """
