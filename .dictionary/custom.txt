@@ -102,3 +102,5 @@ xlwt
 xmlfile
 ZIZW
 zustand
+ifneq
+psql
