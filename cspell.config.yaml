@@ -4,4 +4,6 @@ dictionaryDefinitions:
     addWords: true
 dictionaries:
   - myWords
-  
+ignorePaths:
+  - "**/migrations/**"
+  - "**/node_modules/**"

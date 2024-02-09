@@ -1,4 +1,4 @@
-from models import UUIDModel, Person, Environment, StepSchema, FlowSchemaVersion, TransitionSchema
+from app.models import UUIDModel, Person, Environment, StepSchema, FlowSchemaVersion, TransitionSchema
 from django.db import models
 
 
@@ -19,7 +19,7 @@ class FlowInstance(UUIDModel):
 
     person = models.ForeignKey(Person, on_delete=models.CASCADE)
     schema_version = models.ForeignKey(FlowSchemaVersion, on_delete=models.CASCADE)
-    state = models.CharField(choices=FlowState.choices, default=FlowState.ACTIVE)
+    state = models.CharField(max_length=20, choices=FlowState.choices, default=FlowState.ACTIVE)
     environment = models.ForeignKey(Environment, on_delete=models.CASCADE)
 
     @property
@@ -48,7 +48,7 @@ class StepInstance(UUIDModel):
     # use '+' to avoid reverse relation
     step_schema = models.ForeignKey(StepSchema, on_delete=models.CASCADE, related_name="+")
     flow_instance = models.ForeignKey(FlowInstance, on_delete=models.CASCADE, related_name="steps")
-    state = models.CharField(choices=StepState, default=StepState.INACTIVE) 
+    state = models.CharField(max_length=20, choices=StepState.choices, default=StepState.INACTIVE)
 
 
 class TransitionInstance(UUIDModel):

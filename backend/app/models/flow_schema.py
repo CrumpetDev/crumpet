@@ -1,5 +1,5 @@
 from typing import Optional
-from models import UUIDModel, Environment
+from app.models import UUIDModel, Environment
 from django.db import models
 
 
@@ -73,7 +73,7 @@ class TransitionSchema(UUIDModel):
 
     flow_schema_version = models.ForeignKey("FlowSchemaVersion", on_delete=models.CASCADE, related_name="transitions")
     identifier = models.SlugField(max_length=100, unique=True, blank=False)
-    type = models.CharField(choices=TransitionType.choices, default=TransitionType.MANUAL, blank=False)
+    type = models.CharField(max_length=20, choices=TransitionType.choices, default=TransitionType.MANUAL, blank=False)
     from_step = models.ForeignKey(StepSchema, on_delete=models.CASCADE, related_name="outgoing_transitions")
     to_step = models.ForeignKey(StepSchema, on_delete=models.CASCADE, related_name="incoming_transitions")
     condition = models.CharField(max_length=500, blank=True)
