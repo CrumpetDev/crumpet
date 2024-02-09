@@ -12,7 +12,7 @@ class FlowSchema(UUIDModel):
     by FlowSchemaVersion.
     """
 
-    identifier = models.SlugField(max_length=100, unique=True, blank=False)
+    identifier = models.SlugField(max_length=100, blank=False)
     current_version = models.ForeignKey("FlowSchemaVersion", on_delete=models.SET_NULL, null=True, related_name="+")
     environment = models.ForeignKey(Environment, on_delete=models.CASCADE, related_name="schemas")
 
@@ -42,7 +42,7 @@ class StepSchema(UUIDModel):
     """
 
     flow_schema_version = models.ForeignKey("FlowSchemaVersion", on_delete=models.CASCADE, related_name="steps")
-    identifier = models.SlugField(max_length=100, unique=True, blank=False)
+    identifier = models.SlugField(max_length=100, blank=False)
     name = models.CharField(max_length=100, blank=False)
     action = models.JSONField()
     properties = models.JSONField()
@@ -72,7 +72,7 @@ class TransitionSchema(UUIDModel):
         AUTOMATIC = "automatic", "Automatic"
 
     flow_schema_version = models.ForeignKey("FlowSchemaVersion", on_delete=models.CASCADE, related_name="transitions")
-    identifier = models.SlugField(max_length=100, unique=True, blank=False)
+    identifier = models.SlugField(max_length=100, blank=False)
     type = models.CharField(max_length=20, choices=TransitionType.choices, default=TransitionType.MANUAL, blank=False)
     from_step = models.ForeignKey(StepSchema, on_delete=models.CASCADE, related_name="outgoing_transitions")
     to_step = models.ForeignKey(StepSchema, on_delete=models.CASCADE, related_name="incoming_transitions")
