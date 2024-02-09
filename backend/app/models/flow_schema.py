@@ -12,9 +12,9 @@ class FlowSchema(UUIDModel):
     by FlowSchemaVersion.
     """
 
-    identifier = models.CharField(max_length=50, unique=True, blank=False)
+    identifier = models.SlugField(max_length=100, unique=True, blank=False)
     current_version = models.ForeignKey("FlowSchemaVersion", on_delete=models.SET_NULL, null=True, related_name="+")
-    environment = models.ForeignKey(Environment, on_delete=models.CASCADE, related_name='schemas')
+    environment = models.ForeignKey(Environment, on_delete=models.CASCADE, related_name="schemas")
 
     def latest_version(self) -> Optional["FlowSchemaVersion"]:
         """Retrieves the most recent version of the flow schema based on the 'created_at' timestamp."""
@@ -29,6 +29,9 @@ class FlowSchema(UUIDModel):
         except FlowSchemaVersion.DoesNotExist:
             raise ValueError("Specified version does not exist for this schema.")
 
+    class Meta:
+        unique_together = (("identifier", "environment"),)  # Ensure uniqueness within environment
+
 
 class StepSchema(UUIDModel):
     """
@@ -39,10 +42,15 @@ class StepSchema(UUIDModel):
     """
 
     flow_schema_version = models.ForeignKey("FlowSchemaVersion", on_delete=models.CASCADE, related_name="steps")
-    identifier = models.CharField(max_length=100, unique=True, blank=False)
+    identifier = models.SlugField(max_length=100, unique=True, blank=False)
     name = models.CharField(max_length=100, blank=False)
     action = models.JSONField()
     properties = models.JSONField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["identifier", "flow_schema_version"], name="unique_identifier_for_version")
+        ]
 
 
 class TransitionSchema(UUIDModel):
@@ -53,10 +61,10 @@ class TransitionSchema(UUIDModel):
     is valid to move from one step (from_step) to another (to_step) if the optional condition is met.
 
     Transition types include:
-    - MANUAL: Indicates that the transition between steps requires explicit invocation. i.e. a manual transition is 
+    - MANUAL: Indicates that the transition between steps requires explicit invocation. i.e. a manual transition is
     executed only when specifically called.
-    - AUTOMATIC: Indicates that the transition between steps occurs without the need for explicit invocation. If there 
-    is an automatic transition attached to the current step this transition is automatically chosen and executed. 
+    - AUTOMATIC: Indicates that the transition between steps occurs without the need for explicit invocation. If there
+    is an automatic transition attached to the current step this transition is automatically chosen and executed.
     """
 
     class TransitionType(models.TextChoices):
@@ -64,11 +72,18 @@ class TransitionSchema(UUIDModel):
         AUTOMATIC = "automatic", "Automatic"
 
     flow_schema_version = models.ForeignKey("FlowSchemaVersion", on_delete=models.CASCADE, related_name="transitions")
-    identifier = models.CharField(max_length=100, unique=True, blank=False)
+    identifier = models.SlugField(max_length=100, unique=True, blank=False)
     type = models.CharField(choices=TransitionType.choices, default=TransitionType.MANUAL, blank=False)
     from_step = models.ForeignKey(StepSchema, on_delete=models.CASCADE, related_name="outgoing_transitions")
     to_step = models.ForeignKey(StepSchema, on_delete=models.CASCADE, related_name="incoming_transitions")
     condition = models.CharField(max_length=500, blank=True)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["identifier", "from_step"], name="unique_identifier_for_outgoing_transitions"
+            )
+        ]
 
 
 class FlowSchemaVersion(UUIDModel):
