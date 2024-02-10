@@ -4,8 +4,7 @@ from django.contrib.auth.forms import (
     UserCreationForm as DefaultUserCreationForm,
     UserChangeForm as DefaultUserChangeForm,
 )
-from .models import Row, Column, TextElement
-from .models import User
+from app.models import User
 
 
 # User forms for admin pages
@@ -70,7 +69,3 @@ class UserAdmin(DefaultUserAdmin):
 
 # Register your models here.
 admin.site.register(User, UserAdmin)
-
-admin.site.register(Row)
-admin.site.register(Column)
-admin.site.register(TextElement)

@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  web:
+    build: .
+    container_name: "backend_DEV"
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+      # - ./app:/code/app # For live reload
+    ports:
+      - "8000:8000"
+    tty: true
+    env_file:
+      - .env.development
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    container_name: "crumpet_postgres_DEV"
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    env_file:
+      - .env.development
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+
+  # redis_channels:
+  #   image: "redis:latest"
+  #   container_name: "crumpet_redis_channels_DEV"
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_channels_data:/data
+
+volumes:
+  pgdata:
+  # redis_channels_data:
+
+

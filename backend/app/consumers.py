@@ -3,7 +3,7 @@ import json
 
 from .models import Environment, Person
 
-from .serializers import PersonSerializer, PersonSchemaSerializer
+from .serializers import PersonSerializer 
 
 
 class PeopleConsumer(AsyncWebsocketConsumer):
@@ -29,13 +29,13 @@ class PeopleConsumer(AsyncWebsocketConsumer):
                 # Handle invalid data case
                 print(serializer.errors)
         
-        if schema:
-            # Deserialize schema using PersonSchemaSerializer
-            serializer = PersonSchemaSerializer(data=schema)
-            if serializer.is_valid():
-                # Save or update the PersonSchema instance
-                serializer.save()
-                print("Schema saved")
-            else:
-                # Handle invalid schema case
-                print(serializer.errors)
+        # if schema:
+        #     # Deserialize schema using PersonSchemaSerializer
+        #     serializer = PersonSchemaSerializer(data=schema)
+        #     if serializer.is_valid():
+        #         # Save or update the PersonSchema instance
+        #         serializer.save()
+        #         print("Schema saved")
+        #     else:
+        #         # Handle invalid schema case
+        #         print(serializer.errors)
