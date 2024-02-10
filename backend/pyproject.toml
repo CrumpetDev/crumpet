@@ -1,0 +1,36 @@
+# A Python code formatter
+[tool.black]
+exclude = '''
+/(
+    | .git
+    | .venv
+    | __pycache__
+)/
+''' 
+include = '\.pyi?$' # Include .py and .pyi files
+line-length = 120 # Set max line length to 120 characters
+target-version = ['py310'] # Target Python version (adjust as necessary)    
+
+# A static type checker that helps to catch type errors
+[tool.mypy]
+disallow_untyped_defs = true # Disallow defining functions without type annotations
+ignore_missing_imports = true # Ignore errors for missing imports
+plugins = [
+  "mypy_django_plugin.main", # Enable Django plugin for MyPy
+] 
+python_version = 3.10 # Target Python version 
+
+# A linting tool that helps find syntax errors, and enforces coding style.
+[mypy.plugins.django-stubs]
+django_settings_module = "backend.settings" # Point to the project's settings module
+
+# A tool for sorting imports alphabetically, and automatically separated into sections.
+[tool.isort]
+ensure_newline_before_comments = true # Ensure a newline before comments
+force_grid_wrap = 0 # Don't force grid wrap
+include_trailing_comma = true # Include a trailing comma on multi-line
+line_length = 120 # Set max line length to 120 characters
+multi_line_output = 3 # Use vertical hanging indent format
+profile = "black" # Make isort compatible with black
+skip = [".venv", "__pycache__", ".git"] # Directories to skip    
+use_parentheses = true # Use parentheses for line continuation

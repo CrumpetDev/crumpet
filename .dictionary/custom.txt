@@ -104,3 +104,5 @@ ZIZW
 zustand
 ifneq
 psql
+pathspec
+pyproject

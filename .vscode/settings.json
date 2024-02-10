@@ -2,8 +2,10 @@
   "python.envFile": "${workspaceFolder}/backend/.env",
   "prettier.configPath": "./frontend/.prettierrc.js",
   "prettier.bracketSpacing": false,
-  "python.formatting.provider": "black",
-  "black-formatter.args": ["--line-length", "120"],
+  "black-formatter.args": ["--config=${workspaceFolder}/backend/pyproject.toml"],
+  "flake8.args": ["--config=${workspaceFolder}/backend/setup.cfg"],
+  "isort.args": ["--settings-path=${workspaceFolder}/backend/pyproject.toml"],
+  "python.analysis.typeCheckingMode": "off",
   "python.testing.unittestArgs": ["-v", "-s", "./backend", "-p", "test_*.py"],
   "python.testing.pytestEnabled": false,
   "python.testing.unittestEnabled": true
