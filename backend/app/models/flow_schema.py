@@ -1,6 +1,11 @@
-from typing import Optional
-from app.models import UUIDModel, Environment
+from typing import TYPE_CHECKING, Optional
+
 from django.db import models
+
+from app.models import Environment, UUIDModel
+
+if TYPE_CHECKING:
+    from django.db.models.manager import RelatedManager
 
 
 class FlowSchema(UUIDModel):
@@ -15,6 +20,8 @@ class FlowSchema(UUIDModel):
     identifier = models.SlugField(max_length=100, blank=False)
     current_version = models.ForeignKey("FlowSchemaVersion", on_delete=models.SET_NULL, null=True, related_name="+")
     environment = models.ForeignKey(Environment, on_delete=models.CASCADE, related_name="schemas")
+
+    versions: "RelatedManager[FlowSchemaVersion]"
 
     def latest_version(self) -> Optional["FlowSchemaVersion"]:
         """Retrieves the most recent version of the flow schema based on the 'created_at' timestamp."""

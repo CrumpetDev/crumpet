@@ -1,5 +1,11 @@
-from app.models import UUIDModel, Person, Environment, StepSchema, FlowSchemaVersion, TransitionSchema
+from typing import TYPE_CHECKING
+
 from django.db import models
+
+from app.models import Environment, FlowSchemaVersion, Person, StepSchema, TransitionSchema, UUIDModel
+
+if TYPE_CHECKING:
+    from django.db.models.manager import RelatedManager
 
 
 class FlowInstance(UUIDModel):
@@ -21,6 +27,8 @@ class FlowInstance(UUIDModel):
     schema_version = models.ForeignKey(FlowSchemaVersion, on_delete=models.CASCADE)
     state = models.CharField(max_length=20, choices=FlowState.choices, default=FlowState.ACTIVE)
     environment = models.ForeignKey(Environment, on_delete=models.CASCADE)
+
+    steps: "RelatedManager[StepInstance]"
 
     @property
     def active_steps(self):

@@ -7,3 +7,4 @@ dictionaries:
 ignorePaths:
   - "**/migrations/**"
   - "**/node_modules/**"
+  - "**/.vscode/**"

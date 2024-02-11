@@ -1,9 +1,26 @@
 {
-  "python.envFile": "${workspaceFolder}/backend/.env",
   "prettier.configPath": "./frontend/.prettierrc.js",
   "prettier.bracketSpacing": false,
-  "python.formatting.provider": "black",
-  "black-formatter.args": ["--line-length", "120"],
+  "python.defaultInterpreterPath": "./.venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "black-formatter.args": ["--config=${workspaceFolder}/backend/pyproject.toml"],
+  "flake8.args": ["--config=${workspaceFolder}/backend/setup.cfg"],
+  "flake8.importStrategy": "fromEnvironment",
+  "flake8.showNotification": "onError",
+  "flake8.lintOnChange": true,
+  "isort.args": [
+    "--profile",
+    "black",
+    "--settings-file",
+    "${workspaceFolder}/backend/pyproject.toml"
+  ],
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    }
+  },
+  "python.terminal.activateEnvInCurrentTerminal": true,
+  "python.analysis.typeCheckingMode": "basic",
   "python.testing.unittestArgs": ["-v", "-s", "./backend", "-p", "test_*.py"],
   "python.testing.pytestEnabled": false,
   "python.testing.unittestEnabled": true
