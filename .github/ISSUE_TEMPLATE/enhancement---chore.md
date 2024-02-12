@@ -4,34 +4,20 @@ about: Improvements that may not be noticeable to an end user. (i.e. refactors)
 title: 'Ex: Refactor the useAuth hook to use Zustand'
 labels: 'type: chore'
 assignees: ''
-
 ---
 
-## Summary
-*Briefly describe the enhancement or chore.*
+## Background & Scope
 
-## Background
-**Reason for Enhancement:** 
-*Why is this enhancement needed?*
+- _Describe the reason for the enhancement or chore._
+- _Reference PRs, other issues or commits where relevant._
 
-*Example:*
-```
-Currently, we're prop drilling and passing around context. Using Zustand would ...
-```
+## Proposed Changes
 
-## Proposed Course of Action
-**Changes:**
-*Detail the proposed changes including code snippets where relevant.*
-
-**Conflicts:** 
-*Will this impact other parts of the code base, require migrations .. etc? Are there dependencies?*
-
-## Mockups/Examples
-*If applicable, add mockups or examples of the proposed enhancement.*
+- _Describe the proposed changes including code snippets where relevant._
+- _If applicable, add mockups or code examples of the proposed changes._
+- _Mention the dependencies, conflicts or impact this will have on the code base_
+- _Try to use a task list or bullet points._
 
 ## Additional Information
-**Notes:**
-*Any other relevant information.*
 
-**References:** 
-*Links to similar features or relevant discussions.*
+- _Any other relevant information, links ... etc._

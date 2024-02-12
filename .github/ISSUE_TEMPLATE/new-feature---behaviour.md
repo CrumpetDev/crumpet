@@ -4,59 +4,38 @@ about: Describe the desired change to the product.
 title: 'Ex: Ability to save component steps as templates'
 labels: 'type: feature request'
 assignees: ''
-
 ---
 
-## Summary
-*Briefly describe the feature or desired behaviour.*
+## Background & Context\*
 
-## Details
-**Goal (Desired Behaviour):** *What is the desired outcome of this feature/task? Usually best written as "I want to ... "*
+- _Briefly describe the feature or desired behaviour._
+- _Describe the reason for this feature. [What is the job to be done?](https://hbr.org/2016/09/know-your-customers-jobs-to-be-done#:~:text=After%20decades%20of,to%20be%20done.)_
 
-*Example:*
-```
-I want to be able to save component steps and reuse them in different flows.
-```
+## Current Behaviour
 
-**Problem (optional):** *Is this feature request related to a problem? Please add relevant details if so.*
+- _If applicable, describe how this currently works and what the proposed feature would change._
 
-*Example:*
-```
-We have a bunch of custom UI components in our React app and we use them across multiple engagement flows.
-```
-**Current Behaviour:** *If applicable, describe how this currently works and what the proposed feature would change.*
+## Goal\*
 
-*Example:*
-```
-I need to create the same step component when I want to use it in a different engagement flow.
-```
-**Mockups/Examples:** 
+- _What is the desired outcome of this feature/task? Usually best written as "I want to ... "_
+- _Is this feature request related to a problem? Please add relevant details if so._
 
-*If applicable, add any mockups or examples.*
+## Implementation Details\*
 
-## Implementation Details
-**Technical Requirements & Proposed Changes:** *List any technical requirements or constraints. Please list them as a task list or bullets.*
+- _List any technical requirements or constraints. Please list them as a task list or bullets._
+- _Use code snippets where applicable._
 
-*Example:*
-```
-- [ ] Create new 'is_template' field on the Step component model
-- [ ] Add an option to save template in the ComponentDropdownMenu component
-```
-**Dependencies:** 
+## Acceptance Criteria\*
 
-*Are there other tasks or features this is dependent on? If referencing an existing issue/discussion, please use a task list.*
+- _What are the specific, measurable outcomes that indicate the task is completed? Try use a task list of bullet points._
 
-**Acceptance Criteria:** *What are the specific, measurable outcomes that indicate the task is completed?*
+## Dependencies
 
-*Example:*
-```
-- [ ] I should be able to save a component by clicking on the button in the step drop-down menu
-- [ ] I should be able to drag a templated component from the builder menu within the flow editor
-```
+- _Are there other tasks or features this is dependent on?_
 
 ## Additional Information
-**Notes:** *Any other relevant information.*
 
-**References:** *Links to related documents or discussions. Please use a task list.*
+- _Any other relevant information._
+- _If applicable, add any mockups or examples._
 
-### 🙏 Thank you for your feature request - we really appreciate it! Please be sure to remove the examples and this heading before submitting. 💫
+<small>_\*required field._</small>
