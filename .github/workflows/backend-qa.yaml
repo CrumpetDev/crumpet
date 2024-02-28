@@ -8,7 +8,7 @@ on:
 permissions: read-all
 
 jobs:
-  Tests:
+  tests:
     defaults:
       run:
         working-directory: ./backend

@@ -10,4 +10,4 @@ jobs:
     steps:
       - uses: styfle/cancel-workflow-action@0.11.0
         with:
-          workflow_id: 'backendQA.yaml'
+          workflow_id: 'backend-qa.yaml'
