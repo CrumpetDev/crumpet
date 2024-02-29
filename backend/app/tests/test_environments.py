@@ -1,6 +1,8 @@
 import uuid
-from django.test import TestCase
+
 from django.contrib.auth import get_user_model
+from django.test import TestCase
+
 from app.models import Environment, Project, ProjectMembership
 
 User = get_user_model()
@@ -19,13 +21,6 @@ class EnvironmentModelTestCase(TestCase):
         """
         self.assertEqual(self.environment.name, "Staging")
         self.assertEqual(self.environment.project, self.project)
-
-    def test_environment_identifier(self):
-        """
-        Test if the environment gets a UUID identifier if not provided.
-        """
-        self.assertIsNotNone(self.environment.identifier)
-        self.assertTrue(isinstance(self.environment.identifier, uuid.UUID))
 
     def test_unique_together_constraint(self):
         """

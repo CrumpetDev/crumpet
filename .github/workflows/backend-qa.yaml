@@ -1,0 +1,30 @@
+name: Backend QA
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions: read-all
+
+jobs:
+  tests:
+    defaults:
+      run:
+        working-directory: ./backend
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DB_NAME: crumpet_db
+      DB_USERNAME: head_baker
+      DB_PASSWORD: Crumpet2023
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Docker Compose
+        run: docker compose -f docker-compose.dev.yml pull
+      - name: Build the Docker Compose environment
+        run: docker compose -f docker-compose.dev.yml build
+      - name: Run tests
+        run: docker compose -f docker-compose.dev.yml run web python manage.py test
