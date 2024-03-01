@@ -29,6 +29,7 @@ class FlowInstance(UUIDModel):
     environment = models.ForeignKey(Environment, on_delete=models.CASCADE)
 
     steps: "RelatedManager[StepInstance]"
+    transitions: "RelatedManager[TransitionInstance]"
 
     @property
     def active_steps(self):
@@ -58,11 +59,17 @@ class StepInstance(UUIDModel):
     flow_instance = models.ForeignKey(FlowInstance, on_delete=models.CASCADE, related_name="steps")
     state = models.CharField(max_length=20, choices=StepState.choices, default=StepState.INACTIVE)
 
+    outgoing_transitions: "RelatedManager[TransitionInstance]"
+    incoming_transitions: "RelatedManager[TransitionInstance]"
+
 
 class TransitionInstance(UUIDModel):
     """
     Tracks the state of a transition within a flow for a specific person.
     """
+
+    # TODO: Should we add a state to TransitionInstance?
+    #  - This would allow us to track the state of a transition (e.g. 'called', 'uncalled')
 
     # use '+' to avoid reverse relation
     transition_schema = models.ForeignKey(TransitionSchema, on_delete=models.CASCADE, related_name="+")

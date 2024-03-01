@@ -104,3 +104,7 @@ class FlowSchemaVersion(UUIDModel):
     description = models.CharField(max_length=250, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     version_identifier = models.CharField(max_length=50, unique=True, blank=False)
+
+    steps: "RelatedManager[StepSchema]"
+    transitions: "RelatedManager[TransitionSchema]"
+

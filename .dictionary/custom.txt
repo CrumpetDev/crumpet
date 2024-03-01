@@ -64,6 +64,7 @@ pycodestyle
 pycryptodome
 pyenv
 pyflakes
+Pylance
 pylint
 pyproject
 pytest
