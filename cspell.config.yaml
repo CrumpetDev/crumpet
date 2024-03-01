@@ -8,3 +8,5 @@ ignorePaths:
   - "**/migrations/**"
   - "**/node_modules/**"
   - "**/.vscode/**"
+  - "**/.git/**"
+  - "**/requirements.txt"
