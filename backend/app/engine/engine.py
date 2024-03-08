@@ -3,9 +3,11 @@ from typing import Optional
 from django.core.exceptions import ValidationError
 from django.db import transaction
 
-from backend.app.models import FlowInstance, FlowSchema, Person, StepInstance, TransitionInstance, TransitionSchema
+from app.models import FlowInstance, FlowSchema, Person, StepInstance, TransitionInstance, TransitionSchema
 
 from .utils import has_flow_instance
+
+# from app.tasks import execute_automatic_transitions_task
 
 
 class Engine:
@@ -46,7 +48,10 @@ class Engine:
         """
         engine = cls(person=person, flow_schema=flow_schema)
         engine.setup()
-        engine.execute_automatic_transitions()
+        assert engine.flow_instance is not None  # Needed to silence Pylance / type checking
+        from app.tasks import execute_automatic_transitions_task
+
+        execute_automatic_transitions_task.delay(engine.flow_instance.id)
         return engine
 
     @transaction.atomic
