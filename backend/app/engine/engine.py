@@ -51,6 +51,10 @@ class Engine:
         assert engine.flow_instance is not None  # Needed to silence Pylance / type checking
         from app.tasks import execute_automatic_transitions_task
 
+        # Get the steps with no incoming transitions and set them as active (first steps in the flow)
+        first_steps = engine.flow_instance.steps.filter(incoming_transitions=None).all()
+        first_steps.all().update(state=StepInstance.StepState.ACTIVE)
+
         execute_automatic_transitions_task.delay(engine.flow_instance.id)
         return engine
 
