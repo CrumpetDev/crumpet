@@ -1,6 +1,5 @@
 from celery import shared_task
 
-from .engine import Engine
 from .models import FlowInstance
 
 
@@ -10,7 +9,13 @@ def add(x, y):
 
 
 @shared_task
-def execute_automatic_transitions_task(flow_instance_id):
+def execute_automatic_transitions(flow_instance_id):
     flow_instance = FlowInstance.objects.get(id=flow_instance_id)
-    engine = Engine.resume(flow_instance)
-    engine.execute_automatic_transitions()
+    while flow_instance.active_steps and flow_instance.has_automatic_transitions:
+        flow_instance.execute_automatic_transitions()
+        flow_instance.refresh_from_db()
+
+
+def trigger_automatic_transitions(flow_instance_id):
+    # This function acts as a callback to trigger the Celery task
+    execute_automatic_transitions.delay(flow_instance_id)
