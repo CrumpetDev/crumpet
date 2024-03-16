@@ -257,7 +257,7 @@ class FlowInstanceTestCase(TestCase):
 
         # Execute "transition-1" manually
         flow_instance.execute_manual_transition(
-            flow_instance.transitions.get(transition_schema__identifier="transition-1"), mark_as_completed=True
+            [flow_instance.transitions.get(transition_schema__identifier="transition-1")], mark_as_completed=True
         )
         active_steps = flow_instance.active_steps.all()
         self.assertEqual(len(active_steps), 1)
@@ -265,7 +265,7 @@ class FlowInstanceTestCase(TestCase):
 
         # Execute "transition-2" manually
         flow_instance.execute_manual_transition(
-            flow_instance.transitions.get(transition_schema__identifier="transition-2"), mark_as_completed=True
+            [flow_instance.transitions.get(transition_schema__identifier="transition-2")], mark_as_completed=True
         )
         active_steps = flow_instance.active_steps.all()
         # Check that there are no active steps
@@ -320,13 +320,13 @@ class FlowInstanceTestCase(TestCase):
         self.assertEqual(active_steps[0].step_schema, step_1)
 
         # Execute "transition-1" manually
-        flow_instance.execute_manual_transition("transition-1", mark_as_completed=True)
+        flow_instance.execute_manual_transition(["transition-1"], mark_as_completed=True)
         active_steps = flow_instance.active_steps.all()
         self.assertEqual(len(active_steps), 1)
         self.assertEqual(active_steps[0].step_schema, step_2)
 
         # Execute "transition-2" manually
-        flow_instance.execute_manual_transition("transition-2", mark_as_completed=True)
+        flow_instance.execute_manual_transition(["transition-2"], mark_as_completed=True)
         active_steps = flow_instance.active_steps.all()
         # Check that there are no active steps
         self.assertEqual(len(active_steps), 0)
@@ -380,7 +380,7 @@ class FlowInstanceTestCase(TestCase):
         self.assertEqual(active_steps[0].step_schema, step_1)
 
         # Execute "transition-1" manually
-        flow_instance.execute_manual_transition("transition-1", mark_as_completed=True)
+        flow_instance.execute_manual_transition(["transition-1"], mark_as_completed=True)
         active_steps = flow_instance.active_steps.all()
         self.assertEqual(len(active_steps), 1)
         self.assertEqual(active_steps[0].step_schema, step_2)
@@ -443,7 +443,7 @@ class FlowInstanceTestCase(TestCase):
 
         # Execute invalid transition "transition-99" manually
         try:
-            flow_instance.execute_manual_transition("transition-99")
+            flow_instance.execute_manual_transition(["transition-99"])
         except ValueError as e:
             self.assertEqual(str(e), "Invalid transition argument or no active step matches the transition identifier.")
 
@@ -489,7 +489,7 @@ class FlowInstanceTestCase(TestCase):
         self.assertEqual(active_steps[0].step_schema, step_1)
 
         # Take transition-1
-        flow_instance.execute_manual_transition("transition-1", mark_as_completed=True)
+        flow_instance.execute_manual_transition(["transition-1"], mark_as_completed=True)
 
         # Check that the flow has completed
         flow_instance.refresh_from_db()
@@ -556,8 +556,6 @@ class FlowInstanceTestCase(TestCase):
 
         # Check that all steps are marked as completed
         completed_steps = flow_instance.steps.filter(state="completed")
-        for step in completed_steps:
-            print("Completed step: ", step.step_schema.identifier)
         self.assertEqual(len(completed_steps), 3)
 
         # Check that the flow has been marked as completed

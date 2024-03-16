@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Callable, Optional
+from typing import TYPE_CHECKING, Callable, List, Optional, Union
 from uuid import UUID
 
 from django.core.exceptions import ValidationError
@@ -70,7 +70,7 @@ class FlowInstance(UUIDModel):
                     transition_schema__type=TransitionSchema.TransitionType.AUTOMATIC
                 ):
                     if transition.can_transition:
-                        self.execute_manual_transition(transition)
+                        self.execute_manual_transition([transition])
                         transition_count += 1
                     else:
                         continue
@@ -81,49 +81,50 @@ class FlowInstance(UUIDModel):
         # Check if there are no more steps to execute
         self._check_completed()
 
-    def execute_manual_transition(self, transition: "TransitionInstance | str", mark_as_completed: bool = False):
+    def execute_manual_transition(self, transitions: "List[TransitionInstance | str]", mark_as_completed: bool = False):
         """
         Executes the specified transition, moving the flow from one step to another.
 
         Parameters:
         - transition: The TransitionInstance to execute, or a TransitionSchema.identifier (str).
         """
-        transition_instance: TransitionInstance | None = None
+        transitions_to_execute: List[TransitionInstance] = []
         active_steps = self.active_steps.all()
 
-        if isinstance(transition, TransitionInstance):
-            transition_instance = transition
-        elif isinstance(transition, str):
-            # Find the TransitionInstance based on the active steps and the identifier
-            for active_step in active_steps:
-                transition_instance = TransitionInstance.objects.filter(
-                    step_instance_from=active_step,
-                    transition_schema__identifier=transition,
-                    flow_instance=self,
-                ).first()
+        for transition in transitions:
+            if isinstance(transition, TransitionInstance):
+                transitions_to_execute.append(transition)
+            elif isinstance(transition, str):
+                # Find the TransitionInstance based on the active steps and the identifier
+                for active_step in active_steps:
+                    transition_instances = TransitionInstance.objects.filter(
+                        step_instance_from=active_step,
+                        transition_schema__identifier=transition,
+                        flow_instance=self,
+                    )
+                    transitions_to_execute.extend(transition_instances)
 
-                if transition_instance:
-                    break  # Break the loop once the correct transition instance is found
-
-        if not transition_instance:
+        if not transitions_to_execute:
             raise ValueError("Invalid transition argument or no active step matches the transition identifier.")
 
-        from_step = transition_instance.step_instance_from
-        to_step = transition_instance.step_instance_to
+        for transition in transitions_to_execute:
 
-        # Validate transition can be made
-        if from_step.state != StepInstance.StepState.ACTIVE:
-            raise ValidationError("Invalid transition state. The step you are transitioning from is not active.")
-        if to_step.state != StepInstance.StepState.INACTIVE:
-            raise ValidationError("Invalid transition state. The step you are transitioning to is not inactive.")
+            from_step = transition.step_instance_from
+            to_step = transition.step_instance_to
 
-        with transaction.atomic():
-            to_step.state = StepInstance.StepState.ACTIVE
-            to_step.save()
+            # Validate transition can be made
+            if from_step.state != StepInstance.StepState.ACTIVE:
+                raise ValidationError("Invalid transition state. The step you are transitioning from is not active.")
+            if to_step.state != StepInstance.StepState.INACTIVE:
+                raise ValidationError("Invalid transition state. The step you are transitioning to is not inactive.")
 
-            if mark_as_completed:
-                from_step.state = StepInstance.StepState.COMPLETED
-                from_step.save()
+            with transaction.atomic():
+                to_step.state = StepInstance.StepState.ACTIVE
+                to_step.save()
+
+                if mark_as_completed:
+                    from_step.state = StepInstance.StepState.COMPLETED
+                    from_step.save()
 
         self._check_completed()
 
