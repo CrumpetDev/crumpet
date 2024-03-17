@@ -18,7 +18,6 @@ from app.models import (
 from app.models.user import UserManager
 from app.tasks import add, trigger_automatic_transitions
 
-# TODO: Test to check that two identical flows for different People do not interfere with each other
 # TODO: Test that a person cannot have two active flows of the same schema at the same time
 
 User = get_user_model()
@@ -641,3 +640,57 @@ class FlowInstanceTestCase(TestCase):
         self.assertEqual(is_completed, True)
         is_completed = flow_instance.is_completed
         self.assertEqual(is_completed, True)
+
+    def test_flow_instances_isolation(self):
+        """
+        Test that two FlowInstance's of identical FlowSchemas for different People do not interfere with each other.
+
+        Any state changes to one flow should not affect the other.
+        """
+        step_1 = self.create_step("step-1")
+        step_2a = self.create_step("step-2a")
+        step_2b = self.create_step("step-2b")
+
+        self.create_transition(
+            "transition-1",
+            step_1,
+            step_2a,
+            transition_type=TransitionSchema.TransitionType.MANUAL,
+        )
+        self.create_transition(
+            "transition-2",
+            step_1,
+            step_2b,
+            transition_type=TransitionSchema.TransitionType.MANUAL,
+        )
+
+        # Build flows
+        flow_instance_one = FlowInstance.start(
+            self.people[0],
+            self.flow_schema,
+            auto_transition_executor=trigger_automatic_transitions,
+        )
+
+        flow_instance_two = FlowInstance.start(
+            self.people[1],
+            self.flow_schema,
+            auto_transition_executor=trigger_automatic_transitions,
+        )
+
+        # Check that 'step-1' is active for both flows
+        flow_instance_one.refresh_from_db()
+        flow_instance_two.refresh_from_db()
+        active_steps_one = flow_instance_one.active_steps.all()
+        active_steps_two = flow_instance_two.active_steps.all()
+        self.assertEqual(len(active_steps_one), 1)
+        self.assertEqual(len(active_steps_two), 1)
+        self.assertEqual(active_steps_one[0].step_schema.id, step_1.id)
+        self.assertEqual(active_steps_two[0].step_schema.id, step_1.id)
+
+        # Execute "transition-1" for flow_instance_one
+        flow_instance_one.execute_manual_transition(["transition-1"], mark_as_completed=True)
+
+        flow_instance_one.refresh_from_db()
+        flow_instance_two.refresh_from_db()
+        active_steps_two = flow_instance_two.active_steps.all()
+        self.assertEqual(active_steps_one[0].step_schema.id, step_1.id)
