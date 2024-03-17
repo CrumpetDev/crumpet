@@ -66,6 +66,7 @@ class FlowInstance(UUIDModel):
         with transaction.atomic():
             for active_step in self.active_steps.all():
                 transition_count = 0
+                # TODO: Is this loop necessary?
                 for transition in active_step.outgoing_transitions.filter(
                     transition_schema__type=TransitionSchema.TransitionType.AUTOMATIC
                 ):
@@ -107,22 +108,25 @@ class FlowInstance(UUIDModel):
         if not transitions_to_execute:
             raise ValueError("Invalid transition argument or no active step matches the transition identifier.")
 
-        for transition in transitions_to_execute:
+        # If multiple transitions are passed to this function and one fails, then none of the transitions should be executed
+        with transaction.atomic():
+            for transition in transitions_to_execute:
+                from_step = transition.step_instance_from
+                to_step = transition.step_instance_to
 
-            from_step = transition.step_instance_from
-            to_step = transition.step_instance_to
+                # Validate transition can be made
+                if from_step.state != StepInstance.StepState.ACTIVE:
+                    raise ValidationError(
+                        "Invalid transition state. The step you are transitioning from is not active."
+                    )
 
-            # Validate transition can be made
-            if from_step.state != StepInstance.StepState.ACTIVE:
-                raise ValidationError("Invalid transition state. The step you are transitioning from is not active.")
-            if to_step.state != StepInstance.StepState.INACTIVE:
-                raise ValidationError("Invalid transition state. The step you are transitioning to is not inactive.")
-
-            with transaction.atomic():
                 to_step.state = StepInstance.StepState.ACTIVE
                 to_step.save()
 
-                if mark_as_completed:
+            # If we get here, all transitions were successful
+            if mark_as_completed:
+                for transition in transitions_to_execute:
+                    from_step = transition.step_instance_from
                     from_step.state = StepInstance.StepState.COMPLETED
                     from_step.save()
 

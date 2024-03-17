@@ -563,3 +563,81 @@ class FlowInstanceTestCase(TestCase):
         self.assertEqual(is_completed, True)
         is_completed = flow_instance.is_completed
         self.assertEqual(is_completed, True)
+
+    def test_shared_transition_identifiers(self):
+        """
+        Test that two outgoing (manual) transitions that share the same identifier will both be called and their respective
+        to_steps will be set to active and 'visited'.
+        """
+        step_1 = self.create_step("step-1")
+        step_2a = self.create_step("step-2a")
+        step_2b = self.create_step("step-2b")
+        step_3 = self.create_step("step-3")
+
+        self.create_transition(
+            "complete",
+            step_1,
+            step_2a,
+            transition_type=TransitionSchema.TransitionType.MANUAL,
+        )
+        self.create_transition(
+            "complete",
+            step_1,
+            step_2b,
+            transition_type=TransitionSchema.TransitionType.MANUAL,
+        )
+        self.create_transition(
+            "complete",
+            step_2a,
+            step_3,
+            transition_type=TransitionSchema.TransitionType.MANUAL,
+        )
+        self.create_transition(
+            "complete",
+            step_2b,
+            step_3,
+            transition_type=TransitionSchema.TransitionType.MANUAL,
+        )
+
+        # Build the flow
+        flow_instance = FlowInstance.start(
+            self.people[0],
+            self.flow_schema,
+            auto_transition_executor=trigger_automatic_transitions,
+        )
+
+        # Check that 'step-1' is active
+        flow_instance.refresh_from_db()
+        active_steps = flow_instance.active_steps.all()
+        self.assertEqual(len(active_steps), 1)
+        self.assertEqual(active_steps[0].step_schema, step_1)
+
+        # Call all "complete" transitions
+        flow_instance.execute_manual_transition(["complete"], mark_as_completed=True)
+
+        # Check for two active steps
+        active_steps = flow_instance.active_steps.all()
+        self.assertEqual(len(active_steps), 2)
+        step_names = [step.step_schema.identifier for step in active_steps]
+        self.assertIn("step-2a", step_names)
+        self.assertIn("step-2b", step_names)
+
+        # Call "complete" transitions again
+        flow_instance.execute_manual_transition(["complete"], mark_as_completed=True)
+
+        # Check that the flow has completed
+        flow_instance.refresh_from_db()
+
+        active_steps = flow_instance.active_steps.all()
+        # Check that there are no active steps
+        self.assertEqual(len(active_steps), 0)
+
+        # Check that all steps are marked as completed
+        completed_steps = flow_instance.steps.filter(state="completed")
+        self.assertEqual(len(completed_steps), 4)
+
+        # Check that the flow has been marked as completed
+        is_completed = flow_instance.state == "completed"
+        self.assertEqual(is_completed, True)
+        is_completed = flow_instance.is_completed
+        self.assertEqual(is_completed, True)
