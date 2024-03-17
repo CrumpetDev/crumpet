@@ -1,6 +1,8 @@
 import uuid
 
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError, transaction
+from django.db.transaction import TransactionManagementError
 from django.test import TestCase, override_settings
 from django.utils import timezone
 
@@ -17,8 +19,6 @@ from app.models import (
 )
 from app.models.user import UserManager
 from app.tasks import add, trigger_automatic_transitions
-
-# TODO: Test that a person cannot have two active flows of the same schema at the same time
 
 User = get_user_model()
 
@@ -694,3 +694,57 @@ class FlowInstanceTestCase(TestCase):
         flow_instance_two.refresh_from_db()
         active_steps_two = flow_instance_two.active_steps.all()
         self.assertEqual(active_steps_one[0].step_schema.id, step_1.id)
+
+    def test_single_active_flow_constraint(self):
+        """
+        Test that a person cannot have two active flows of the same schema at the same time
+        """
+        step_1 = self.create_step("step-1")
+        step_2a = self.create_step("step-2a")
+        step_2b = self.create_step("step-2b")
+
+        self.create_transition(
+            "transition-1",
+            step_1,
+            step_2a,
+            transition_type=TransitionSchema.TransitionType.MANUAL,
+        )
+        self.create_transition(
+            "transition-2",
+            step_1,
+            step_2b,
+            transition_type=TransitionSchema.TransitionType.MANUAL,
+        )
+
+        # Build initial flow
+        flow_instance_one = FlowInstance.start(  # noqa: F841 # type: ignore
+            self.people[0],
+            self.flow_schema,
+            auto_transition_executor=trigger_automatic_transitions,
+        )
+
+        # Ensure we can't create another instance for the same person
+        with self.assertRaises((ValueError, IntegrityError)):
+            flow_instance_two = FlowInstance.start(
+                self.people[0],
+                self.flow_schema,
+                auto_transition_executor=trigger_automatic_transitions,
+            )
+
+        with self.assertRaises((ValueError, IntegrityError)):
+            flow_instance_two = FlowInstance.objects.create(
+                person=self.people[0],
+                schema_version=self.flow_schema.current_version,
+                environment=self.flow_schema.environment,
+            )
+
+        # TODO: Move this to separate test that extends TransactionTestCase from django.test
+        # the transaction.atomic should catch the IntegrityError but it doesn't seem to
+        with self.assertRaises((ValueError, IntegrityError, TransactionManagementError)):
+            with transaction.atomic():
+                flow_instance_two = FlowInstance(
+                    person=self.people[0],
+                    schema_version=self.flow_schema.current_version,
+                    environment=self.flow_schema.environment,
+                )
+                flow_instance_two.save()
