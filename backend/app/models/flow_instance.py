@@ -66,7 +66,7 @@ class FlowInstance(UUIDModel):
         with transaction.atomic():
             for active_step in self.active_steps.all():
                 transition_count = 0
-                # TODO: Is this loop necessary?
+                # TODO: Filter the transitions to only include the ones that can transition
                 for transition in active_step.outgoing_transitions.filter(
                     transition_schema__type=TransitionSchema.TransitionType.AUTOMATIC
                 ):
