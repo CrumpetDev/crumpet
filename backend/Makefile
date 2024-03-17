@@ -23,13 +23,13 @@ DOCKER_DEV_UP := docker-compose $(DC_FILE) up
 DOCKER_DEV_DOWN := docker-compose $(DC_FILE) down
 
 docker-dev-build:
-	$(DOCKER_DEV_BUILD)
+	$(DOCKER_DEV_BUILD) ${ARGS}
 
 docker-dev-up:
-	$(DOCKER_DEV_UP)
+	$(DOCKER_DEV_UP) ${ARGS}
 
 docker-dev-down:
-	$(DOCKER_DEV_DOWN)
+	$(DOCKER_DEV_DOWN) ${ARGS}
 
 # Ensure the database container is running
 ensure-db-up:

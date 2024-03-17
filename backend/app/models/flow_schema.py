@@ -85,13 +85,6 @@ class TransitionSchema(UUIDModel):
     to_step = models.ForeignKey(StepSchema, on_delete=models.CASCADE, related_name="incoming_transitions")
     condition = models.CharField(max_length=500, blank=True)
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=["identifier", "from_step"], name="unique_identifier_for_outgoing_transitions"
-            )
-        ]
-
 
 class FlowSchemaVersion(UUIDModel):
     """
@@ -104,3 +97,6 @@ class FlowSchemaVersion(UUIDModel):
     description = models.CharField(max_length=250, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     version_identifier = models.CharField(max_length=50, unique=True, blank=False)
+
+    steps: "RelatedManager[StepSchema]"
+    transitions: "RelatedManager[TransitionSchema]"

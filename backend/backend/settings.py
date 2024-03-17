@@ -10,12 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
-from pathlib import Path
-from django.core.management.utils import get_random_secret_key
 import datetime
-import sys
-from dotenv import load_dotenv
 import os
+import sys
+from pathlib import Path
+
+from django.core.management.utils import get_random_secret_key
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -219,15 +220,17 @@ JWT_AUTH = {
     "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(days=7),
 }
 
+# Configure Celery to use Redis as the broker
+CELERY_BROKER_URL = "redis://message-broker:6379/0"
+CELERY_RESULT_BACKEND = "redis://message-broker:6379/0"
+
 # TODO: Check if we're in DEVELOPMENT_MODE for localhost vs channel service
 # Channel layer configurations
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [
-                (os.environ.get("REDIS_CHANNELS_HOST", "localhost"), 6379)
-            ],  # Configure Redis server
+            "hosts": [(os.environ.get("REDIS_CHANNELS_HOST", "localhost"), 6379)],  # Configure Redis server
         },
     },
 }
